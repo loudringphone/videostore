@@ -1,0 +1,56 @@
+footer {
+    padding: 25px 15% 25px 15%;
+    background-color: rgb(235, 235, 235);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 2fr;
+    gap: 10%;
+    
+}
+.footer1, .footer2, .footer3, .footer4 {
+    justify-self: left;
+    text-align: left;
+}
+.logo {
+    display: flex;
+    align-items: end;
+}
+footer .logo > img {
+    height: 15px;
+    width: 15px;
+}
+footer h4 {
+    font-size: smaller;
+    margin-top: 0px;
+    margin-bottom: -2px;
+    margin-left: -3px;
+    text-align: left;
+}
+footer p {
+    font-size: smaller;
+    margin-bottom: 5px;
+}
+
+h4.quick-link_titles {
+    margin-bottom: 5px;
+    
+}
+footer ul {
+    justify-content: left;
+    margin-left: 0px;
+    padding-left: 0px;
+    display: flex;
+    flex-direction: column;
+}
+footer li {
+    padding: 0px;
+    text-align: left;
+    font-size: smaller;
+}
+footer span {
+    margin-right: 5px;
+}
+
+.footer4 {
+    justify-self: right;
+}
+

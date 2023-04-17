@@ -1,0 +1,32 @@
+.service_item {
+    padding: 20px;
+    text-align: left;
+    display: flex;
+    column-gap: 0.5rem;
+    border-radius: 5px;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.service_item > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.service_item h4 {
+    text-align: left;
+    font-size: 1rem;
+    margin-bottom: 0.1rem;
+}
+
+.service_item p {
+    font-size: 0.8rem;
+    margin-bottom: 0.1rem;
+}
+.service_item span i {
+    color: orangered;
+    margin-right: 5px;
+    font-size: 40px;
+    
+}

@@ -1,0 +1,22 @@
+p {
+    text-align: left;
+}
+button {
+    float: left;
+    width: 120px;
+    border: none;
+    outline: none;
+    padding: 4px;
+    border-radius: 5px;
+    background: red;
+    color: white;
+}
+
+
+.trend_img > img{
+    height: 400px;
+}
+
+.col2 {
+    align-self: center;
+}
