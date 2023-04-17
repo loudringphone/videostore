@@ -1,6 +1,12 @@
 header.header {
     padding-top: 20px;
-    
+    height: 100px;
+    width: 100%;
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 999;
+    box-shadow: 0 1px 4px #7d7d7d1c;
 }
 
 div.nav_wrapper {
@@ -86,4 +92,13 @@ a:hover {
 
 .nav_active {
     font-weight: 750;
+}
+
+header {
+    transition: all 0.2s;
+}
+
+#nav {
+    transition: all 0.2s;
+
 }

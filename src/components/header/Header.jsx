@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink } from 'react-router-dom';
 import { Container, Row } from "reactstrap"
 
@@ -35,8 +35,31 @@ const nav_links = [
 const Header = (props) => {
     const totalQuantity = useSelector(state => state.cart.totalQuantity)
 
+
+    const [isNavVisible, setIsNavVisible] = useState(true);
+    const [prevScrollY, setPrevScrollY] = useState(0);
+
+    useEffect(() => {
+        const handleScroll = () => {
+        const currentScrollY = window.scrollY;
+        
+
+        setIsNavVisible(currentScrollY < 150);
+        setPrevScrollY(currentScrollY);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+        window.removeEventListener('scroll', handleScroll);
+        };
+    }, [prevScrollY]);
+
+
+
+
     return (
-            <header className='header'>
+            <header className='header' style={{ height: isNavVisible ? '100px' : '70px'}}>
                 <Container>
                     <Row>
                         <div className="nav_wrapper">
@@ -51,7 +74,10 @@ const Header = (props) => {
                                     <div className="nav_icons">
                                         <span className="user_icon"><NavLink to='login'><UserLineIcon size={30} /> Login</NavLink></span>
                                         <span className="fav_icon"><NavLink to='apps/wishlist'><Heart3LineIcon size={30} /><span className="badge">1</span></NavLink></span>
-                                        <span className="cart_icon"><NavLink to='cart'><ShoppingCartLineIcon size={30} /><span className="badge">1</span></NavLink></span>
+                                        <span className="cart_icon"><NavLink to='cart'><ShoppingCartLineIcon size={30} />
+                                        {totalQuantity > 0 && <span className="badge">{totalQuantity}</span>}
+                                        </NavLink></span>
+
                                     </div>
                                     <div className="mobile_menu">
                                         <span>
@@ -67,7 +93,8 @@ const Header = (props) => {
 
                     </Row>
                     <Row>
-                        <ul id='nav'>
+                        <ul id='nav' style={{ display: isNavVisible ? 'flex' : 'none',
+                    opacity: isNavVisible ? '1' : '0' }}>
                             {
                                 nav_links.map((item, index) => (
                                     <li className="nav_item" key={index}>
