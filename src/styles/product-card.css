@@ -11,7 +11,7 @@ section.products {
 }
 
 .product_item {
-    width: 230px;
+    width: auto;
     background-color: white;
     justify-content: start;
     margin: 15px 12px 15px 12px;
@@ -25,8 +25,8 @@ section.products {
 
 .product_img img {
     cursor: pointer;
-    height: 170px;
-    max-width: 210px;
+    max-height: 170px;
+    max-width: 90%;
 }
 .product_img {
     height: 180px;
@@ -94,8 +94,13 @@ section.products {
         grid-template-columns: 1fr 1fr 1fr;
     }
 }
-@media (max-width: 770px) {
+@media (max-width: 750px) {
     section.products {
         grid-template-columns: 1fr 1fr;
+    }
+}
+@media (max-width: 770px) {
+    section.products {
+        grid-auto-rows: 420px;
     }
 }

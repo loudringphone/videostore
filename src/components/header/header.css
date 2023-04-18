@@ -67,6 +67,7 @@ span.badge {
 
 div.mobile_menu {
     display: none;
+    cursor: pointer;
 }
 
 ul {

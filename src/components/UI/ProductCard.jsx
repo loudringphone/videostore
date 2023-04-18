@@ -25,22 +25,57 @@ const ProductCard = (item) => {
 
 
   const [buttonStyle, setButtonStyle] = useState({display: 'none'});
-  const [cardStyle, setCardStyle] = useState({height: '320px', zIndex: '0'});
-  const handleMouseEnter = function(event) {
+  const [cardStyle, setCardStyle] = useState({height: '320px', zIndex: '0', width: '230px'});
+  const handleMouseEnter = function() {
     setButtonStyle({display: 'block'})
-    setCardStyle({height: '400px', zIndex: '99'})
+    const windowWidth = window.innerWidth;
+      if (windowWidth < 770) {
+        const newWidth = Math.max(150, Math.round(230 * (windowWidth / 770)));
+        setCardStyle({height: '400px', zIndex: '99', width: `${newWidth}px`});
+      } else {
+        setCardStyle({height: '400px', zIndex: '99', width: '230px'});
+      }
   };
-  const handleMouseLeave = function(event) {
-    setButtonStyle({display: 'none'})
-    setCardStyle({height: '320px', zIndex: '0'})
+  const handleMouseLeave = function() {
+    const windowWidth = window.innerWidth;
+      if (windowWidth < 770) {
+        const newWidth = Math.max(150, Math.round(230 * (windowWidth / 770)));
+        setCardStyle({height: '400px', zIndex: '0', width: `${newWidth}px`});
+      } else {
+        setButtonStyle({display: 'none'})
+        setCardStyle({height: '320px', zIndex: '0', width: '230px'});
+      }
 
   };
+
+  useEffect(() => {
+    function handleResize() {
+      const windowWidth = window.innerWidth;
+      if (windowWidth < 770) {
+        const newWidth = Math.max(150, Math.round(230 * (windowWidth / 770)));
+        setButtonStyle({display: 'block'})
+        setCardStyle({height: '400px', width: `${newWidth}px`});
+      } else {
+        setButtonStyle({display: 'none'})
+        setCardStyle({width: '230px'});
+      }
+    }
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+
+
+
 
   return (
      <div className="product_item" 
-     style={cardStyle}
-     onMouseOver={handleMouseEnter}
-                            onMouseOut={handleMouseLeave}>
+          style={cardStyle}
+          onMouseOver={handleMouseEnter}
+          onMouseOut={handleMouseLeave}>
                         <div className="product_img" 
                             
                         >
@@ -59,7 +94,7 @@ const ProductCard = (item) => {
 
                             <motion.button whileTap={{scale: 0.9}} style={buttonStyle} className='add_cart' onClick={addToCart}>Add to cart</motion.button>
                             
-                        </div>
+       </div>
   )
 }
 

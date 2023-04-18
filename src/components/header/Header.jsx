@@ -32,44 +32,75 @@ const nav_links = [
     },
 ]
 
-const Header = (props) => {
+const Header = () => {
     const totalQuantity = useSelector(state => state.cart.totalQuantity)
 
 
     const [isNavVisible, setIsNavVisible] = useState(true);
     const [prevScrollY, setPrevScrollY] = useState(0);
 
+    
+
+
+    const [navDisplay, setNavDisplay] = useState("flex");
+    const [mobileMenuDisplay, setMobileMenuDisplay] = useState("none");
+
     useEffect(() => {
+        function handleResize() {
+        if (window.innerWidth <= 770) {
+            setNavDisplay("none");
+            setMobileMenuDisplay("block");
+            setIsNavVisible(false)
+            
+        } else {
+            setNavDisplay("flex");
+            setMobileMenuDisplay("none");
+        }
+        }
+
+        window.addEventListener('resize', handleResize);
+        handleResize();
+
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+
+    useEffect(() => {
+        
         const handleScroll = () => {
-        const currentScrollY = window.scrollY;
+            const currentScrollY = window.scrollY;
+            
+            if (window.innerWidth > 770) {
+                setIsNavVisible(currentScrollY < 150);
+                setPrevScrollY(currentScrollY);
+            }
+        };
+        
+        window.addEventListener('scroll', handleScroll);
         
 
-        setIsNavVisible(currentScrollY < 150);
-        setPrevScrollY(currentScrollY);
-        };
-
-        window.addEventListener('scroll', handleScroll);
-
         return () => {
-        window.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('scroll', handleScroll);
         };
     }, [prevScrollY]);
 
 
-
-
     return (
             <header className='header' style={{ height: isNavVisible ? '100px' : '70px'}}>
-                <Container>
-                    <Row>
+               
                         <div className="nav_wrapper">
+                            <div className="mobile_menu" style={{ display: mobileMenuDisplay }}>
+                                <span>
+                                    <MenuLineIcon size={27} />
+                                </span>
+                            </div>
                             <NavLink to='/'>
                                 <div className="logo">
                                     <img src={logo} alt="logo" />
                                     <h3>Video Store</h3>
                                 </div>
                             </NavLink>
-                            <div className="navigation">
+                            <div className="navigation" style={{ display: navDisplay }}>
                                 <ul className="menu">
                                     <div className="nav_icons">
                                         <span className="user_icon"><NavLink to='login'><UserLineIcon size={30} /> Login</NavLink></span>
@@ -79,11 +110,7 @@ const Header = (props) => {
                                         </NavLink></span>
 
                                     </div>
-                                    <div className="mobile_menu">
-                                        <span>
-                                            <MenuLineIcon size={27} />
-                                        </span>
-                                    </div>
+                                    
                                 </ul>
                             </div>
                         </div>
@@ -91,8 +118,6 @@ const Header = (props) => {
 
 
 
-                    </Row>
-                    <Row>
                         <ul id='nav' style={{ display: isNavVisible ? 'flex' : 'none',
                     opacity: isNavVisible ? '1' : '0' }}>
                             {
@@ -110,8 +135,6 @@ const Header = (props) => {
                                 ))
                             }
                         </ul>
-                    </Row>
-                </Container>
             </header>
     )
 }
