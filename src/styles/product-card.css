@@ -57,7 +57,7 @@ section.products {
     margin-bottom: 0;
 }
 .price_and_format span {
-    font-size: small;
+    font-size: 0.75rem;
     font-weight: 600;
     align-self: center;
 }
@@ -65,6 +65,7 @@ section.products {
     float: left;
     cursor: pointer;
     text-align: -webkit-left;
+    font-size: 0.95rem;
 }
 
 .product_name > a:hover {
@@ -73,17 +74,20 @@ section.products {
 .originator {
     text-align: left;
     font-weight: bold;
+    font-size: 0.9rem;
+
 }
 
 .add_cart {
     align-self: center;
     background-color: red;
     color: white;
-    margin-top: 10px;
     padding: 10px;
     width: 150px;
     border-radius: 3px;
     cursor: pointer;
+    margin-top: auto;
+    margin-bottom: 5px
 }
 .add_cart:hover {
     background-color: rgb(255, 90, 90);
