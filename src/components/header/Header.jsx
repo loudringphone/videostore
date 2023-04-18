@@ -63,7 +63,7 @@ const Header = (props) => {
                 <Container>
                     <Row>
                         <div className="nav_wrapper">
-                            <NavLink to='home'>
+                            <NavLink to='/'>
                                 <div className="logo">
                                     <img src={logo} alt="logo" />
                                     <h3>Video Store</h3>
