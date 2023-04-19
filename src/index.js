@@ -9,15 +9,25 @@ import { Provider } from "react-redux"
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
+const toastContainerStyle = {
+  width: window.innerWidth > 520 ? "auto" : "100%",
+};
+
+window.addEventListener("resize", () => {
+  toastContainerStyle.width = window.innerWidth > 520 ? "auto" : "100%";
+});
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
     <Provider store={store}>
       <ToastContainer
+        style={toastContainerStyle}
+        bodyClassName="toastBody" 
         position="top-center"
         hideProgressBar={true}
-        autoClose={1000}
+        autoClose={10000000}
         newestOnTop={false}
         closeOnClick
         pauseOnHover

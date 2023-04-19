@@ -13,7 +13,9 @@ const ProductCard = (item) => {
 
   const dispatch = useDispatch()
   const addToCart = () => {
-    toast(`item added successfully`)
+    toast.success(<div>Item added to your cart: <br />
+                  {item.title} <br />
+                  1 × ${item.price}</div>)
     setTimeout(() => {
       dispatch(cartActions.addItem({
         id: item.id,
