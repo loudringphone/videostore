@@ -20,7 +20,7 @@ section.products {
     box-shadow: 0 1px 4px #7d7d7d1c;
     display: flex;
     flex-direction: column;
-    transition: height 0.1s;
+    transition: height 0.2s;
 }
 
 .product_img img {
@@ -82,8 +82,8 @@ section.products {
     background-color: red;
     color: white;
     padding: 10px;
-    width: 150px;
-    border-radius: 3px;
+    width: 75%;
+    border-radius: 5px;
     cursor: pointer;
     margin-top: auto;
     margin-bottom: 5px

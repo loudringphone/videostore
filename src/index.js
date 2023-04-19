@@ -15,9 +15,10 @@ root.render(
     <BrowserRouter>
     <Provider store={store}>
       <ToastContainer
-        position="top-right"
+        position="top-center"
         hideProgressBar={true}
         autoClose={1000}
+        newestOnTop={false}
         closeOnClick
         pauseOnHover
         theme="light"

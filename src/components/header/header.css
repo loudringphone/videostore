@@ -11,6 +11,10 @@ header.header {
     overflow: hidden;
 }
 
+a.logo:hover {
+    color: inherit !important;
+}
+
 div.nav_wrapper {
     display: inline-flex;
     justify-content: space-between;

@@ -13,14 +13,16 @@ const ProductCard = (item) => {
 
   const dispatch = useDispatch()
   const addToCart = () => {
-    dispatch(cartActions.addItem({
-      id: item.id,
-      title: item.title,
-      price: item.price,
-      image: item.image,
-    }))
-
-    toast.success(`item added successfully`)
+    toast(`item added successfully`)
+    setTimeout(() => {
+      dispatch(cartActions.addItem({
+        id: item.id,
+        title: item.title,
+        price: item.price,
+        image: item.image,
+      }))
+    }, 500);
+    
   }
 
 
