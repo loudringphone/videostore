@@ -86,13 +86,24 @@ const Header = () => {
         };
     }, [prevScrollY]);
 
-    const [mobileNavDisplay, setMobileNavDisplay] = useState("none");
+    const [mobileNavStyle, setMobileNavStyle] = useState({display: 'none', width: '0px'});
+    const [navigationStyle, setNavigationStyle] = useState({display: 'none'});
 
     const handleClose = () => {
-        setMobileNavDisplay("none");
+        setMobileNavStyle({display: 'inline', width: '0px'});
+        setNavigationStyle({display: 'none'})
+        setTimeout(() => {
+            setMobileNavStyle({display: 'none', width: '0px'});
+        }, 300);
     };
     const handleOpen = () => {
-        setMobileNavDisplay("inline");
+        setMobileNavStyle({display: 'inline', width: '0px'});
+        setTimeout(() => {
+            setMobileNavStyle({display: 'inline', width: '325px'});
+        }, 1);
+        setTimeout(() => {
+            setNavigationStyle({display: 'block'})
+        }, 200);
     };
 
 
@@ -100,6 +111,7 @@ const Header = () => {
 
 
     return (
+        <>
             <header className='header' style={{ height: isNavVisible ? '100px' : '70px'}}>
                
                         <div className="nav_wrapper">
@@ -108,30 +120,7 @@ const Header = () => {
                                     <MenuLineIcon size={27} />
                                 </span>
                             </div>
-                            <div className="mobile_nav"  style={{ display: mobileNavDisplay }}>
-                                <div>
-                                    <div className="navigation">
-                                        <ul className="menu">
-                                            <div className="nav_icons">
-                                                <span className="user_icon"><NavLink to='login'><UserLineIcon size={27} /> Login</NavLink></span>
-                                                <span className="fav_icon"><NavLink to='apps/wishlist'><Heart3LineIcon size={27} /><span className="badge">1</span></NavLink></span>
-                                                
-
-                                            </div>
-                                            <span className="close_icon" onClick={handleClose}><CloseLineIcon size={30} />
-                                            </span>
-                                        </ul>
-                                        <ul className="quick_links">
-                <li><Link to='collections/arrow'>Arrow</Link></li>
-                <li><Link to='collections/bfi'>BFI</Link></li>
-                <li><Link to='collections/indicator'>Indicator</Link></li>
-                <li><Link to='shop/4kuhd'>4K Ultra HD</Link></li>
-                <li><Link to='shop/bluray'>Blu-ray</Link></li>
-                <li><Link to='shop/cd'>CD</Link></li>
-            </ul>
-                                    </div>
-                                </div>
-                            </div>
+                            
 
                             <NavLink to='/'>
                                 <div className="logo">
@@ -175,6 +164,31 @@ const Header = () => {
                             }
                         </ul>
             </header>
+            <div className="mobile_nav"  style={mobileNavStyle}>
+                                <div>
+                                    <div className="navigation" style={navigationStyle}>
+                                        <ul className="menu">
+                                            <div className="nav_icons">
+                                                <span className="user_icon"><NavLink to='login'><UserLineIcon size={27} /> Login</NavLink></span>
+                                                <span className="fav_icon"><NavLink to='apps/wishlist'><Heart3LineIcon size={27} /><span className="badge">1</span></NavLink></span>
+                                                
+
+                                            </div>
+                                            <span className="close_icon" onClick={handleClose}><CloseLineIcon size={30} />
+                                            </span>
+                                        </ul>
+                                        <ul className="quick_links">
+                <li><Link to='collections/arrow'>Arrow</Link></li>
+                <li><Link to='collections/bfi'>BFI</Link></li>
+                <li><Link to='collections/indicator'>Indicator</Link></li>
+                <li><Link to='shop/4kuhd'>4K Ultra HD</Link></li>
+                <li><Link to='shop/bluray'>Blu-ray</Link></li>
+                <li><Link to='shop/cd'>CD</Link></li>
+            </ul>
+                                    </div>
+                                </div>
+                            </div>
+        </>
     )
 }
 

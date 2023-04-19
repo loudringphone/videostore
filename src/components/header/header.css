@@ -7,6 +7,8 @@ header.header {
     background-color: white;
     z-index: 999;
     box-shadow: 0 1px 4px #7d7d7d1c;
+    transition: all 0.2s;
+    overflow: hidden;
 }
 
 div.nav_wrapper {
@@ -95,9 +97,7 @@ a:hover {
     font-weight: 750;
 }
 
-header {
-    transition: all 0.2s;
-}
+
 
 #nav {
     transition: all 0.2s;
@@ -107,7 +107,9 @@ header {
 .mobile_nav {
     display: none;
     height: 100vh;
-    width: 325px;
+    overflow: hidden;
+    width: 0px;
+    transition: width 0.4s;
     position: absolute;
     top: 0;
     left: 0;
