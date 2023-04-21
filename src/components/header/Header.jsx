@@ -9,10 +9,9 @@ import Heart3LineIcon from 'remixicon-react/Heart3LineIcon';
 import ShoppingCartLineIcon from 'remixicon-react/ShoppingCartLineIcon';
 import MenuLineIcon from 'remixicon-react/MenuLineIcon';
 import CloseLineIcon from 'remixicon-react/CloseLineIcon';
-
-
 import { useSelector } from "react-redux"
 
+import SearchBox from "../UI/SearchBox";
 import './header.css';
 
 const nav_links = [
@@ -163,8 +162,7 @@ const Header = () => {
                                 </div>
                             </NavLink>
                             <div className="search_box">
-                                <input type="text" placeholder="What are you looking for?" />
-                                <button><i class="ri-search-line"></i></button>
+                                <SearchBox />
                             </div>
                             <div className="navigation" >
                                 <ul className="menu">
@@ -203,8 +201,7 @@ const Header = () => {
                         </ul>
 
                         <div className="mobile_search_box">
-                            <input type="text" placeholder="What are you looking for?" />
-                            <button><i class="ri-search-line"></i></button>
+                            <SearchBox />
                         </div>
             </header>
             <div className="mobile_nav"  style={mobileNavStyle}>

@@ -196,7 +196,12 @@ a:hover {
     width: 50px;
     height: 110%;
 }
-
+.search_box form {
+    height: 100%;
+}
+.mobile_search_box form {
+    height: 100%;
+}
 .mobile_search_box input {
     width: calc(100% - 60px);
     height: 100%;

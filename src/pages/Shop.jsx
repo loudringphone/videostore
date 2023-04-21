@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import {useParams} from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import CommonSection from '../components/UI/CommonSection'
 import { Helmet } from '../components/helmet/Helmet'
 import { Container, Row, Col } from "reactstrap"
@@ -13,15 +13,28 @@ import '../styles/shop.css'
 import ProductsList from '../components/UI/ProductsList';
 
 export const Shop = () => {
-
+  const location = useLocation();
+  let searchTerm = null
+  if (location.search) {
+    if (location.search.length > 0) {
+      searchTerm = location.search.substring(3)
+    }
+  }
   const [items, setItems] = useState([]);
   const [filteredItems, setFilteredItems] = useState(null);
   const [optionValue, setOptionValue] = useState('');
-
-  let q
   const {id} = useParams();
   let title;
-  if (id === 'all') {
+  let q
+  if (id === undefined && (searchTerm === null || searchTerm === '')) {
+    title = 'Search Results'
+    q = query(collection(db, "items"))
+  }
+  else if (id === undefined && searchTerm != null) {
+    title = 'Search Results'
+    q = query(collection(db, "items"), where("title", "==", "4K Ultra HD"))
+  }
+  else if (id === 'all') {
     title = 'All products'
     q = query(collection(db, "items"))
   }
