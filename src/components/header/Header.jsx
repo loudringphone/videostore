@@ -18,19 +18,38 @@ import './header.css';
 const nav_links = [
     {
         path: 'all',
+        category: 'shop',
         display: 'All'
     },
     {
         path: 'arrow',
+        category: 'collections',
         display: 'Arrow'
     },
     {
         path: 'bfi',
+        category: 'collections',
         display: 'BFI'
     },
     {
         path: 'indicator',
+        category: 'collections',
         display: 'Indicator'
+    },
+    {
+        path: '4kuhd',
+        category: 'shop',
+        display: '4K Ultra HD'
+    },
+    {
+        path: 'bluray',
+        category: 'shop',
+        display: 'Blu-ray'
+    },
+    {
+        path: 'cd',
+        category: 'shop',
+        display: 'CD'
     },
 ]
 
@@ -128,13 +147,17 @@ const Header = () => {
                                     <h3>Video Store</h3>
                                 </div>
                             </NavLink>
+                            <div className="search_box">
+                                <input type="text" placeholder="What are you looking for?" />
+                                <span><i class="ri-search-line"></i></span>
+                            </div>
                             <div className="navigation" >
                                 <ul className="menu">
                                     <div className="nav_icons" >
                                         <span className="user_icon" style={{ display: navDisplay }}><NavLink to='login'><UserLineIcon size={30} /> Login</NavLink></span>
                                         <span className="fav_icon" style={{ display: navDisplay }}><NavLink to='apps/wishlist'><Heart3LineIcon size={30} /><span className="badge">1</span></NavLink></span>
                                         <span className="cart_icon"><NavLink to='cart'><ShoppingCartLineIcon size={30} />
-                                        {totalQuantity > 0 && <span className="badge">{totalQuantity}</span>}
+                                        {totalQuantity > 0 && <span className="badge-cart">{totalQuantity}</span>}
                                         </NavLink></span>
 
                                     </div>
@@ -152,7 +175,7 @@ const Header = () => {
                                 nav_links.map((item, index) => (
                                     <li className="nav_item" key={index}>
                                         <NavLink
-                                            to={'collections/' + item.path} 
+                                            to={item.category + '/' + item.path} 
                                             className={(navClass) => 
                                                 navClass.isActive ? "nav_active" : ""
                                             }
@@ -178,12 +201,13 @@ const Header = () => {
                                             </span>
                                         </ul>
                                         <ul className="quick_links">
-                <li><Link to='collections/arrow'>Arrow</Link></li>
-                <li><Link to='collections/bfi'>BFI</Link></li>
-                <li><Link to='collections/indicator'>Indicator</Link></li>
-                <li><Link to='shop/4kuhd'>4K Ultra HD</Link></li>
-                <li><Link to='shop/bluray'>Blu-ray</Link></li>
-                <li><Link to='shop/cd'>CD</Link></li>
+                                            <li><Link to='shop/all'>All products</Link></li>
+                                            <li><Link to='collections/arrow'>Arrow</Link></li>
+                                            <li><Link to='collections/bfi'>BFI</Link></li>
+                                            <li><Link to='collections/indicator'>Indicator</Link></li>
+                                            <li><Link to='shop/4kuhd'>4K Ultra HD</Link></li>
+                                            <li><Link to='shop/bluray'>Blu-ray</Link></li>
+                                            <li><Link to='shop/cd'>CD</Link></li>
             </ul>
                                     </div>
                                 </div>

@@ -1,0 +1,19 @@
+.filter_and_sort {
+    margin-bottom: 20px;
+}
+
+.filter_widget, .sort_widget {
+    display: flex;
+}
+
+.filter_widget h6, .sort_widget h6 {
+    margin: 0;
+    margin-right: 8px;
+}
+
+select {
+    width: auto;
+    text-align-last: left;
+    padding-right: 10px;
+    font-size: 10
+}

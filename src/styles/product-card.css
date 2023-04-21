@@ -4,17 +4,19 @@
 
 section.products {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 230px 230px 230px 230px;
     margin: auto;
+    grid-gap: 20px;
     width: 50%;
-    grid-auto-rows: 350px;
+    grid-auto-rows: 320px;
 }
 
 .product_item {
     width: auto;
     background-color: white;
     justify-content: start;
-    margin: 15px 12px 15px 12px;
+    /* margin: 0 0 0 0; */
+    height: 320px;
     padding: 5px 0 15px 0;
     border: 1px solid rgba(125,125,125,.16);
     box-shadow: 0 1px 4px #7d7d7d1c;

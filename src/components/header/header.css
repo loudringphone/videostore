@@ -49,12 +49,11 @@ span.cart_icon, span.fav_icon {
     padding-right: 10px;
     cursor: pointer;
 }
-span.badge {
+span.badge, span.badge-cart {
     position: absolute;
     top: 40%;
     right: 10%;
     content: '';
-    background-color: black;
     color: white;
     border-radius: 50%;
     display: flex;
@@ -65,6 +64,12 @@ span.badge {
     padding: 5px;
     font-size: .7rem;
     z-index: 10;
+}
+span.badge {
+    background-color: black;
+}
+span.badge-cart {
+    background-color: red;
 }
 
 

@@ -4,6 +4,7 @@ footer {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 2fr;
     gap: 10%;
+    margin-top: 50px;
 }
 .footer1, .footer2, .footer3 {
     justify-self: left;
