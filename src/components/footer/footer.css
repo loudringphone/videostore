@@ -14,6 +14,7 @@ footer {
     justify-self: right;
 }
 .logo {
+    justify-content: left;
     display: flex;
     align-items: start;
 }

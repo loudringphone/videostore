@@ -1,5 +1,10 @@
 .filter_and_sort {
     margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 600px;
+    justify-content: space-around;
+    display: flex;
 }
 
 .filter_widget, .sort_widget {
@@ -16,4 +21,20 @@ select {
     text-align-last: left;
     padding-right: 10px;
     font-size: 10
+}
+
+@media (max-width: 600px) {
+    .filter_and_sort {
+        flex-direction: column;
+        justify-content: left;
+        width: 250px;
+        gap: 12px;
+    }
+    .filter_widget {
+        justify-content: left;
+    }
+    .sort_widget {
+        justify-content: left;
+    }
+
 }

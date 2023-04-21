@@ -56,7 +56,7 @@ const nav_links = [
 const Header = () => {
     const totalQuantity = useSelector(state => state.cart.totalQuantity)
 
-
+    const [headerStyle, setHeaderStyle] = useState(null);
     const [isNavVisible, setIsNavVisible] = useState(true);
     const [prevScrollY, setPrevScrollY] = useState(0);
 
@@ -68,14 +68,22 @@ const Header = () => {
 
     useEffect(() => {
         function handleResize() {
-        if (window.innerWidth <= 770) {
+        if (window.innerWidth <= 1020) {
             setNavDisplay("none");
             setMobileMenuDisplay("inline");
-            setIsNavVisible(false)
+            setHeaderStyle({height: '135px'});
+            setIsNavVisible(false);
             
         } else {
             setNavDisplay("inline");
             setMobileMenuDisplay("none");
+            if (window.scrollY <= 150) {
+                setHeaderStyle({height: '100px'});
+                setIsNavVisible(true);
+            } else {
+                setHeaderStyle({height: '70px'});
+                setIsNavVisible(false);
+            }
         }
         }
 
@@ -91,8 +99,12 @@ const Header = () => {
         const handleScroll = () => {
             const currentScrollY = window.scrollY;
             
-            if (window.innerWidth > 770) {
+            if (window.innerWidth > 1020) {
                 setIsNavVisible(currentScrollY < 150);
+                if(currentScrollY <= 150) {
+                    setHeaderStyle({height: '100px'})
+                }
+                else {setHeaderStyle({height: '70px'})}
                 setPrevScrollY(currentScrollY);
             }
         };
@@ -109,6 +121,7 @@ const Header = () => {
     const [navigationStyle, setNavigationStyle] = useState({display: 'none'});
 
     const handleClose = () => {
+        document.body.classList.remove('scroll-locked');
         setMobileNavStyle({display: 'inline', width: '0px'});
         setNavigationStyle({display: 'none'})
         setTimeout(() => {
@@ -116,9 +129,10 @@ const Header = () => {
         }, 300);
     };
     const handleOpen = () => {
+        document.body.classList.add('scroll-locked');
         setMobileNavStyle({display: 'inline', width: '0px'});
         setTimeout(() => {
-            setMobileNavStyle({display: 'inline', width: '325px'});
+            setMobileNavStyle({display: 'inline', width: '325px', top: window.scrollY});
         }, 1);
         setTimeout(() => {
             setNavigationStyle({display: 'block'})
@@ -131,7 +145,8 @@ const Header = () => {
 
     return (
         <>
-            <header className='header' style={{ height: isNavVisible ? '100px' : '70px'}}>
+            <div className="mobile-nav-overlay" style={navigationStyle} onClick={handleClose}></div>
+            <header className='header' style={headerStyle}>
                
                         <div className="nav_wrapper">
                             <div className="mobile_menu" style={{ display: mobileMenuDisplay }} onClick={handleOpen}>
@@ -149,7 +164,7 @@ const Header = () => {
                             </NavLink>
                             <div className="search_box">
                                 <input type="text" placeholder="What are you looking for?" />
-                                <span><i class="ri-search-line"></i></span>
+                                <button><i class="ri-search-line"></i></button>
                             </div>
                             <div className="navigation" >
                                 <ul className="menu">
@@ -186,14 +201,19 @@ const Header = () => {
                                 ))
                             }
                         </ul>
+
+                        <div className="mobile_search_box">
+                            <input type="text" placeholder="What are you looking for?" />
+                            <button><i class="ri-search-line"></i></button>
+                        </div>
             </header>
             <div className="mobile_nav"  style={mobileNavStyle}>
                                 <div>
                                     <div className="navigation" style={navigationStyle}>
                                         <ul className="menu">
                                             <div className="nav_icons">
-                                                <span className="user_icon"><NavLink to='login'><UserLineIcon size={27} /> Login</NavLink></span>
-                                                <span className="fav_icon"><NavLink to='apps/wishlist'><Heart3LineIcon size={27} /><span className="badge">1</span></NavLink></span>
+                                                <span className="user_icon" onClick={handleClose}><NavLink to='login'><UserLineIcon size={27} /> Login</NavLink></span>
+                                                <span className="fav_icon" onClick={handleClose}><NavLink to='apps/wishlist'><Heart3LineIcon size={27} /><span className="badge">1</span></NavLink></span>
                                                 
 
                                             </div>
@@ -201,13 +221,13 @@ const Header = () => {
                                             </span>
                                         </ul>
                                         <ul className="quick_links">
-                                            <li><Link to='shop/all'>All products</Link></li>
-                                            <li><Link to='collections/arrow'>Arrow</Link></li>
-                                            <li><Link to='collections/bfi'>BFI</Link></li>
-                                            <li><Link to='collections/indicator'>Indicator</Link></li>
-                                            <li><Link to='shop/4kuhd'>4K Ultra HD</Link></li>
-                                            <li><Link to='shop/bluray'>Blu-ray</Link></li>
-                                            <li><Link to='shop/cd'>CD</Link></li>
+                                            <li onClick={handleClose}><Link to='shop/all'>All products</Link></li>
+                                            <li onClick={handleClose}><Link to='collections/arrow'>Arrow</Link></li>
+                                            <li onClick={handleClose}><Link to='collections/bfi'>BFI</Link></li>
+                                            <li onClick={handleClose}><Link to='collections/indicator'>Indicator</Link></li>
+                                            <li onClick={handleClose}><Link to='shop/4kuhd'>4K Ultra HD</Link></li>
+                                            <li onClick={handleClose}><Link to='shop/bluray'>Blu-ray</Link></li>
+                                            <li onClick={handleClose}><Link to='shop/cd'>CD</Link></li>
             </ul>
                                     </div>
                                 </div>

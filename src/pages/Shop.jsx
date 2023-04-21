@@ -92,9 +92,7 @@ export const Shop = () => {
     <Helmet title={title}>
       <CommonSection title={title} />
       <section className='filter_and_sort'>
-        <Container>
-          <Row>
-            <Col lg='3' md='3'>
+        
               <div className="filter_widget">
                 <h6>Format</h6>
                 <select onChange={handleFilter} value={optionValue}>
@@ -105,8 +103,7 @@ export const Shop = () => {
                   <option value="CD">CD</option>
                 </select>
               </div>
-            </Col>
-            <Col lg='3' md='3'>
+           
               <div className="sort_widget">
                 <h6>Sort by</h6>
                 <select>
@@ -115,9 +112,7 @@ export const Shop = () => {
                   <option value="descending">Alphabetically, Z-A</option>
                 </select>
               </div>
-            </Col>
-          </Row>
-        </Container>
+            
       </section>
       <section>
         <Container>
