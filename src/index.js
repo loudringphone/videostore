@@ -12,6 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const toastContainerStyle = {
   width: window.innerWidth > 520 ? "auto" : "100%",
 };
+const toastContainerPosition = window.innerWidth <= 520 ? "bottom-center" : "top-center";
 
 window.addEventListener("resize", () => {
   toastContainerStyle.width = window.innerWidth > 520 ? "auto" : "100%";
@@ -25,9 +26,9 @@ root.render(
       <ToastContainer
         style={toastContainerStyle}
         bodyClassName="toastBody" 
-        position="top-center"
+        position={toastContainerPosition}
         hideProgressBar={true}
-        autoClose={500}
+        autoClose={1000}
         newestOnTop={false}
         closeOnClick
         pauseOnHover

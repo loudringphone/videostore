@@ -98,6 +98,7 @@ section.products {
     .Toastify {
         width: auto;
     }
+    
     .toastBody {
         min-width: 450px !important;
         padding-left: 75px !important;
