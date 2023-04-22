@@ -15,9 +15,18 @@ import ProductsList from '../components/UI/ProductsList';
 export const Shop = () => {
   const location = useLocation();
   let searchTerm = null
+  let searchArray = null
   if (location.search) {
     if (location.search.length > 0) {
       searchTerm = location.search.substring(3)
+      if (/^\+*$/.test(searchTerm)) {
+        searchTerm = ''
+      }
+      else {
+        searchTerm = searchTerm.split('+').join(' ')
+        searchArray = searchTerm.split(' ')
+      }
+      
     }
   }
   const [items, setItems] = useState([]);
@@ -27,12 +36,22 @@ export const Shop = () => {
   let title;
   let q
   if (id === undefined && (searchTerm === null || searchTerm === '')) {
-    title = 'Search Results'
-    q = query(collection(db, "items"))
+    if (items.length === 1) {
+      title = "1 Result found"
+      q = query(collection(db, "items"))
+    } else {
+      title = `${items.length} Results found`
+      q = query(collection(db, "items"))
+    }
   }
   else if (id === undefined && searchTerm != null) {
-    title = 'Search Results'
-    q = query(collection(db, "items"), where("title", "==", "4K Ultra HD"))
+    if (items.length === 1) {
+      title = `1 Result found for '${searchTerm}'`
+    } else {
+      title = `${items.length} Results found for '${searchTerm}'`
+    }
+    q = query(collection(db, "items"), where("searchArray", "array-contains", searchArray[0]))
+    console.log(q)
   }
   else if (id === 'all') {
     title = 'All products'
@@ -73,17 +92,52 @@ export const Shop = () => {
                       const bTime = new Timestamp(b.createdAt.seconds, b.createdAt.nanoseconds).toDate();
                       return bTime - aTime;
                   }); // Sort by createdAt field
-  
+              
               setItems(newData);
-                console.log(items, newData);
+              console.log(items, newData);
+              
+              if (newData) {
+                let searchItems = newData
+                if (searchArray && searchArray.length > 1) {
+                  searchItems = newData.filter(item => {
+                    for (let i = 0; i < searchArray.length; i++) {
+                      
+                      if (searchArray[i] !== '' && !item.searchArray.includes(searchArray[i])) {
+                        return false;
+                      }
+                    }
+                    return true;
+                  });
+                  setItems(searchItems)
+                }
+              }
+             
+              
+              
+
+
+
+
+
+
+
+
           });
   }
-    
+  
+
+
+
   useEffect(()=>{
     fetchItem();
     setFilteredItems(null);
     setOptionValue('');
   }, [id])
+  useEffect(()=>{
+    fetchItem();
+    setFilteredItems(null);
+    setOptionValue('');
+  }, [searchTerm])
 
   const handleFilter = e => {
     setOptionValue(e.target.value)

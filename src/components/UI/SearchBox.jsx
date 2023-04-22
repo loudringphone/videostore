@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-
+import React, { useState, useEffect } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom';
 const SearchBox = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
@@ -11,8 +10,20 @@ const SearchBox = () => {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    navigate(`/search?q=${searchTerm}`);
+    navigate(`/search?q=${searchTerm.split(' ').join('+')}`);
   };
+
+  const location = useLocation()
+
+  useEffect(()=>{
+    setSearchTerm('');
+  }, [location])
+
+
+
+
+
+
 
   return (
     <form onSubmit={handleSearchSubmit}>

@@ -58,7 +58,7 @@ console.log(uniqueBoutiqueLabels);
                         <section className="products">
                     {
                         items?.slice(0, 8).map((item, i) => (
-                            <ProductCard key={i} id={item.id} title={item.title} image={item.image} format={item.format} price={item.price} originator={item.originator}/>
+                            <ProductCard key={i} id={item.id} title={item.title} image={item.image[0].downloadURL} format={item.format} price={item.price} originator={item.originator}/>
                         ))
                     }
                         </section>
@@ -76,7 +76,7 @@ console.log(uniqueBoutiqueLabels);
                             <section className="products">
                         {
                             items?.filter(item => item.format === format).map((item, i) => (
-                                <ProductCard key={i} id={item.id} title={item.title} image={item.image} format={item.format} price={item.price} originator={item.originator}/>
+                                <ProductCard key={i} id={item.id} title={item.title} image={item.image[0].downloadURL} format={item.format} price={item.price} originator={item.originator}/>
                             ))
                         }
                             </section>
@@ -95,7 +95,7 @@ console.log(uniqueBoutiqueLabels);
                             <section className="products">
                         {
                             items?.filter(item => item.label === label).map((item, i) => (
-                                <ProductCard key={i} id={item.id} title={item.title} image={item.image} format={item.format} price={item.price} />
+                                <ProductCard key={i} id={item.id} title={item.title} image={item.image[0].downloadURL} format={item.format} price={item.price} />
                             ))
                         }
                             </section>
