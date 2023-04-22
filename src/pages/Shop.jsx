@@ -24,7 +24,7 @@ export const Shop = () => {
       }
       else {
         searchTerm = searchTerm.split('+').join(' ')
-        searchArray = searchTerm.split(' ')
+        searchArray = searchTerm.toLowerCase().split(' ')
       }
       
     }

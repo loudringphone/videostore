@@ -5,7 +5,7 @@ const SearchBox = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const handleSearch = (e) => {
-    setSearchTerm(e.target.value.toLowerCase());
+    setSearchTerm(e.target.value);
   };
 
   const handleSearchSubmit = (e) => {
