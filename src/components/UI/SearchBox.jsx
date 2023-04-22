@@ -16,7 +16,9 @@ const SearchBox = () => {
   const location = useLocation()
 
   useEffect(()=>{
-    setSearchTerm('');
+    if (!location.search) {
+      setSearchTerm('');
+    }
   }, [location])
 
 
