@@ -31,7 +31,9 @@ export const Shop = () => {
   }
   const [items, setItems] = useState([]);
   const [filteredItems, setFilteredItems] = useState(null);
-  const [optionValue, setOptionValue] = useState('');
+  const [filterValue, setFilterValue] = useState('');
+  const [sortValue, setSortValue] = useState('featured');
+
   const {id} = useParams();
   let title;
   let q
@@ -131,18 +133,60 @@ export const Shop = () => {
   useEffect(()=>{
     fetchItem();
     setFilteredItems(null);
-    setOptionValue('');
+    setFilterValue('');
+    setSortValue('featured')
   }, [id])
   useEffect(()=>{
     fetchItem();
     setFilteredItems(null);
-    setOptionValue('');
+    setFilterValue('');
+    setSortValue('featured')
   }, [searchTerm])
 
+
+  const sortFilteredItems = function(arr, order) {
+    if (order === 'featured') {
+      setFilteredItems(arr.sort((a, b) => {
+        const aTime = new Timestamp(a.createdAt.seconds, a.createdAt.nanoseconds).toDate();
+        const bTime = new Timestamp(b.createdAt.seconds, b.createdAt.nanoseconds).toDate();
+        return bTime - aTime;
+      }))
+    }
+    else {
+      let num = -1
+      if (order === 'descending') {num = 1}
+      setFilteredItems(arr.sort((a, b) => {
+        let titleA = a.title.toLowerCase();
+        let titleB = b.title.toLowerCase();
+      
+        // Ignore 'the' at the beginning of the title
+        const wordsA = titleA.split(' ');
+        const wordsB = titleB.split(' ');
+        if (wordsA[0] === 'the') {
+          titleA = wordsA.slice(1).join(' ');
+        }
+        if (wordsB[0] === 'the') {
+          titleB = wordsB.slice(1).join(' ');
+        }
+      
+        // Compare the modified titles
+        if (titleA < titleB) {
+          return num;
+        }
+        if (titleA > titleB) {
+          return -num;
+        }
+        return 0;
+      }));
+    }
+  }
+
+
+
   const handleFilter = e => {
-    setOptionValue(e.target.value)
+    setFilterValue(e.target.value)
     if (e.target.value === 'all' || e.target.value === '' ) {
-      setFilteredItems(items)
+        sortFilteredItems(items, sortValue)
     }
     else if (e.target.value === '4K Ultra HD') {
       setFilteredItems(items.filter(item => item.format === '4K Ultra HD'))
@@ -151,8 +195,18 @@ export const Shop = () => {
       setFilteredItems(items.filter(item => item.format === 'Blu-ray'))
     }
     else if (e.target.value === 'CD') {
-      setFilteredItems(items.filter(item => item.format === 'CD'))
+        setFilteredItems(items.filter(item => item.format === 'CD'))
     }
+  }
+
+  const handleSort = e => {
+    setSortValue(e.target.value)
+    if (filteredItems === null) {
+      sortFilteredItems(items, e.target.value)
+    } else {
+      sortFilteredItems(filteredItems, e.target.value)
+    }
+    
   }
 
   return (
@@ -162,7 +216,7 @@ export const Shop = () => {
         
               <div className="filter_widget">
                 <h6>Format</h6>
-                <select onChange={handleFilter} value={optionValue}>
+                <select onChange={handleFilter} value={filterValue}>
                   <option>Filter by Format</option>
                   <option value="all">All formats</option>
                   <option value="4K Ultra HD">4K Ultra HD</option>
@@ -173,27 +227,27 @@ export const Shop = () => {
            
               <div className="sort_widget">
                 <h6>Sort by</h6>
-                <select>
-                  <option>Featured</option>
+                <select onChange={handleSort} value={sortValue}>
+                  <option value="featured">Featured</option>
                   <option value="ascending">Alphabetically, A-Z</option>
                   <option value="descending">Alphabetically, Z-A</option>
                 </select>
               </div>
             
       </section>
-      <section>
+      <section className="product_list">
         <Container>
           <Row>
             {
               !filteredItems ? (
                 items.length === 0 ? (
-                  <h6>No products are found!</h6>
+                  <p className='notFound'>No products are found!</p>
                 ) : (
                   <ProductsList items={items} />
                 )
               ) : (
                 filteredItems.length === 0 ? (
-                  <h1>No products are found!</h1>
+                  <p className='notFound'>No products are found!</p>
                 ) : (
                   <ProductsList items={filteredItems} />
                 )

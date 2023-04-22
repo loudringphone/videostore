@@ -8,7 +8,7 @@ const ProductsList = (props) => {
    
     return (
         
-        <section className="product_list">
+        <section>
            
             <Container>
                 <Row>

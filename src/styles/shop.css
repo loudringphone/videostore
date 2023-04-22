@@ -1,3 +1,7 @@
+section.product_list {
+    min-height: 320px;
+}
+
 .filter_and_sort {
     margin-bottom: 20px;
     margin-left: auto;
@@ -21,6 +25,9 @@ select {
     text-align-last: left;
     padding-right: 10px;
     font-size: 10
+}
+.notFound {
+    text-align: center;
 }
 
 @media (max-width: 600px) {
