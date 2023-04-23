@@ -86,6 +86,7 @@ span.badge-cart {
 div.mobile_menu {
     display: none;
     cursor: pointer;
+    margin-right: 20px;
 }
 
 ul {
@@ -249,9 +250,17 @@ body.scroll-locked {
     .mobile_search_box {
         display: block;
     }
-    div.nav_icons {
+    .nav_icons {
         width: auto;
     }
+    .navigation {
+        width: 35px;
+        margin-right: 20px;
+    }
+    div.logo {
+        width: 170px;
+    }
+    
 
 
 

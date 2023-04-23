@@ -5,6 +5,7 @@
     margin-bottom: 20px;
     display: grid;
     grid-template-columns: 1fr 2fr 1fr;
+    justify-content: center;
     
 }
 
@@ -18,7 +19,7 @@ h1 span {
 
 .end, .code {
     align-self: center;
-    padding: 0 10px 0 10px;
+    padding: 0;
     width: 175px;
 }
 
@@ -64,6 +65,42 @@ h1 span {
         font-size: xx-large;
         width: 220px;
     }
+}
+@media (max-width: 700px) {
+    .end, .code {
+        font-size: medium;
+        width: 100px;
+    }
+    .promotion > h1 {
+        font-size: large;
+    }
+    .promotion {
+        padding-left: 25px;
+        padding-right: 25px;
 
+    }
+
+    .discount, .everything {
+        font-size: larger;
+        width: 165px;
+    }
+}
+@media (max-width: 360px) {
+    .promotion {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+        justify-items: center;
+    }
+    .promotion > h1 {
+        margin-bottom: 20px;
+    }
+    .end, .code {
+        width: auto;
+        margin-bottom: 0px;
+    }
+    .end {
+        grid-row-start: 2;
+        margin-bottom: 5px;
+    }
 
 }
