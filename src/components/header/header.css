@@ -45,6 +45,7 @@ div.logo > h3 {
 div.nav_icons {
     width: 210px;
     text-align: right;
+    
 }
 div.nav_icons > span {
     margin-left: 10px;
@@ -261,9 +262,13 @@ body.scroll-locked {
     .mobile_search_box {
         display: block;
     }
-    .nav_icons {
-        width: max-content;
+    .navigation > .nav_icons {
+        width: 40px;
+    }
+    
+    .mobile_nav .nav_icons {
         height: 30px;
+        text-align-last: left;
     }
     .navigation {
         margin-right: 0;
