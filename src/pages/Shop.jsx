@@ -15,20 +15,37 @@ import ProductsList from '../components/UI/ProductsList';
 import { useSelector } from 'react-redux';
 
 export const Shop = () => {
+  const location = useLocation()
+   
 
-
-
-
+  //     searchTerm = location.search.substring(3)
+  //     if (/^\+*$/.test(searchTerm)) {
+  //       searchTerm = ''
+  //     }
+  //     else {
+  //       searchTerm = searchTerm.split('+').join(' ')
+  //       searchArray = searchTerm.toLowerCase().split(' ')
+  //     }
+  //     if (location.search.length > 77) {
+  //       searchTerm = searchTerm.substring(0, 72) + '...'
+  //     }
+      
+  //   }
+  // }
+  
   let searchQuery = useSelector(state => state.searchQuery);
   
-
-
   let searchArray = null
  
-  if (searchQuery != null) {
-    searchArray = searchQuery.toLowerCase().split(' ')
-    if (searchQuery.length > 74) {
-      searchQuery = searchQuery.substring(0, 72) + '...'
+
+  if (location.search) {
+    if (location.search.length > 0) {
+      if (searchQuery != null) {
+        searchArray = searchQuery.toLowerCase().split(' ')
+        if (searchQuery.length > 74) {
+          searchQuery = searchQuery.substring(0, 72) + '...'
+        }
+      }
     }
   }
   const [items, setItems] = useState([]);
@@ -235,11 +252,15 @@ export const Shop = () => {
           <Row>
             {
               loading ? (
-                <p className='loading'>Loading...</p>
+                <p className='loading'>Fetching the latest product information...</p>
               ) :
               !filteredItems ? (
                 items.length === 0 ? (
-                  <p className='notFound'>No products are found!</p>
+                  searchArray === null ? (
+                    <p className='notFound'>No products are found!</p>
+                  ) : (
+                    <p className='notFound'>Sorry, we can't find any results for that keyword. Please check your spelling or try another search term.</p>
+                  )
                 ) : (
                   <ProductsList items={items} />
                 )

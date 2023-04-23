@@ -29,25 +29,23 @@ const ProductCard = (item) => {
 
 
   const [buttonStyle, setButtonStyle] = useState({display: 'none'});
-  const [cardStyle, setCardStyle] = useState({height: '320px', zIndex: '0', width: '230px'});
+  const [cardStyle, setCardStyle] = useState({height: '320px', zIndex: '0'});
   const handleMouseEnter = function() {
     setButtonStyle({display: 'block'})
     const windowWidth = window.innerWidth;
       if (windowWidth < 768 && windowWidth > 400) {
-        const newWidth = Math.max(150, Math.round(230 * (windowWidth / 768)));
-        setCardStyle({height: '400px', zIndex: '99', width: `${newWidth}px`});
+        setCardStyle({height: '400px', zIndex: '99'});
       } else {
-        setCardStyle({height: '400px', zIndex: '99', width: '230px'});
+        setCardStyle({height: '400px', zIndex: '99'});
       }
   };
   const handleMouseLeave = function() {
     const windowWidth = window.innerWidth;
-      if (windowWidth < 768 && windowWidth > 400) {
-        const newWidth = Math.max(150, Math.round(230 * (windowWidth / 768)));
-        setCardStyle({height: '400px', zIndex: '0', width: `${newWidth}px`});
-      } else {
+      if (windowWidth <= 768 && windowWidth > 400) {
+        setCardStyle({height: '400px', zIndex: '0'});
+      } else if (windowWidth > 768) {
         setButtonStyle({display: 'none'})
-        setCardStyle({height: '320px', zIndex: '0', width: '230px'});
+        setCardStyle({height: '320px', zIndex: '0'});
       }
 
   };
@@ -56,12 +54,11 @@ const ProductCard = (item) => {
     function handleResize() {
       const windowWidth = window.innerWidth;
       if (windowWidth < 768 && windowWidth > 400) {
-        const newWidth = Math.max(150, Math.round(230 * (windowWidth / 768)));
         setButtonStyle({display: 'block'})
-        setCardStyle({height: '400px', width: `${newWidth}px`});
-      } else {
+        setCardStyle({height: '400px'});
+      } else if (windowWidth > 768) {
         setButtonStyle({display: 'none'})
-        setCardStyle({width: '230px'});
+        setCardStyle({height: '320px', zIndex: '0'});
       }
     }
 

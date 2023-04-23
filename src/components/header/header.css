@@ -257,14 +257,15 @@ body.scroll-locked {
         display: block;
     }
     .nav_icons {
-        width: auto;
+        width: max-content;
     }
     .navigation {
-        width: 35px;
-        margin-right: 20px;
+        width: 30px;
+        margin-right: 35px;
     }
     div.logo {
         width: 170px;
+        white-space: nowrap;
     }
     
 

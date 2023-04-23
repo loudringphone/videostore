@@ -31,6 +31,7 @@ select {
 .notFound, .loading {
     text-align: center;
     font-size: larger;
+    padding: 0 35px 0 35px;
 }
 
 @media (max-width: 600px) {
