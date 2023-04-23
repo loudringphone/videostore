@@ -17,22 +17,6 @@ import { useSelector } from 'react-redux';
 export const Shop = () => {
   const location = useLocation()
    
-
-  //     searchTerm = location.search.substring(3)
-  //     if (/^\+*$/.test(searchTerm)) {
-  //       searchTerm = ''
-  //     }
-  //     else {
-  //       searchTerm = searchTerm.split('+').join(' ')
-  //       searchArray = searchTerm.toLowerCase().split(' ')
-  //     }
-  //     if (location.search.length > 77) {
-  //       searchTerm = searchTerm.substring(0, 72) + '...'
-  //     }
-      
-  //   }
-  // }
-  
   let searchQuery = useSelector(state => state.searchQuery);
   
   let searchArray = null
@@ -57,7 +41,7 @@ export const Shop = () => {
   let title;
   let q
 
-  if (id === undefined && (searchQuery === null || searchQuery === '')) {
+  if (id === undefined && (searchQuery === '')) {
     if (items.length === 1) {
       title = "1 Result found"
       q = query(collection(db, "items"))
@@ -143,12 +127,14 @@ export const Shop = () => {
 
 
   useEffect(()=>{
+    setItems([])
     fetchItem();
     setFilteredItems(null);
     setFilterValue('');
     setSortValue('featured')
   }, [id])
   useEffect(()=>{
+    setItems([])
     fetchItem();
     setFilteredItems(null);
     setFilterValue('');
@@ -221,9 +207,32 @@ export const Shop = () => {
     
   }
 
+  
+
   return (
-    <Helmet title={title}>
-      <CommonSection title={title} />
+    <>
+      {searchQuery === null ? (
+        <>
+        <Helmet title={title}></Helmet>
+        <CommonSection title={title} />
+        </>
+      ) : (
+        loading ? (
+          <>
+            <Helmet title="Loading results..."></Helmet>
+            <CommonSection title="Loading results..." />
+          </>
+        ) : (
+          <>
+            <Helmet title={title}></Helmet>
+            <CommonSection title={title} />
+          </>
+        )
+          
+        
+        
+      )}
+      
       <section className='filter_and_sort'>
         
               <div className="filter_widget">
@@ -283,7 +292,7 @@ export const Shop = () => {
           </Row>
         </Container>
       </section>
-    </Helmet>
+    </>
   )
 }
 
