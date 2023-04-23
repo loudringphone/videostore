@@ -1,5 +1,13 @@
+section.product_lists {
+    min-height: 320px;
+}
+div.product_list {
+    margin-bottom: 30px;
+}
+
 .section_title {
     margin-top: 25px;
+    margin-bottom: 25px;
 }
 
 section.products {

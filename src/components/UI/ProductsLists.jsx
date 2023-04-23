@@ -46,71 +46,80 @@ console.log(uniqueBoutiqueLabels);
     useEffect(()=>{
         fetchItem();
     }, [])
-
-    return (
-        
-        <section className="product_lists">
-           
-            <Container>
-                <Row>
-                    <Col lg="12" className="product_list">
-                        <h3 className="section_title">New Arrivals</h3>
-                        <section className="products">
-                    {
-                        items?.slice(0, 8).map((item, i) => (
-                            <ProductCard key={i} id={item.id} title={item.title} image={item.image[0].downloadURL} format={item.format} price={item.price} originator={item.originator}/>
-                        ))
-                    }
-                        </section>
-                    </Col>
-                </Row>
-            </Container>
-         
-
-            {
-            uniqueFormats?.map((format,index)=>(
-                <Container key={index}>
-                    <Row>
-                        <Col lg="12" className="product_list">
-                            <h3 className="section_title">{format}s</h3>
-                            <section className="products">
-                        {
-                            items?.filter(item => item.format === format).map((item, i) => (
-                                <ProductCard key={i} id={item.id} title={item.title} image={item.image[0].downloadURL} format={item.format} price={item.price} originator={item.originator}/>
-                            ))
-                        }
-                            </section>
-                        </Col>
-                    </Row>
-                </Container>
-            ))
-            }
-
-{
-            uniqueBoutiqueLabels?.map((label,index)=>(
-                <Container key={index}>
-                    <Row>
-                        <Col lg="12" className="product_list">
-                            <h3 className="section_title">{label} collections</h3>
-                            <section className="products">
-                        {
-                            items?.filter(item => item.label === label).map((item, i) => (
-                                <ProductCard key={i} id={item.id} title={item.title} image={item.image[0].downloadURL} format={item.format} price={item.price} />
-                            ))
-                        }
-                            </section>
-                        </Col>
-                    </Row>
-                </Container>
-            ))
-            }
-        
-    </section>
+   
+return (
+    <>
+        {items.length > 0 ? (
+            <section className="product_lists">
             
+                    <Container>
+                        <Row>
+                            <Col lg="12" className="product_list">
+                                
+                                <h3 className="section_title">New Arrivals</h3>
+                                <section className="products">
+                            {
+                                items.slice(0, 8).map((item, i) => (
+                                    <ProductCard key={i} id={item.id} title={item.title} image={item.image[0].downloadURL} format={item.format} price={item.price} originator={item.originator}/>
+                                ))
+                            }
+                                </section>
+                            </Col>
+                        </Row>
+                    </Container>
+                
 
+                    {
+                    uniqueFormats?.map((format,index)=>(
+                        <Container key={index}>
+                            <Row>
+                                <Col lg="12" className="product_list">
+                                    <h3 className="section_title">{format}s</h3>
+                                    <section className="products">
+                                {
+                                    items?.filter(item => item.format === format).map((item, i) => (
+                                        <ProductCard key={i} id={item.id} title={item.title} image={item.image[0].downloadURL} format={item.format} price={item.price} originator={item.originator}/>
+                                    ))
+                                }
+                                    </section>
+                                </Col>
+                            </Row>
+                        </Container>
+                    ))
+                    }
+
+        {
+                    uniqueBoutiqueLabels?.map((label,index)=>(
+                        <Container key={index}>
+                            <Row>
+                                <Col lg="12" className="product_list">
+                                    <h3 className="section_title">{label} collections</h3>
+                                    <section className="products">
+                                {
+                                    items?.filter(item => item.label === label).map((item, i) => (
+                                        <ProductCard key={i} id={item.id} title={item.title} image={item.image[0].downloadURL} format={item.format} price={item.price} />
+                                    ))
+                                }
+                                    </section>
+                                </Col>
+                            </Row>
+                        </Container>
+                    ))
+                    }
+                
+            </section>
+            ) : (
+                <section className="product_lists" style={{ display: 'flex', alignItems: 'center' }}>
+                    <p className='loading'>Fetching the latest product information...</p>
+                </section>
+            )
+        }
+            
+    </>
 
 
     )
+    
 }
 
 export default ProductsLists
