@@ -150,7 +150,7 @@ const Header = () => {
                         <div className="nav_wrapper">
                             <div className="mobile_menu" style={{ display: mobileMenuDisplay }} onClick={handleOpen}>
                                 <span>
-                                    <MenuLineIcon size={27} />
+                                    <MenuLineIcon size={30} />
                                 </span>
                             </div>
                             
