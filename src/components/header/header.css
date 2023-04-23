@@ -56,21 +56,24 @@ span.cart_icon, span.fav_icon {
     padding-right: 10px;
     cursor: pointer;
 }
+a.badge, a.badge-cart {
+    
+}
 span.badge, span.badge-cart {
-    position: absolute;
-    top: 40%;
-    right: 10%;
-    content: '';
-    color: white;
-    border-radius: 50%;
     display: flex;
     align-items:center;
     justify-content: center;
+    border-radius: 50%;
     width: 18px;
     height: 18px;
     padding: 5px;
     font-size: .7rem;
     z-index: 10;
+    position: absolute;
+    bottom: 25%;
+    left: 50%;
+    content: '';
+    color: white;
 }
 span.badge {
     background-color: black;
@@ -258,6 +261,7 @@ body.scroll-locked {
     }
     .nav_icons {
         width: max-content;
+        height: 30px;
     }
     .navigation {
         width: 30px;
@@ -266,6 +270,18 @@ body.scroll-locked {
     div.logo {
         width: 170px;
         white-space: nowrap;
+    }
+    
+    span.badge-cart {
+        position: absolute;
+        bottom: 55%;
+        left: 200%;
+    }
+    span.cart_icon {
+        color: black;
+    }
+    span.cart_icon:hover {
+        color: red;
     }
     
 

@@ -167,11 +167,11 @@ const Header = () => {
                             <div className="navigation" >
                                 <ul className="menu">
                                     <div className="nav_icons" >
-                                        <span className="user_icon" style={{ display: navDisplay }}><NavLink to='login'><UserLineIcon size={30} /> Login</NavLink></span>
-                                        <span className="fav_icon" style={{ display: navDisplay }}><NavLink to='apps/wishlist'><Heart3LineIcon size={30} /><span className="badge">1</span></NavLink></span>
-                                        <span className="cart_icon"><NavLink to='cart'><ShoppingCartLineIcon size={30} />
+                                    <NavLink to='login' style={{ display: navDisplay }}><span className="user_icon"><UserLineIcon size={30} /> Login</span></NavLink>
+                                        <NavLink to='apps/wishlist' style={{ display: navDisplay }}><span className="fav_icon"><Heart3LineIcon size={30} /><span className="badge">1</span></span></NavLink>
+                                        <NavLink to='cart' className="badge-cart"><span className="cart_icon"><ShoppingCartLineIcon size={30} />
                                         {totalQuantity > 0 && <span className="badge-cart">{totalQuantity}</span>}
-                                        </NavLink></span>
+                                        </span></NavLink>
 
                                     </div>
                                     
@@ -209,8 +209,8 @@ const Header = () => {
                                     <div className="navigation" style={navigationStyle}>
                                         <ul className="menu">
                                             <div className="nav_icons">
-                                                <span className="user_icon" onClick={handleClose}><NavLink to='login'><UserLineIcon size={27} /> Login</NavLink></span>
-                                                <span className="fav_icon" onClick={handleClose}><NavLink to='apps/wishlist'><Heart3LineIcon size={27} /><span className="badge">1</span></NavLink></span>
+                                                <span className="user_icon" onClick={handleClose}><NavLink to='login'><UserLineIcon size={30} /> Login</NavLink></span>
+                                                <span className="fav_icon" onClick={handleClose}><NavLink to='apps/wishlist'><Heart3LineIcon size={30} /><span className="badge">1</span></NavLink></span>
                                                 
 
                                             </div>
