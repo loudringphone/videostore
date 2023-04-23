@@ -79,7 +79,7 @@ section.products {
 
 }
 
-.add_cart {
+button.add_cart {
     align-self: center;
     background-color: red;
     color: white;
@@ -90,9 +90,16 @@ section.products {
     margin-top: auto;
     margin-bottom: 5px
 }
-.add_cart:hover {
+button.add_cart:hover {
     background-color: rgb(255, 90, 90);
 }
+button.add_cart:active {
+    background-color: rgb(255, 90, 90);
+}
+button.add_cart:focus {
+    background-color: red;
+}
+
 
 @media (min-width: 520px) {
     .Toastify {
