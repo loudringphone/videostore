@@ -70,7 +70,7 @@ const Header = () => {
         if (window.innerWidth <= 1020) {
             setNavDisplay("none");
             setMobileMenuDisplay("inline");
-            setHeaderStyle({height: '135px'});
+            setHeaderStyle({height: '120px'});
             setIsNavVisible(false);
             
         } else {
@@ -165,7 +165,7 @@ const Header = () => {
                                 <SearchBox />
                             </div>
                             <div className="navigation" >
-                                <ul className="menu">
+                                
                                     <div className="nav_icons" >
                                     <NavLink to='login' style={{ display: navDisplay }}><span className="user_icon"><UserLineIcon size={30} /> Login</span></NavLink>
                                         <NavLink to='apps/wishlist' style={{ display: navDisplay }}><span className="fav_icon"><Heart3LineIcon size={30} /><span className="badge">1</span></span></NavLink>
@@ -175,7 +175,7 @@ const Header = () => {
 
                                     </div>
                                     
-                                </ul>
+                                
                             </div>
                         </div>
 

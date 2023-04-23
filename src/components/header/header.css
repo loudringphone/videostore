@@ -10,7 +10,10 @@ header.header {
     transition: all 0.2s;
     overflow: hidden;
 }
-
+.navigation {
+    display: flex;
+    align-items: center;
+}
 div.logo {
     width: 200px;
 }
@@ -23,6 +26,7 @@ div.nav_wrapper {
     display: inline-flex;
     justify-content: space-between;
     width: 95%;
+    margin-bottom: 15px;
 }
 div.logo {
     display: inline-flex;
@@ -40,6 +44,7 @@ div.logo > h3 {
 }
 div.nav_icons {
     width: 210px;
+    text-align: right;
 }
 div.nav_icons > span {
     margin-left: 10px;
@@ -56,24 +61,20 @@ span.cart_icon, span.fav_icon {
     padding-right: 10px;
     cursor: pointer;
 }
-a.badge, a.badge-cart {
-    
-}
+
 span.badge, span.badge-cart {
-    display: flex;
-    align-items:center;
-    justify-content: center;
+    position: absolute;
+    top: 10px;
+    right: 0px;
+    background-color: red;
+    color: white;
     border-radius: 50%;
     width: 18px;
     height: 18px;
-    padding: 5px;
-    font-size: .7rem;
-    z-index: 10;
-    position: absolute;
-    bottom: 25%;
-    left: 50%;
-    content: '';
-    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
 }
 span.badge {
     background-color: black;
@@ -250,8 +251,9 @@ body.scroll-locked {
 }
 
 @media (max-width: 1020px) {
+   
     header.header  {
-        height: 135px !important;
+        height: 120px !important;
     }
     .search_box {
         display: none;
@@ -264,19 +266,14 @@ body.scroll-locked {
         height: 30px;
     }
     .navigation {
-        width: 30px;
-        margin-right: 35px;
+        margin-right: 0;
     }
     div.logo {
         width: 170px;
         white-space: nowrap;
     }
     
-    span.badge-cart {
-        position: absolute;
-        bottom: 55%;
-        left: 200%;
-    }
+    
     span.cart_icon {
         color: black;
     }
