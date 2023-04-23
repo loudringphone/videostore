@@ -14,7 +14,7 @@
     
 }
 
-@media (max-width: 770px) {
+@media (max-width: 768px) {
     .common_section {
         height: 100px;
     }

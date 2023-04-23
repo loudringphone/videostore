@@ -145,22 +145,28 @@ a:hover {
 
 
 .mobile_nav ul.menu {
+    display: inline-flex;
+    width: 280px;
     justify-content: space-between;
     padding: 0;
     padding-top: 20px;
     
 }
-
+.mobile_nav .user_icon {
+    margin-right: 35px;
+}
 .mobile_nav ul.quick_links {
     flex-direction: column;
     padding-left: 0;
     text-align: left;
     justify-content: left;
+    width:max
 }
 
 .mobile_nav ul.quick_links > li {
     text-align: left;
-    font-size: larger
+    font-size: larger;
+    width: max-content;
 }
 
 .close_icon {
