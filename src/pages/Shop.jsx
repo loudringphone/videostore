@@ -12,21 +12,23 @@ import '../styles/shop.css'
 
 import ProductsList from '../components/UI/ProductsList';
 
+import { useSelector } from 'react-redux';
+
 export const Shop = () => {
-  const location = useLocation();
-  let searchTerm = null
+
+
+
+
+  let searchQuery = useSelector(state => state.searchQuery);
+  
+
+
   let searchArray = null
-  if (location.search) {
-    if (location.search.length > 0) {
-      searchTerm = location.search.substring(3)
-      if (/^\+*$/.test(searchTerm)) {
-        searchTerm = ''
-      }
-      else {
-        searchTerm = searchTerm.split('+').join(' ')
-        searchArray = searchTerm.toLowerCase().split(' ')
-      }
-      
+ 
+  if (searchQuery != null) {
+    searchArray = searchQuery.toLowerCase().split(' ')
+    if (searchQuery.length > 74) {
+      searchQuery = searchQuery.substring(0, 72) + '...'
     }
   }
   const [items, setItems] = useState([]);
@@ -37,7 +39,8 @@ export const Shop = () => {
   const {id} = useParams();
   let title;
   let q
-  if (id === undefined && (searchTerm === null || searchTerm === '')) {
+
+  if (id === undefined && (searchQuery === null || searchQuery === '')) {
     if (items.length === 1) {
       title = "1 Result found"
       q = query(collection(db, "items"))
@@ -46,11 +49,11 @@ export const Shop = () => {
       q = query(collection(db, "items"))
     }
   }
-  else if (id === undefined && searchTerm != null) {
+  else if (id === undefined && searchQuery != null) {
     if (items.length === 1) {
-      title = `1 Result found for '${searchTerm}'`
+      title = `1 Result found for '${searchQuery}'`
     } else {
-      title = `${items.length} Results found for '${searchTerm}'`
+      title = `${items.length} Results found for '${searchQuery}'`
     }
     q = query(collection(db, "items"), where("searchArray", "array-contains", searchArray[0]))
     console.log(q)
@@ -84,47 +87,39 @@ export const Shop = () => {
     title = title + ' collections'
   }
 
+  const [loading, setLoading] = useState(true);
   const fetchItem = async () => {
-      await getDocs(q)
-          .then((querySnapshot) => {
-              const newData = querySnapshot.docs
-                  .map((doc) => ({ ...doc.data(), id: doc.id }))
-                  .sort((a, b) => {
-                      const aTime = new Timestamp(a.createdAt.seconds, a.createdAt.nanoseconds).toDate();
-                      const bTime = new Timestamp(b.createdAt.seconds, b.createdAt.nanoseconds).toDate();
-                      return bTime - aTime;
-                  }); // Sort by createdAt field
-              
-              setItems(newData);
-              console.log(items, newData);
-              
-              if (newData) {
-                let searchItems = newData
-                if (searchArray && searchArray.length > 1) {
-                  searchItems = newData.filter(item => {
-                    for (let i = 0; i < searchArray.length; i++) {
-                      
-                      if (searchArray[i] !== '' && !item.searchArray.includes(searchArray[i])) {
-                        return false;
-                      }
+    setLoading(true);
+    await getDocs(q)
+        .then((querySnapshot) => {
+            const newData = querySnapshot.docs
+                .map((doc) => ({ ...doc.data(), id: doc.id }))
+                .sort((a, b) => {
+                    const aTime = new Timestamp(a.createdAt.seconds, a.createdAt.nanoseconds).toDate();
+                    const bTime = new Timestamp(b.createdAt.seconds, b.createdAt.nanoseconds).toDate();
+                    return bTime - aTime;
+                }); // Sort by createdAt field
+            
+            setItems(newData);
+            console.log(items, newData);
+            
+            if (newData) {
+              let searchItems = newData
+              if (searchArray && searchArray.length > 1) {
+                searchItems = newData.filter(item => {
+                  for (let i = 0; i < searchArray.length; i++) {
+                    
+                    if (searchArray[i] !== '' && !item.searchArray.includes(searchArray[i])) {
+                      return false;
                     }
-                    return true;
-                  });
-                  setItems(searchItems)
-                }
+                  }
+                  return true;
+                });
+                setItems(searchItems)
               }
-             
-              
-              
-
-
-
-
-
-
-
-
-          });
+            }
+            setLoading(false)
+        });
   }
   
 
@@ -141,7 +136,7 @@ export const Shop = () => {
     setFilteredItems(null);
     setFilterValue('');
     setSortValue('featured')
-  }, [searchTerm])
+  }, [searchQuery])
 
 
   const sortFilteredItems = function(arr, order) {
@@ -239,6 +234,9 @@ export const Shop = () => {
         <Container>
           <Row>
             {
+              loading ? (
+                <p className='loading'>Loading...</p>
+              ) :
               !filteredItems ? (
                 items.length === 0 ? (
                   <p className='notFound'>No products are found!</p>
@@ -246,8 +244,13 @@ export const Shop = () => {
                   <ProductsList items={items} />
                 )
               ) : (
+                
                 filteredItems.length === 0 ? (
-                  <p className='notFound'>No products are found!</p>
+                  searchArray === null ? (
+                    <p className='notFound'>No products are found!</p>
+                  ) : (
+                    <p className='notFound'>Sorry, we can't find any results for that keyword. Please check your spelling or try another search term.</p>
+                  )
                 ) : (
                   <ProductsList items={filteredItems} />
                 )

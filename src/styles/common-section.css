@@ -5,14 +5,50 @@
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
+    word-wrap: break-word
 }
 .common_section h1 {
     color: #fff;
     font-weight: 600;
+    font-size: xx-large;
+    
 }
 
 @media (max-width: 770px) {
     .common_section {
         height: 100px;
+    }
+    .common_section h1 {
+        font-size: 3vw;
+    }
+}
+@media (max-width: 720px) {
+    .common_section h1 {
+        font-size: 3.5vw;
+    }
+}
+@media (max-width: 620px) {
+    .common_section h1 {
+        font-size: 4vw;
+    }
+}
+@media (max-width: 450px) {
+    .common_section h1 {
+        font-size: 4.5vw;
+    }
+}
+@media (max-width: 350px) {
+    .common_section h1 {
+        font-size: 5vw;
+    }
+}
+@media (max-width: 320px) {
+    .common_section h1 {
+        font-size: 5.5vw;
+    }
+}
+@media (max-width: 300px) {
+    .common_section h1 {
+        font-size: 6vw;
     }
 }

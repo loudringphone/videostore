@@ -1,15 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setSearchQuery } from '../../redux/slices/searchQuerySlice'
+
 const SearchBox = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
 
+  const dispatch = useDispatch();
+
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
+
   };
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
+    dispatch(setSearchQuery(searchTerm));
     navigate(`/search?q=${searchTerm.split(' ').join('+')}`);
   };
 
