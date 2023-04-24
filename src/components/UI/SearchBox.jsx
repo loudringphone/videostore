@@ -76,7 +76,7 @@ const SearchBox = ({onClick}) => {
         onBlur={() => {
           setTimeout(() => {
             handleBlur();
-          }, 100);
+          }, 150);
         }}
         ref={searchInputRef}
       />
