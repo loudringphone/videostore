@@ -1,13 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { setSearchQuery } from '../../redux/slices/searchQuerySlice'
 import { easeOut } from 'framer-motion';
 
 const SearchBox = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
-  const dispatch = useDispatch();
   const searchInputRef = useRef(null);
 
   const handleSearch = (e) => {
@@ -21,7 +18,6 @@ const SearchBox = () => {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    dispatch(setSearchQuery(searchTerm));
     searchInputRef.current.blur()
     navigate(`/search?q=${searchTerm}`);
   };
