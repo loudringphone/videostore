@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setSearchQuery } from '../../redux/slices/searchQuerySlice'
+import { easeOut } from 'framer-motion';
 
 const SearchBox = () => {
   const navigate = useNavigate();
@@ -10,7 +11,11 @@ const SearchBox = () => {
   const searchInputRef = useRef(null);
 
   const handleSearch = (e) => {
+    if (e.keyCode === 13) {
+      e.target.blur();
+    }
     setSearchTerm(e.target.value);
+
 
   };
 
