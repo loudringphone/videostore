@@ -86,6 +86,7 @@ const SearchBox = ({onClick}) => {
       {searchHistory && searchHistory.length > 0 && (
         <div className="search-history" style={historyStyle}>
           <div className='history-list'>
+            <p>RECENT SEARCHES</p>
           <ul>
             {searchHistory.map((searchQuery, index) => (
               
@@ -97,7 +98,8 @@ const SearchBox = ({onClick}) => {
             ))}
           </ul>
           </div>
-          <button className='clear-history' onClick={handleClearSearchHistory} onTouchStart={handleClearSearchHistory}>Clear History</button>
+          <button className='clear-history' onClick={handleClearSearchHistory} onTouchStart={handleClearSearchHistory}>
+< i class="ri-close-line"></i><span>Clear all</span></button>
         </div>
       )}
     </form>
