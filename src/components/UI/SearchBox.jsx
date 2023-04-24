@@ -128,6 +128,10 @@ const SearchBox = ({onClick, onBlur}) => {
           onClick();
           handleClick();
         }}
+        onTouchStart={() => {
+          onClick();
+          handleClick();
+        }}
         onBlur={() => {
           onBlur();
           handleBlur();
@@ -151,7 +155,7 @@ const SearchBox = ({onClick, onBlur}) => {
             ))}
           </ul>
           </div>
-          <button className='clear-history' onClick={handleClearSearchHistory} onTouchStart={handleClearSearchHistory}>clear history</button>
+          <button className='clear-history' onClick={handleClearSearchHistory} onTouchStart={handleClearSearchHistory}>Clear History</button>
         </div>
       )}
     </form>
