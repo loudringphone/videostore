@@ -1,16 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const initialState = localStorage.getItem('searchHistory') ? JSON.parse(localStorage.getItem('searchHistory')) : [];
+
+
 const searchHistorySlice = createSlice({
   name: 'searchHistory',
-  initialState: [],
+  initialState,
   reducers: {
     addSearchQuery: (state, action) => {
       const query = action.payload.trim().toLowerCase();
       if (query.length > 0 && !state.includes(query)) {
         state.unshift(query);
-        // if (state.length > 5) {
-        //   state.pop();
-        // }
       }
     },
     clearSearchHistory: (state) => {

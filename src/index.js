@@ -4,7 +4,9 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import 'remixicon/fonts/remixicon.css'
-import store from './redux/store';
+// import store from './redux/store';
+import { store } from './redux/store';
+
 import { Provider } from "react-redux"
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';

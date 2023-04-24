@@ -51,7 +51,6 @@ export const Shop = () => {
       title = `${items.length} Results found for '${searchQuery}'`
     }
     q = query(collection(db, "items"), where("searchArray", "array-contains", searchArray[0]))
-    console.log(q)
   }
   else if (id === 'all') {
     title = 'All products'

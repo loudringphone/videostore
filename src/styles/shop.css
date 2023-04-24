@@ -15,6 +15,7 @@ section.product_list {
 
 .filter_widget, .sort_widget {
     display: flex;
+    align-items: center;
 }
 
 .filter_widget h6, .sort_widget h6 {
