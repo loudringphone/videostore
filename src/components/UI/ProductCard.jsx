@@ -33,15 +33,13 @@ const ProductCard = (item) => {
   const handleMouseEnter = function() {
     setButtonStyle({display: 'block'})
     const windowWidth = window.innerWidth;
-      if (windowWidth < 768 && windowWidth > 400) {
+      if (windowWidth > 768) {
         setCardStyle({height: '400px', zIndex: '99'});
-      } else {
-        setCardStyle({height: '400px', zIndex: '99'});
-      }
+      } 
   };
   const handleMouseLeave = function() {
     const windowWidth = window.innerWidth;
-      if (windowWidth <= 768 && windowWidth > 400) {
+      if (windowWidth <= 768) {
         setCardStyle({height: '400px', zIndex: '0'});
       } else if (windowWidth > 768) {
         setButtonStyle({display: 'none'})
@@ -53,7 +51,7 @@ const ProductCard = (item) => {
   useEffect(() => {
     function handleResize() {
       const windowWidth = window.innerWidth;
-      if (windowWidth < 768 && windowWidth > 400) {
+      if (windowWidth <= 768) {
         setButtonStyle({display: 'block'})
         setCardStyle({height: '400px'});
       } else if (windowWidth > 768) {

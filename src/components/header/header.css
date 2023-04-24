@@ -279,13 +279,10 @@ body.scroll-locked {
     }
     
     
-    span.cart_icon {
-        color: black;
-    }
-    span.cart_icon:hover {
-        color: red;
-    }
     
+    a.badge-cart:focus {
+        color: black !important;
+    }
 
 
 
