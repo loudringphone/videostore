@@ -2,7 +2,7 @@ import React from 'react'
 
 export const Helmet = (props) => {
 
-    document.title = 'Video Store | ' + props.title
+    document.title = props.title + ' - Video Store'
   return (
     <div>{props.children}</div>
   )

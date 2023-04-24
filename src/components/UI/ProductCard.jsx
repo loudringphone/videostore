@@ -2,15 +2,19 @@ import React from 'react';
 import { motion } from "framer-motion";
 import { useState, useEffect } from 'react';
 import "../../styles/product-card.css";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import { useDispatch } from "react-redux";
 import { cartActions } from '../../redux/slices/cartSlice';
 import { toast } from "react-toastify";
 
 
-const ProductCard = (item) => {
-
+const ProductCard = (props) => {
+  const item = props.item
+  let {pathname} = useLocation()
+  if (pathname === '/') {
+    pathname = '/shop/all'
+  }
   const dispatch = useDispatch()
   const addToCart = () => {
     toast.success(<div>Item added to your cart: <br />
@@ -69,16 +73,13 @@ const ProductCard = (item) => {
 
 
 
-
   return (
-     <div className="product_item" 
+     <div className="product_card" 
           style={cardStyle}
           onMouseOver={handleMouseEnter}
           onMouseOut={handleMouseLeave}>
-                        <div className="product_img" 
-                            
-                        >
-                            <Link to={`/collections/all/${item.id}`}><motion.img whileHover={{scale:0.9}} src={item.image} alt={item.title}></motion.img></Link>
+                        <div className="product_img">
+                            <Link to={{ pathname: `${pathname}/${item.id}` }}><motion.img whileHover={{scale:0.9}} src={item.image[0].downloadURL} alt={item.title}></motion.img></Link>
                         </div>
                     
                         <div className="product_card-bottom">
@@ -86,7 +87,7 @@ const ProductCard = (item) => {
                                 <h5 className="price">${item.price}</h5>
                                 <span>{item.format}</span>
                             </div>
-                            <div className="product_name"><Link to={`/collections/all/${item.id}`}>{item.title}</Link></div>
+                            <div className="product_name"><Link to={{ pathname: `${pathname}/${item.id}` }}>{item.title}</Link></div>
                             {item.format === "CD" && <div className='originator'>{item.originator}</div>}
                             </div>
                             

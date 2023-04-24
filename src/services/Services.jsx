@@ -15,7 +15,7 @@ const Services = () => {
             <motion.div 
               whileHover={{scale: 1.1}} 
               className="service_item">
-            <span><i class={item.icon}></i></span>
+            <span><i className={item.icon}></i></span>
             <div><h4>{item.title}</h4>
             <p>{item.subtitle}</p></div>
             </motion.div>

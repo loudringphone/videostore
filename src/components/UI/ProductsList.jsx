@@ -16,7 +16,7 @@ const ProductsList = (props) => {
                         <section className="products">
                     {
                         props.items?.map((item, i) => (
-                            <ProductCard key={i} id={item.id} title={item.title} image={item.image[0].downloadURL} format={item.format} price={item.price} originator={item.originator}/>
+                            <ProductCard key={i} item={item}/>
                         ))
                     }
                     

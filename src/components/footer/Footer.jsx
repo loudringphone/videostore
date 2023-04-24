@@ -55,10 +55,10 @@ export const Footer = () => {
             Contact
           </h4>
           <ul>
-            <li><span><i class="ri-phone-line"></i></span>+61-422-882-062</li>
-            <li><span><i class="ri-mail-line"></i></span><a href="wingfunglau@gmail.com">wingfunglau@gmail.com</a></li>
-            <li><span><i class="ri-github-line"></i></span><a href="https://github.com/loudringphone">https://github.com/loudringphone</a></li>
-            <li><span><i class="ri-linkedin-box-line"></i></span><a href="https://www.linkedin.com/in/winston-lau">https://www.linkedin.com/in/winston-lau</a></li>
+            <li><span><i className="ri-phone-line"></i></span>+61-422-882-062</li>
+            <li><span><i className="ri-mail-line"></i></span><a href="wingfunglau@gmail.com">wingfunglau@gmail.com</a></li>
+            <li><span><i className="ri-github-line"></i></span><a href="https://github.com/loudringphone">https://github.com/loudringphone</a></li>
+            <li><span><i className="ri-linkedin-box-line"></i></span><a href="https://www.linkedin.com/in/winston-lau">https://www.linkedin.com/in/winston-lau</a></li>
           </ul>
         </div>
       </div>

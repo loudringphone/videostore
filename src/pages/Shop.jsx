@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { useParams, useLocation } from 'react-router-dom';
 import CommonSection from '../components/UI/CommonSection'
 import { Helmet } from '../components/helmet/Helmet'
-import { Container, Row, Col } from "reactstrap"
+import { Container, Row } from "reactstrap"
 
-import { collection, query, where, getDocs } from "firebase/firestore";
-import { Timestamp } from 'firebase/firestore';
+import { collection, query, where, getDocs, Timestamp } from "firebase/firestore";
 import {db} from '../firebase_setup/firebase';
 
 import '../styles/shop.css'
@@ -82,7 +81,7 @@ export const Shop = () => {
   }
 
   const [loading, setLoading] = useState(true);
-  const fetchItem = async () => {
+  const fetchItems = async () => {
     setLoading(true);
     await getDocs(q)
         .then((querySnapshot) => {
@@ -121,14 +120,14 @@ export const Shop = () => {
 
   useEffect(()=>{
     setItems([])
-    fetchItem();
+    fetchItems();
     setFilteredItems(null);
     setFilterValue('');
     setSortValue('featured')
   }, [id])
   useEffect(()=>{
     setItems([])
-    fetchItem();
+    fetchItems();
     setFilteredItems(null);
     setFilterValue('');
     setSortValue('featured')

@@ -1,0 +1,24 @@
+.productDetails {
+    padding-top: 25px;
+    min-height: 480px;
+    gap: 80px;
+    display: flex;
+    justify-content: center;
+}
+
+.productDetails .product_img {
+    height: 475px;
+    width: 475px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.productDetails .product_img img {
+    max-height: 450px !important;
+    max-width: 450px !important;
+}
+
+.product_info {
+    width: 475px; 
+}

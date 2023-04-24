@@ -12,7 +12,7 @@ const Home = () => {
     const year = new Date().getFullYear();
     return (
         <div>
-            <Helmet title={"Home"}>
+            <Helmet title={"Low prices on Movies!"}>
                 <Promotion />
             <ProductsLists />
                      
