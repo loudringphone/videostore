@@ -4,7 +4,11 @@
 }
 html {
   width: 100vw;
+}
+body.scroll-locked {
+  overflow: hidden;
+  touch-action: manipulation;
+}
+body {
   overflow-x: hidden;
 }
-
-

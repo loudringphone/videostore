@@ -8,7 +8,7 @@ header.header {
     z-index: 100;
     box-shadow: 0 1px 4px #7d7d7d1c;
     transition: all 0.2s;
-    overflow: hidden;
+    overflow: visible;
 }
 .navigation {
     display: flex;
@@ -243,11 +243,6 @@ a:hover {
     opacity: 1;
     background-color: #00000026;
     transition: opacity .35s cubic-bezier(.1,.1,0,1);
-}
-
-body.scroll-locked {
-    overflow: hidden;
-    touch-action: manipulation;
 }
 
 @media (max-width: 1020px) {
