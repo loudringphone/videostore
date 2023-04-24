@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setSearchQuery } from '../../redux/slices/searchQuerySlice'
@@ -6,8 +6,8 @@ import { setSearchQuery } from '../../redux/slices/searchQuerySlice'
 const SearchBox = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
-
   const dispatch = useDispatch();
+  const searchInputRef = useRef(null);
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
@@ -17,6 +17,7 @@ const SearchBox = () => {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     dispatch(setSearchQuery(searchTerm));
+    searchInputRef.current.blur()
     navigate(`/search?q=${searchTerm.split(' ').join('+')}`);
   };
 
@@ -41,6 +42,7 @@ const SearchBox = () => {
         placeholder="What are you looking for?"
         value={searchTerm}
         onChange={handleSearch}
+        ref={searchInputRef}
       />
       <button type="submit">
         <i className="ri-search-line"></i>
