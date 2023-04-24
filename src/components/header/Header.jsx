@@ -140,10 +140,6 @@ const Header = () => {
     const handleClick = () => {
         setHeaderStyle({overflow: 'visible'})
     }
-    const handleBlur = () => {
-        // setHeaderStyle({overflow: 'hidden'})
-    }
-
 
 
 
@@ -168,7 +164,7 @@ const Header = () => {
                                 </div>
                             </NavLink>
                             <div className="search_box">
-                                <SearchBox onClick={handleClick} onBlur={handleBlur }/>
+                                <SearchBox onClick={handleClick}/>
                             </div>
                             <div className="navigation" >
                                 
@@ -207,7 +203,7 @@ const Header = () => {
                         </ul>
 
                         <div className="mobile_search_box">
-                            <SearchBox onClick={handleClick} onBlur={handleBlur} />
+                            <SearchBox onClick={handleClick}/>
                         </div>
             </header>
             <div className="mobile_nav"  style={mobileNavStyle}>

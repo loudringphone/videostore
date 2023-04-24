@@ -66,7 +66,7 @@ import { setSearchQuery } from '../../redux/slices/searchQuerySlice';
 import { addSearchQuery, clearSearchHistory } from '../../redux/slices/searchHistorySlice';
 import '../../styles/search-box.css'
 
-const SearchBox = ({onClick, onBlur}) => {
+const SearchBox = ({onClick}) => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const dispatch = useDispatch();
@@ -133,8 +133,9 @@ const SearchBox = ({onClick, onBlur}) => {
           handleClick();
         }}
         onBlur={() => {
-          onBlur();
-          handleBlur();
+          setTimeout(() => {
+            handleBlur();
+          }, 100);
         }}
         ref={searchInputRef}
       />
