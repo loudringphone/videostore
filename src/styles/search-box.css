@@ -3,6 +3,7 @@
     position:sticky;
     background-color: white;
     border: 1px solid rgba(125,125,125,.56);
+    border-top: none;
     box-shadow: 0 1px 4px #7d7d7d1c;
     height: max-content;
     display: flex;
