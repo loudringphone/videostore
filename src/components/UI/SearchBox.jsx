@@ -23,7 +23,7 @@ const SearchBox = () => {
     e.preventDefault();
     dispatch(setSearchQuery(searchTerm));
     searchInputRef.current.blur()
-    navigate(`/search?q=${searchTerm.split(' ').join('+')}`);
+    navigate(`/search?q=${searchTerm}`);
   };
 
   const location = useLocation()

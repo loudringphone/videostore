@@ -16,22 +16,22 @@ import { useSelector } from 'react-redux';
 
 export const Shop = () => {
   const location = useLocation()
-   
+   console.log(decodeURIComponent(location.search).substring(3))
   let searchQuery = useSelector(state => state.searchQuery);
-  
   let searchArray = null
- 
 
-  if (location.search) {
-    if (location.search.length > 0) {
+    if (location.pathname === "/search") {
       if (searchQuery != null) {
         searchArray = searchQuery.toLowerCase().split(' ')
-        if (searchQuery.length > 74) {
-          searchQuery = searchQuery.substring(0, 72) + '...'
-        }
+      } else {
+        searchQuery = decodeURIComponent(location.search).substring(3)
+        searchArray = searchQuery.toLowerCase().split(' ')
+      }
+      if (searchQuery.length > 74) {
+        searchQuery = searchQuery.substring(0, 72) + '...'
       }
     }
-  }
+  
   const [items, setItems] = useState([]);
   const [filteredItems, setFilteredItems] = useState(null);
   const [filterValue, setFilterValue] = useState('');
