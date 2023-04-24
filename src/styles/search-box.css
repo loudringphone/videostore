@@ -1,0 +1,46 @@
+.search-history {
+    z-index: 99999999;
+    position:sticky;
+    background-color: white;
+    border: 1px solid rgba(125,125,125,.56);
+    box-shadow: 0 1px 4px #7d7d7d1c;
+    height: max-content;
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    padding: 5px 10px 5px 10px;
+    overflow: hidden;
+    font-size: smaller;
+    width: 100%;
+}
+.history-list {
+    display: flex !important;
+    font-size: medium;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
+
+.history-list ul {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+}
+.history-list li {
+    padding: 0;
+    margin: 0;
+    text-align:left;
+    font-size: medium;
+}
+
+button.clear-history {
+    padding: 0;
+    width: max-content !important;
+    height: max-content !important;
+    font-size: medium;
+    color: blue;
+    text-decoration: underline;
+    background-color: transparent;
+    align-self: self-start;
+}

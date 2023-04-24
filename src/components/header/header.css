@@ -1,6 +1,6 @@
 header.header {
     padding-top: 15px;
-    height: 100px;
+    height: 110px;
     width: 100%;
     position: sticky;
     top: 0;
@@ -83,10 +83,9 @@ span.badge {
 span.badge-cart {
     background-color: red;
 }
-
-
-
-
+ul#nav {
+    margin-top: 3px;
+}
 
 div.mobile_menu {
     display: none;
@@ -278,8 +277,7 @@ body.scroll-locked {
         white-space: nowrap;
     }
     
-    
-    
+
     a.badge-cart:focus {
         color: black !important;
     }

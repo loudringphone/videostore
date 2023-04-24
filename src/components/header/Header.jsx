@@ -77,10 +77,10 @@ const Header = () => {
             setNavDisplay("inline");
             setMobileMenuDisplay("none");
             if (window.scrollY <= 150) {
-                setHeaderStyle({height: '100px'});
+                setHeaderStyle({height: '105px'});
                 setIsNavVisible(true);
             } else {
-                setHeaderStyle({height: '70px'});
+                setHeaderStyle({height: '80px'});
                 setIsNavVisible(false);
             }
         }
@@ -101,9 +101,9 @@ const Header = () => {
             if (window.innerWidth > 1020) {
                 setIsNavVisible(currentScrollY < 150);
                 if(currentScrollY <= 150) {
-                    setHeaderStyle({height: '100px'})
+                    setHeaderStyle({height: '105px'})
                 }
-                else {setHeaderStyle({height: '70px'})}
+                else {setHeaderStyle({height: '80px'})}
                 setPrevScrollY(currentScrollY);
             }
         };
@@ -137,6 +137,12 @@ const Header = () => {
             setNavigationStyle({display: 'block'})
         }, 200);
     };
+    const handleClick = () => {
+        setHeaderStyle({overflow: 'visible'})
+    }
+    const handleBlur = () => {
+        setHeaderStyle({overflow: 'hidden'})
+    }
 
 
 
@@ -162,7 +168,7 @@ const Header = () => {
                                 </div>
                             </NavLink>
                             <div className="search_box">
-                                <SearchBox />
+                                <SearchBox onClick={handleClick} onBlur={handleBlur }/>
                             </div>
                             <div className="navigation" >
                                 
@@ -201,7 +207,7 @@ const Header = () => {
                         </ul>
 
                         <div className="mobile_search_box">
-                            <SearchBox />
+                            <SearchBox onClick={handleClick} onBlur={handleBlur} />
                         </div>
             </header>
             <div className="mobile_nav"  style={mobileNavStyle}>
