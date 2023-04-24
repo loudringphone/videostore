@@ -141,7 +141,7 @@ const Header = () => {
         setHeaderStyle({overflow: 'visible'})
     }
     const handleBlur = () => {
-        setHeaderStyle({overflow: 'hidden'})
+        // setHeaderStyle({overflow: 'hidden'})
     }
 
 
