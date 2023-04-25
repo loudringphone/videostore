@@ -1,24 +1,125 @@
 .productDetails {
     padding-top: 25px;
     min-height: 480px;
-    gap: 80px;
-    display: flex;
-    justify-content: center;
+    gap: 30px;
+    display: grid;
+    grid-template-columns: auto auto;
+}
+.productDetails h1 {
+    text-align: left;
+}
+.productDetails p {
+    margin: 0;
+    margin-bottom: 0.75rem;
 }
 
 .productDetails .product_img {
-    height: 475px;
-    width: 475px;
+    height: 560px;
+    width: 560px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .productDetails .product_img img {
-    max-height: 450px !important;
-    max-width: 450px !important;
+    max-height: 100%;
+    max-width: 100%;
 }
 
 .product_info {
-    width: 475px; 
+    width: 560px; 
+}
+.product_info .product-title {
+    font-style: normal;
+    font-weight: 400;
+    letter-spacing: 0em;
+    font-size: 1.96rem;
+}
+.product-price {
+    font-size: larger;
+}
+.product-stock-level-availability {
+    font-weight: 700;
+}
+.product-stock-level-high {
+    color: green;
+}
+.product-stock-level-low {
+    color: red;
+}
+.product-stock-level-sold-out {
+    background-color: black;
+    color: white;
+    padding-left: 0.2rem;
+    padding-right: 0.2rem;
+}
+
+
+
+.form-field-select-wrapper {
+    border: 1px solid rgba(125,125,125,.16);
+    background-color: #fff;
+    box-shadow: 0 1px 2px #00000026;
+    border-radius: 3.5px;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+    display: flex;
+    justify-content: right;
+    width: 7.2rem;
+    position: relative;
+    align-items: center;
+    cursor: pointer;
+    height: 52px;
+    margin-bottom: 0.75rem;
+}
+.form-field-select-wrapper label {
+    padding-left: 0.5rem;
+    padding-top: 0.5rem;
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: small;
+    line-height: 1;
+    color: #777;
+    cursor: pointer;
+}
+
+.form-field-select-wrapper select {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: transparent;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+    padding-top: 1.2rem;
+    padding-left: 0.5rem;
+    cursor: pointer;
+}
+
+
+@media (max-width: 1200px) {
+    .productDetails .product_img {
+        height: 42.5vw;
+        width: 42.5vw;
+    }
+    .product_info {
+        width: 42.5vw; 
+    }
+}
+
+@media (max-width: 720px) {
+    .productDetails {
+        grid-template-columns: auto;
+    }
+    .productDetails .product_img {
+        height: 90vw;
+        width: 90vw;
+    }
+    .product_info {
+        width: 90vw; 
+    }
 }

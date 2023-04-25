@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Helmet } from '../components/helmet/Helmet'
 import { useParams } from 'react-router-dom';
 import { collection, query, where, getDocs, Timestamp, doc, getDoc } from "firebase/firestore";
@@ -11,7 +11,7 @@ export const ProductDetails = () => {
   const [item, setItem] = useState([]);
   const {itemId} = useParams()
   const [loading, setLoading] = useState(true);
-
+  
   useEffect(() => {
     const docRef = doc(db, "items", itemId);
 
@@ -29,8 +29,12 @@ export const ProductDetails = () => {
     fetchItem();
   }, [itemId]);;
 
+  const selectRef = useRef(null);
+  const handleClick = () => {
+    selectRef.current.focus();
 
-
+    selectRef.current.click();
+  };
   
   if (loading) {
     return (
@@ -50,9 +54,78 @@ export const ProductDetails = () => {
         <img src={item.image[0].downloadURL} alt={item.title}></img>
       </div>
       <div className="product_info">
-        <h1>{item.title}</h1>
+        <h1 className='product-title'>{item.title}</h1>
+        <p style={{fontWeight: "700"}}>{item.format}</p>
+        <p className='product-price'>${item.price}</p>
+        <p className='product-stock-level'>
+          <span className='product-stock-level-availability'>Availability:&nbsp;</span>
+            {item.stock > 25 ? (
+              <span className="product-stock-level-high">
+                <i className="ri-checkbox-circle-line"></i>&nbsp;Available
+              </span>
+            ) : (
+              item.stock === 0 ? (
+                <span className="product-stock-level-sold-out">
+                  <i className="ri-close-circle-line"></i>&nbsp;Sold out
+                </span>
+              ) : (
+                <span className="product-stock-level-low">
+                  <i className="ri-error-warning-line"></i>
+                  &nbsp;Low stock
+                </span>
+              )
+            )}
+        </p>
+        <div className="form-field-select-wrapper" onClick={handleClick}>
+          <div>
+            <label className="form-field-title">
+                Quantity
+            </label>
+            <select 
+              id="product-quantity-select"
+              className="form-field"
+              aria-label="Quantity"
+              defaultValue="1"
+              ref={selectRef}
+            >
+              <option value="1">
+                1
+              </option>
+              <option value="2">
+                2
+              </option>
+              <option value="3">
+                3
+              </option>
+              <option value="4">
+                4
+              </option>
+              <option value="5">
+                5
+              </option>
+              <option value="6">
+                6
+              </option>
+              <option value="7">
+                7
+              </option>
+              <option value="8">
+                8
+              </option>
+              <option value="9">
+                9
+              </option>
+              <option value="10+">
+                10+
+              </option>
+            </select>
+          </div>
+          <i className="ri-arrow-down-s-line"></i>
+        </div>
+
+
+
         <p>{item.description}</p>
-        <p>{item.price}</p>
       </div>
     </div>
     </Helmet>

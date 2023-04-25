@@ -22,7 +22,6 @@ section.products {
 .product_card {
     background-color: white;
     justify-content: start;
-    /* margin: 0 0 0 0; */
     width: 230px;
     height: 320px;
     padding: 5px 0 15px 0;

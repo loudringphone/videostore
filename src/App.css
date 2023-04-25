@@ -1,6 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Karla:wght@400;600;700&display=swap');
+
 * {
   justify-content: center;
   text-align: center;
+  font-family: Karla,sans-serif;
 }
 html {
   width: 100vw;
@@ -13,4 +16,10 @@ body.scroll-locked {
 }
 body {
   overflow-x: hidden;
+}
+select:active, select:hover, select:focus {
+  outline: none
+}
+input:active, input:hover, input:focus {
+  outline: none
 }
