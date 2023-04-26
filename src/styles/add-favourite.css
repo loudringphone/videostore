@@ -1,0 +1,33 @@
+.add-favourite {
+    display: inline-block;
+}
+
+.add-favourite button{
+    display: flex;
+    text-align: left;
+    background: transparent;
+    color: inherit;
+    width:max-content;
+    align-items: center;
+    padding: 0;
+}
+
+.add-favourite i {
+    color: red;
+    font-size:x-large;
+    margin-right: 0.3rem;
+    font-weight: 200;
+}
+
+.product_img .add-favourite span {
+    display: none;
+}
+.product_img .add-favourite i {
+    margin: 0;
+}
+.product_img .add-favourite {
+    position: absolute;
+    margin: 0;
+    top: 10px;
+    left:20px;
+}

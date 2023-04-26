@@ -2,12 +2,12 @@ import React from 'react';
 import { motion } from "framer-motion";
 import { useState, useEffect } from 'react';
 import "../../styles/product-card.css";
+import "../../styles/add-favourite.css";
 import { Link, useLocation } from "react-router-dom";
-
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from 'react-redux';
 import { cartActions } from '../../redux/slices/cartSlice';
 import { toast } from "react-toastify";
-
+import AddFavourite from './AddFavourite';
 
 const ProductCard = (props) => {
   const item = props.item
@@ -15,6 +15,10 @@ const ProductCard = (props) => {
   if (pathname === '/') {
     pathname = '/shop/all'
   }
+  const cart = useSelector(state => state.cart);
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }, [cart]);
   const dispatch = useDispatch()
   const addToCart = () => {
     toast.success(<div>Item added to your cart: <br />
@@ -27,8 +31,7 @@ const ProductCard = (props) => {
         price: item.price,
         image: item.image,
       }))
-    }, 500);
-    
+    }, 500); 
   }
 
 
@@ -79,6 +82,7 @@ const ProductCard = (props) => {
           onMouseOver={handleMouseEnter}
           onMouseOut={handleMouseLeave}>
                         <div className="product_img">
+                            <AddFavourite itemId={item.id} />
                             <Link to={{ pathname: `${pathname}/${item.id}` }}><motion.img whileHover={{scale:0.9}} src={item.image[0].downloadURL} alt={item.title}></motion.img></Link>
                         </div>
                     
@@ -87,12 +91,38 @@ const ProductCard = (props) => {
                                 <h5 className="price">${item.price}</h5>
                                 <span>{item.format}</span>
                             </div>
-                            <div className="product_name"><Link to={{ pathname: `${pathname}/${item.id}` }}>{item.title}</Link></div>
-                            {item.format === "CD" && <div className='originator'>{item.originator}</div>}
+                            <div className="product_name">
+                              <Link to={{ pathname: `${pathname}/${item.id}` }}>{item.title}</Link>
                             </div>
+                            {item.format === "CD" && <div className='originator'>{item.originator}</div>}
+                            <p className='product-stock-level'>
+                                {item.stock > 25 ? (
+                                  <span className="product-stock-level-high">
+                                    Available
+                                  </span>
+                                ) : (
+                                  item.stock === 0 ? (
+                                    <span className="product-stock-level-sold-out">
+                                      Sold out
+                                    </span>
+                                  ) : (
+                                    <span className="product-stock-level-low">
+                                      Low stock
+                                    </span>
+                                  )
+                                )}
+                            </p>
+
+                            </div>
+
+                            { item?.stock &&  item.stock > 0 ? (
+                              <motion.button whileTap={{scale: 0.9}} style={buttonStyle} className='add_cart' onClick={addToCart}>Add to cart</motion.button>
+                            ) : (
+                              <button style={buttonStyle} className='sold_out'>Sold out</button>
+                            )}
                             
 
-                            <motion.button whileTap={{scale: 0.9}} style={buttonStyle} className='add_cart' onClick={addToCart}>Add to cart</motion.button>
+                            
                             
        </div>
   )

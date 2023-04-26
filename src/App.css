@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Karla:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Karla:wght@200;400;600;700&display=swap');
 
 * {
   justify-content: center;
@@ -22,4 +22,29 @@ select:active, select:hover, select:focus {
 }
 input:active, input:hover, input:focus {
   outline: none
+}
+
+ul {
+  display: flex;
+  flex-wrap: wrap;
+  list-style-type: none;
+  position: relative;
+  text-align: center;
+}
+
+li {
+  padding: 3px 10px;
+}
+
+a {
+  text-decoration: none !important;
+  color: initial !important;
+}
+
+a:hover {
+  color: orangered !important;
+}
+
+a:focus {
+  color: black;
 }

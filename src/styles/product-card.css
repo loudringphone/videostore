@@ -39,6 +39,7 @@ section.products {
 }
 .product_card .product_img {
     height: 180px;
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -76,16 +77,24 @@ section.products {
     font-size: 0.95rem;
 }
 
-.product_name > a:hover {
-    color: orangered !important;
-}
+
 .originator {
     text-align: left;
     font-weight: bold;
     font-size: 0.9rem;
 
 }
-
+button.sold_out {
+    align-self: center;
+    background-color: #8a8a8a;
+    color: white;
+    padding: 10px;
+    width: 75%;
+    border-radius: 5px;
+    cursor: default;
+    margin-top: auto;
+    margin-bottom: 5px
+}
 button.add_cart {
     align-self: center;
     background-color: red;

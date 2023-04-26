@@ -25,7 +25,7 @@ import searchHistorySlice from './slices/searchHistorySlice';
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['searchHistory']
+    whitelist: ['searchHistory', 'cart']
   };
   
   const persistedReducer = persistReducer(persistConfig, combineReducers({
