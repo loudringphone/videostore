@@ -89,7 +89,7 @@ const ProductCard = (props) => {
                               { pathname !== "/apps/wishlist" ? (
                                 <motion.img whileHover={{scale:0.9}} src={item.image[0].downloadURL} alt={item.title}></motion.img>
                               ) : (
-                                <motion.img whileHover={{scale:1.2}} style={{width: "65%" }} src={item.image[0].downloadURL} alt={item.title}></motion.img>
+                                <motion.img whileHover={{scale:1.2}} style={{width: "70%" }} src={item.image[0].downloadURL} alt={item.title}></motion.img>
                               )}
                             </Link>
                         </div>

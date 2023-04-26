@@ -21,7 +21,9 @@ div.logo {
 a.logo:hover {
     color: inherit !important;
 }
-
+.fav_icon {
+    margin-right: 10px;
+}
 div.nav_wrapper {
     display: inline-flex;
     justify-content: space-between;
@@ -158,57 +160,6 @@ div.mobile_menu {
 }
 .close_icon:hover {
     color: red;
-}
-
-.mobile_search_box {
-    display: none;
-    height: 45%;
-    padding-left: 2%;
-    padding-right: 2%;
-}
-
-.search_box {
-    margin-left: 15px;
-    width: 70%;
-    height: 35px;
-}
-.search_box input {
-    width: calc(100% - 50px);
-    height: 110%;
-    text-align: left;
-    padding: 8px;
-    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
-    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
-    box-sizing: border-box;         /* Opera/IE 8+ */
-}
-.search_box button {
-    border-radius: 0;
-    float: right;
-    width: 50px;
-    height: 110%;
-}
-.search_box form {
-    height: 100%;
-}
-.mobile_search_box form {
-    height: 100%;
-}
-.mobile_search_box input {
-    width: calc(100% - 60px);
-    height: 100%;
-    text-align: left;
-    font-size: larger;
-    padding: 8px;
-    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
-    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
-    box-sizing: border-box;         /* Opera/IE 8+ */
-}
-.mobile_search_box button {
-    border-radius: 0;
-    float: right;
-    font-size: larger;
-    width: 60px;
-    height: 100%;
 }
 
 .mobile-nav-overlay {
