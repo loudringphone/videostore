@@ -34,7 +34,10 @@ export const Shop = () => {
   let title;
   let q
 
-  if (id === undefined && (searchQuery === '')) {
+  if (id === undefined && searchQuery === null) {
+    q = query(collection(db, "items"))
+  }
+  else if (id === undefined && searchQuery === '') {
     if (items.length === 1) {
       title = "1 Result found"
       q = query(collection(db, "items"))

@@ -14,7 +14,7 @@
 
 .add-favourite i {
     color: red;
-    opacity: 0.8;
+    opacity: 1;
     font-size:x-large;
     margin-right: 0.3rem;
     font-weight: 100;
@@ -37,5 +37,28 @@
     margin: 0;
     top: 10px;
     left:20px;
+    z-index: 2;
+}
+
+
+
+
+.remove-favourite button{
+    display: flex;
+    background: transparent;
+    width:max-content;
+}
+
+.remove-favourite i {
+    color: darkgray;
+    opacity: 1;
+    font-size:xx-large;
+    font-weight: 100;
+}
+
+.product_img .remove-favourite {
+    position: absolute;
+    top: -10px;
+    right:10px;
     z-index: 2;
 }

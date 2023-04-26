@@ -82,7 +82,13 @@ const ProductCard = (props) => {
           onMouseOut={handleMouseLeave}>
                         <div className="product_img">
                             <AddFavourite itemId={item.id} />
-                            <Link to={{ pathname: `${pathname}/${itemURL}` }}><motion.img whileHover={{scale:0.9}} src={item.image[0].downloadURL} alt={item.title}></motion.img></Link>
+                            <Link to={{ pathname: `${pathname}/${itemURL}` }}>
+                              { pathname !== "/apps/wishlist" ? (
+                                <motion.img whileHover={{scale:0.9}} src={item.image[0].downloadURL} alt={item.title}></motion.img>
+                              ) : (
+                                <motion.img whileHover={{scale:1.2}} style={{width: "65%" }} src={item.image[0].downloadURL} alt={item.title}></motion.img>
+                              )}
+                            </Link>
                         </div>
                     
                         <div className="product_card-bottom">

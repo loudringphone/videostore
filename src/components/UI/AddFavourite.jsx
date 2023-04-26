@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { wishlistActions } from '../../redux/slices/wishlistSlice';
 
@@ -26,6 +27,20 @@ const AddFavourite = (props) => {
           setFavourite(false);
         }
       }, [wishlist, itemId]);
+    
+    const {pathname} = useLocation()
+    if (pathname === '/apps/wishlist') {
+        return (
+            <div className='remove-favourite'>
+                <button onClick={toggleFavourite}>
+                    <i class="ri-close-line"></i>
+                </button>
+            </div>
+
+        )
+    }
+
+    
   return (
     <div className='add-favourite'>
         <button onClick={toggleFavourite}>
