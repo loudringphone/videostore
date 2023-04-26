@@ -73,7 +73,10 @@ const ProductCard = (props) => {
   }, []);
 
 
-  const itemURL = item.id + '-' + item.title.toLowerCase().replace(/[^a-z0-9'""]/g, "-").replace(/['"]/g, "")
+  let itemURL = item.id + '-' + item.title.toLowerCase().replace(/[^a-z0-9'""]/g, "-").replace(/['"]/g, "");
+  if (itemURL.endsWith("-")) {
+    itemURL = itemURL.slice(0, -1);
+  };
 
   return (
      <div className="product_card" 
