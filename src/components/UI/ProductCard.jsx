@@ -35,7 +35,7 @@ const ProductCard = (props) => {
 
 
   const [buttonStyle, setButtonStyle] = useState({display: 'none'});
-  const [cardStyle, setCardStyle] = useState({height: '320px', zIndex: '0'});
+  const [cardStyle, setCardStyle] = useState({height: '360px', zIndex: '0'});
   const handleMouseEnter = function() {
     setButtonStyle({display: 'block'})
     const windowWidth = window.innerWidth;
@@ -49,7 +49,7 @@ const ProductCard = (props) => {
         setCardStyle({height: '400px', zIndex: '0'});
       } else if (windowWidth > 768) {
         setButtonStyle({display: 'none'})
-        setCardStyle({height: '320px', zIndex: '0'});
+        setCardStyle({height: '360px', zIndex: '0'});
       }
 
   };
@@ -62,7 +62,7 @@ const ProductCard = (props) => {
         setCardStyle({height: '400px'});
       } else if (windowWidth > 768) {
         setButtonStyle({display: 'none'})
-        setCardStyle({height: '320px', zIndex: '0'});
+        setCardStyle({height: '360px', zIndex: '0'});
       }
     }
 

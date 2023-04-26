@@ -1,5 +1,5 @@
 section.product_lists {
-    min-height: 320px;
+    min-height: 360px;
 }
 div.product_list {
     margin-bottom: 30px;
@@ -16,14 +16,14 @@ section.products {
     margin: auto;
     grid-gap: 20px;
     width: 50%;
-    grid-auto-rows: 320px;
+    grid-auto-rows: 360px;
 }
 
 .product_card {
     background-color: white;
     justify-content: start;
     width: 230px;
-    height: 320px;
+    height: 360px;
     padding: 5px 0 15px 0;
     border: 1px solid rgba(125,125,125,.16);
     box-shadow: 0 1px 4px #7d7d7d1c;
@@ -34,13 +34,13 @@ section.products {
 
 .product_card .product_img img {
     cursor: pointer;
-    max-height: 175px;
+    max-height: 170px;
     max-width: 90%;
 }
 .product_card .product_img {
-    height: 180px;
     position: relative;
-    display: flex;
+    display: grid;
+    grid-template-rows: 170px;
     align-items: center;
     justify-content: center;
     margin-bottom: 10px;
