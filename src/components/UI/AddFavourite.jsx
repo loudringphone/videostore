@@ -46,7 +46,7 @@ const AddFavourite = (props) => {
         <button onClick={toggleFavourite}>
             <i className="ri-heart-3-line" style={favourite ? { display: 'none' } : { display: 'block' }}></i>
             <i className="ri-heart-3-fill" style={favourite ? { display: 'block' } : { display: 'none' }}></i>
-            <span>Add to Wishlist</span>
+            <span>{favourite ? "In Wishlist" : "Add to Wishlist"}</span>
         </button>
     </div>
   )
