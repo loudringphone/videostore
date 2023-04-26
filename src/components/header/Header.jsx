@@ -54,14 +54,10 @@ const nav_links = [
 
 const Header = () => {
     const totalQuantity = useSelector(state => state.cart.totalQuantity)
-
+    const totalWishes = useSelector(state => state.wishlist.length)
     const [headerStyle, setHeaderStyle] = useState(null);
     const [isNavVisible, setIsNavVisible] = useState(true);
     const [prevScrollY, setPrevScrollY] = useState(0);
-
-    
-
-
     const [navDisplay, setNavDisplay] = useState("inline");
     const [mobileMenuDisplay, setMobileMenuDisplay] = useState("none");
 
@@ -171,9 +167,9 @@ const Header = () => {
                                     <div className="nav_icons" >
                                     <NavLink to='login' style={{ display: navDisplay }}><span className="user_icon"><UserLineIcon size={30} /> Login</span></NavLink>
                                         <NavLink to='apps/wishlist' style={{ display: navDisplay }}><span className="fav_icon"><Heart3LineIcon size={30} />
-                                        {totalQuantity > 0 && (
-                                            <span className="badge" style={{fontSize: totalQuantity > 99? "10px" : ""}}>
-                                                {totalQuantity > 99 ? "99+" : totalQuantity}
+                                        {totalWishes > 0 && (
+                                            <span className="badge" style={{fontSize: totalWishes > 99? "10px" : ""}}>
+                                                {totalWishes > 99 ? "99+" : totalWishes}
                                             </span>
                                         )}
                                         </span></NavLink>
@@ -223,9 +219,9 @@ const Header = () => {
                                             <div className="nav_icons">
                                                 <span className="user_icon" onClick={handleClose}><NavLink to='login'><UserLineIcon size={30} /> Login</NavLink></span>
                                                 <span className="fav_icon" onClick={handleClose}><NavLink to='apps/wishlist'><Heart3LineIcon size={30} />
-                                                {totalQuantity > 0 && (
-                                                    <span className="badge" style={{fontSize: totalQuantity > 99? "10px" : ""}}>
-                                                        {totalQuantity > 99 ? "99+" : totalQuantity}
+                                                {totalWishes > 0 && (
+                                                    <span className="badge" style={{fontSize: totalWishes > 99? "10px" : ""}}>
+                                                        {totalQuantity > 99 ? "99+" : totalWishes}
                                                     </span>
                                                 )}
                                         </NavLink></span>

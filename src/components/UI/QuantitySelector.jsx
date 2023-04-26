@@ -3,8 +3,8 @@ import { motion } from "framer-motion";
 import { useDispatch, useSelector } from 'react-redux';
 import { cartActions } from '../../redux/slices/cartSlice';
 import { toast } from "react-toastify";
-
 import '../../styles/product-details.css'
+import { Zoom } from 'react-toastify';
 
 const QuantitySelector = (props) => {
     const item = props.item
@@ -28,10 +28,21 @@ const QuantitySelector = (props) => {
         localStorage.setItem('cart', JSON.stringify(cart));
     }, [cart]);
     const dispatch = useDispatch()
+    const [overordering, setOverordering] = useState(false);
+
     const addToCart = () => {
         if (quantity > item.stock) {
-            toast.error(<div>You can't add more {item.title} to the cart.</div>)
+            if (overordering === false) {
+                toast.error(`You can't add more ${item.title} to the cart.`, { autoClose: false, className: "custom-toast-error", transition: Zoom })
+                setOverordering(true)
+            }
+            
         } else {
+            console.log(overordering)
+            if (overordering === true) {
+               toast.dismiss()
+               setOverordering(false)
+            }
             toast.success(<div>{quantity === 1? "Item" : "Items"} added to your cart: <br />
                         {item.title} <br />
                         {quantity} × ${item.price}</div>)
@@ -97,6 +108,7 @@ const QuantitySelector = (props) => {
                 type="number"
                 className="form-field"
                 onChange={handleSelect}
+                onFocus={e => e.target.select()}
                 style={input ? { display: 'block' } : { display: 'none' }}
                 ref={inputRef}
                 />

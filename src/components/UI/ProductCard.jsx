@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from "framer-motion";
-import { useState, useEffect } from 'react';
 import "../../styles/product-card.css";
 import "../../styles/add-favourite.css";
 import { Link, useLocation } from "react-router-dom";
@@ -10,7 +9,7 @@ import { toast } from "react-toastify";
 import AddFavourite from './AddFavourite';
 
 const ProductCard = (props) => {
-  const item = props.item
+  const item = props.item;
   let {pathname} = useLocation()
   if (pathname === '/') {
     pathname = '/shop/all'
@@ -19,7 +18,7 @@ const ProductCard = (props) => {
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cart));
   }, [cart]);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const addToCart = () => {
     toast.success(<div>Item added to your cart: <br />
                   {item.title} <br />

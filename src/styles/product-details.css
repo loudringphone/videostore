@@ -127,6 +127,18 @@
   -moz-appearance: textfield;
 }
 
+.custom-toast-error {
+    background: #F7DDDD !important;
+    color: #F05D5D !important;
+    width: 100vw;
+}
+
+.custom-toast-error button {
+    color: red;
+}
+
+
+
 
 @media (max-width: 1200px) {
     .productDetails .product_img {

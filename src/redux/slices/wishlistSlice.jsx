@@ -7,10 +7,17 @@ const wishlistSlice = createSlice({
   initialState,
   reducers: {
     addItem: (state, action) => {
-      state.query = action.payload;
-      state.wishlist.push(action.payload);
+      if (!state.includes(action.payload)) {
+        state.unshift(action.payload);
+      };
     },
-  }
+    removeItem: (state, action) => {
+      if (state.includes(action.payload)) {
+        const index = state.indexOf(action.payload);
+        state.splice(index, 1);
+      };
+    },
+  },
 });
 
 export const wishlistActions = wishlistSlice.actions

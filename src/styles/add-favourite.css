@@ -12,12 +12,15 @@
     padding: 0;
 }
 
-.add-favourite i.ri-heart-3-line {
+.add-favourite i {
     color: red;
-    opacity: 0.5;
+    opacity: 0.8;
     font-size:x-large;
     margin-right: 0.3rem;
     font-weight: 100;
+}
+.add-favourite i.ri-heart-3-line {
+    opacity: 0.5;
 }
 .product_img .add-favourite i.ri-heart-3-line:hover {
     opacity: 1;

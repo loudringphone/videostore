@@ -94,8 +94,7 @@ export const Shop = () => {
                 }); // Sort by createdAt field
             
             setItems(newData);
-            console.log(items, newData);
-            
+            // console.log(items, newData);
             if (newData) {
               let searchItems = newData
               if (searchArray && searchArray.length > 1) {
