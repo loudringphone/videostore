@@ -100,7 +100,7 @@
     cursor: pointer;
 }
 
-.form-field-select-wrapper select {
+.form-field-select-wrapper .form-field {
     width: 100%;
     height: 100%;
     position: absolute;
@@ -114,6 +114,17 @@
     padding-top: 1.3rem;
     padding-left: 0.5rem;
     cursor: pointer;
+    text-align: left;
+}
+/* Chrome, Safari, Edge, Opera */
+.form-field-select-wrapper input.form-field::-webkit-outer-spin-button,
+.form-field-select-wrapper input.form-field::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Firefox */
+.form-field-select-wrapper input.form-field[type=number] {
+  -moz-appearance: textfield;
 }
 
 

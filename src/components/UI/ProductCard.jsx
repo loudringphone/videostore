@@ -74,7 +74,7 @@ const ProductCard = (props) => {
   }, []);
 
 
-
+  const itemURL = item.id + '-' + item.title.toLowerCase().replace(/[^a-z0-9'""]/g, "-").replace(/['"]/g, "")
 
   return (
      <div className="product_card" 
@@ -83,7 +83,7 @@ const ProductCard = (props) => {
           onMouseOut={handleMouseLeave}>
                         <div className="product_img">
                             <AddFavourite itemId={item.id} />
-                            <Link to={{ pathname: `${pathname}/${item.id}` }}><motion.img whileHover={{scale:0.9}} src={item.image[0].downloadURL} alt={item.title}></motion.img></Link>
+                            <Link to={{ pathname: `${pathname}/${itemURL}` }}><motion.img whileHover={{scale:0.9}} src={item.image[0].downloadURL} alt={item.title}></motion.img></Link>
                         </div>
                     
                         <div className="product_card-bottom">
@@ -92,7 +92,7 @@ const ProductCard = (props) => {
                                 <span>{item.format}</span>
                             </div>
                             <div className="product_name">
-                              <Link to={{ pathname: `${pathname}/${item.id}` }}>{item.title}</Link>
+                              <Link to={{ pathname: `${pathname}/${itemURL}` }}>{item.title}</Link>
                             </div>
                             {item.format === "CD" && <div className='originator'>{item.originator}</div>}
                             <p className='product-stock-level'>

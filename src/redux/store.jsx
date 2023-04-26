@@ -1,17 +1,3 @@
-// import { configureStore } from "@reduxjs/toolkit";
-// import cartSlice from "./slices/cartSlice";
-// import searchQuerySlice from './slices/searchQuerySlice';
-// import searchHistorySlice from './slices/searchHistorySlice';
-
-// const store = configureStore({
-//     reducer:{
-//         cart: cartSlice,
-//         searchQuery: searchQuerySlice,
-//         searchHistory: searchHistorySlice,
-//     }
-// })
-
-// export default store
 
 import { configureStore } from "@reduxjs/toolkit";
 import { combineReducers } from 'redux';
@@ -21,17 +7,20 @@ import storage from 'redux-persist/lib/storage';
 import cartSlice from "./slices/cartSlice";
 import searchQuerySlice from './slices/searchQuerySlice';
 import searchHistorySlice from './slices/searchHistorySlice';
+import wishlistSlice from "./slices/wishlistSlice";
+
 
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['searchHistory', 'cart']
+    whitelist: ['searchHistory', 'cart', 'wishlist']
   };
   
   const persistedReducer = persistReducer(persistConfig, combineReducers({
     cart: cartSlice,
     searchQuery: searchQuerySlice,
     searchHistory: searchHistorySlice,
+    wishlist: wishlistSlice,
   }));
   
   export const store = configureStore({

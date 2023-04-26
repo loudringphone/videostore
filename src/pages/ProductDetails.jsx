@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import { Helmet } from '../components/helmet/Helmet'
 import { useParams } from 'react-router-dom';
-import { motion } from "framer-motion";
 import { collection, query, where, getDocs, Timestamp, doc, getDoc } from "firebase/firestore";
 import {db} from '../firebase_setup/firebase';
-import { useDispatch, useSelector } from 'react-redux';
-import { cartActions } from '../redux/slices/cartSlice';
-import { toast } from "react-toastify";
+
 
 import AddFavourite from '../components/UI/AddFavourite';
 import '../styles/product-details.css'
+import QuantitySelector from '../components/UI/QuantitySelector';
 
 export const ProductDetails = () => {
   const [item, setItem] = useState([]);
-  const {itemId} = useParams()
+  let {itemId} = useParams()
+  itemId = itemId.substring(0, itemId.indexOf("-"));
   const [loading, setLoading] = useState(true);
   
   useEffect(() => {
@@ -33,38 +32,7 @@ export const ProductDetails = () => {
     fetchItem();
   }, [itemId]);;
 
-
-
-  const [quantity, setQuantity] = useState(1);
-  const handleSelect = (e) => {
-    const value = e.target.value;
-    if (value != "10+") {
-      setQuantity(Number(value));
-    } 
-  };
-
-  const cart = useSelector(state => state.cart);
-  useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(cart));
-  }, [cart]);
-  const dispatch = useDispatch()
-  const addToCart = () => {
-    toast.success(<div>Item added to your cart: <br />
-                  {item.title} <br />
-                  1 × ${item.price}</div>)
-    setTimeout(() => {
-      dispatch(cartActions.addItem({
-        id: item.id,
-        title: item.title,
-        price: item.price,
-        image: item.image,
-        quantity: quantity,
-      }))
-    }, 500);
-    
-  }
-
-  
+  if (item) {
   if (loading) {
     return (
       <Helmet title="Fetching the product information...">
@@ -105,59 +73,8 @@ export const ProductDetails = () => {
               )
             )}
         </p>
-        <div className="form-button-wrapper">
-          <div className="form-field-select-wrapper">
-            <div>
-              <label className="form-field-title">
-                  Quantity
-              </label>
-              <select 
-                id="product-quantity-select"
-                className="form-field"
-                aria-label="Quantity"
-                defaultValue="1"
-                onChange={handleSelect}
-              >
-                <option value="1">
-                  1
-                </option>
-                <option value="2">
-                  2
-                </option>
-                <option value="3">
-                  3
-                </option>
-                <option value="4">
-                  4
-                </option>
-                <option value="5">
-                  5
-                </option>
-                <option value="6">
-                  6
-                </option>
-                <option value="7">
-                  7
-                </option>
-                <option value="8">
-                  8
-                </option>
-                <option value="9">
-                  9
-                </option>
-                <option value="10+">
-                  10+
-                </option>
-              </select>
-            </div>
-            <i className="ri-arrow-down-s-line"></i>
-          </div>
-          { item?.stock &&  item.stock > 0 ? (
-            <motion.button whileTap={{scale: 0.9}} className='add_cart' onClick={addToCart}>Add to cart</motion.button>
-          ) : (
-            <button className='sold_out'>Sold out</button>
-          )}
-        </div>
+        
+        <QuantitySelector item={item} />
 
         <AddFavourite itemId={itemId} />
 
@@ -166,4 +83,5 @@ export const ProductDetails = () => {
     </div>
     </Helmet>
   );
+          }
 }
