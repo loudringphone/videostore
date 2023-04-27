@@ -9,6 +9,12 @@
     align-items: center;
     min-height: 360px;
 }
+.cartitems-empty {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 .cartitems-empty p {
     text-align: center;
 }
@@ -41,7 +47,21 @@
     .cartitems--container {
         width: 90%;
     }
+    .cartitems--container-empty {
+        width: 90%;
+    }
+}
 
+@media (max-width: 320px) {
 
+    .cartitems-empty button {
+        padding: 5px 0 5px 0;
+        font-size: smaller;
+        width: 100px;
+    }
+
+    .cartitems-empty a {
+        width: 100px;
+    }
 }
 

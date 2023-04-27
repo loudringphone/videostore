@@ -47,7 +47,6 @@ div.logo > h3 {
 div.nav_icons {
     width: 210px;
     text-align: right;
-    
 }
 div.nav_icons > span {
     margin-left: 10px;
@@ -203,4 +202,38 @@ div.mobile_menu {
         white-space: nowrap;
     }
 
+}
+
+@media (max-width: 330px) {
+    .mobile_nav > div {
+        padding-right: 10px;
+    }
+    .mobile_nav ul.menu {
+        width: 200px;
+    }
+    div.nav_icons {
+        width: 150px;
+        text-align: right;
+    }
+    .mobile_nav .user_icon {
+        margin-right: 0px;
+    }
+    div.nav_wrapper {
+        align-items: center;
+    }
+    div.logo {
+        width: 150px;
+        white-space: nowrap;
+    }
+    div.logo > img {
+        width: 25px !important;
+        height: 25px !important;
+    }
+    div.logo > h3 {
+        font-size: larger;
+    }
+    div.mobile_menu {
+        margin-right: 0;
+    }
+    
 }

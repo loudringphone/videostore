@@ -126,8 +126,13 @@ const Header = () => {
     const handleOpen = () => {
         document.body.classList.add('scroll-locked');
         setMobileNavStyle({display: 'inline', width: '0px'});
+
         setTimeout(() => {
-            setMobileNavStyle({display: 'inline', width: '325px', top: window.scrollY});
+            if (window.innerWidth <= 325) {
+                setMobileNavStyle({display: 'inline', width: '225px', top: window.scrollY});
+            } else {
+                setMobileNavStyle({display: 'inline', width: '325px', top: window.scrollY});
+            }
         }, 1);
         setTimeout(() => {
             setNavigationStyle({display: 'block'})
