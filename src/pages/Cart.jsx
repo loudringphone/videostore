@@ -35,8 +35,10 @@ export const Cart = () => {
     if (cart.cartItems.length > 0) {
       let arr = []
       for (let item of cart.cartItems) {
-        if (item.id.length > 0) {
+        if (item.id) {
           arr.push(item.id)
+        } else {
+          dispatch(cartActions.removeAllItems())
         }
       }
       setCartItemIds(arr)
