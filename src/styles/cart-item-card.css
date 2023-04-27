@@ -2,23 +2,23 @@
     background-color: white;
     justify-content: start;
     align-items: center;
-    min-height: 190px;
+    min-height: 120px;
     border: 1px solid rgba(125,125,125,.2);
     box-shadow: 0 1px 4px #7d7d7d1c;
     display: flex;
-    padding: 15px;
-    margin-bottom: 1.17rem;
+    padding: 10px;
+    margin-bottom: 0.25rem;
 }
 .cart-item-card .product_img img {
     cursor: pointer;
-    max-width: 120px;
-    max-height: 150px;
+    max-width: 90px;
+    max-height: 110px;
 }
 .cart-item-card .product_img {
     position: relative;
     display: grid;
-    grid-template-columns: 120px;
-    grid-template-rows: 150px;
+    grid-template-columns: 90px;
+    grid-template-rows: 110px;
     align-items: center;
     justify-content: center;
 }
