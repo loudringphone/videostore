@@ -81,9 +81,13 @@ export const Cart = () => {
           <ul className="cartitems--list">
             {
               cart.cartItems?.map((item, i) => (
-                <li key={i}>
-                  <CartItemCard key={i} item={item}/>
-                </li>
+                item.id? (
+                  <li key={i}>
+                    <CartItemCard key={i} item={item}/>
+                  </li>
+                ):(
+                  <></>
+                )
               ))
           }
           </ul>
