@@ -49,6 +49,7 @@ const QuantitySelector = (props) => {
                     inputRef.current.focus();
                     setQuantity(10);
                     if (item.stock < 10) {
+                        toast.dismiss()
                         toast.error(`You can't add more ${item.title} to the cart.`, { className: "custom-toast-error", transition: Zoom })
                     setQuantity(oldQuantity);
                     } else {
@@ -63,6 +64,7 @@ const QuantitySelector = (props) => {
                 }, 0); 
             } else {
                 if (value > (item.stock)) {
+                    toast.dismiss()
                     toast.error(`You can't add more ${item.title} to the cart.`, { className: "custom-toast-error", transition: Zoom })
                 setQuantity(oldQuantity);
                 } else {
@@ -94,6 +96,7 @@ const QuantitySelector = (props) => {
     const addToCart = () => {
         if (quantity > item.stock - oldQuantity) {
             if (overordering === false) {
+                toast.dismiss()
                 toast.error(`You can't add more ${item.title} to the cart.`, { autoClose: false, className: "custom-toast-error", transition: Zoom })
                 setOverordering(true)
             }
