@@ -54,6 +54,10 @@ footer li {
 footer span {
     margin-right: 5px;
 }
+footer a {
+    text-decoration: none;
+    color: initial;
+}
 
 
 

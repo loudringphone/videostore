@@ -25,7 +25,7 @@ const CartItemCard = (props) => {
                         <div className="cart-item--inner">
                             <div className="card-item--content">
                                 <Link to={{ pathname: `/products/${itemURL}` }}>{item.title}</Link>
-                                <p className="price">Price {accounting.formatMoney(item.price)}</p>
+                                <p className="price"><span>Price </span>{accounting.formatMoney(item.price)}</p>
                                 
                                 <p className='product-stock-level'>
                                     {item.stock > 25 ? (

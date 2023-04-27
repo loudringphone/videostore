@@ -36,17 +36,13 @@ li {
   padding: 3px 10px;
 }
 
-a {
-  text-decoration: none !important;
-  color: initial !important;
-}
 
-a:hover {
+a:hover:not focus {
   color: orangered !important;
 }
 
 a:focus {
-  color: black !important;
+  text-decoration: black !important;
 }
 
 

@@ -42,6 +42,103 @@
     width: 100%;
 }
 
+.cart-title {
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2.9rem;
+    margin-bottom: 2.9rem;
+    width: 1150px;
+}
+.cart-title-left {
+    align-items: flex-start;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+}
+.cart-title-left h1 {
+    margin: 0;
+    text-align: left;
+}
+.cart-title-right {
+    display: flex;
+    text-align-last: right;
+    align-self: center;
+}
+.cart-title-total-large {
+    font-size: x-large;
+    line-height: 1.2;
+    margin-right: 25px;
+}
+.cart-title-total-small {
+    display: none;
+    font-size: smaller;
+}
+.cart-title-total-small p{
+    margin: 0;
+    color: #949494;
+    margin-right: 10px;
+}
+.cart-title-right p{
+    margin: 0;
+    color: #949494;
+    font-size: medium;
+
+}
+.cart-title-right button {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+    padding: 0 10px 0 10px;
+}
+
+.cart-final-total {
+    display:flex;
+    flex-direction: column;
+    margin: auto;
+    width: 1150px;
+    padding-top: 1.640625rem;
+    margin-top: 1.875rem;
+    margin-bottom: 0.9375rem;
+    border-top: 1px solid rgba(0,0,0,.15);
+}
+
+.cart-subtitle {
+    display: flex;
+    justify-content: space-between;
+    font-size: x-large;
+}
+.cart-subtitle p {
+    margin: 0;
+    color: #949494;
+}
+p.cart-message {
+    margin: 0;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+button.primary-checkout {
+    width: 100%;
+    font-size: x-large;
+    padding: 12.5px 0 12.5px 0;
+    margin-bottom: 20px;
+}
+a.cart-continue {
+    /* margin: auto; */
+    color: #E5342E;
+    text-decoration: #E5342E !important;
+}
+
+
+
+
+
+
+
+
+
 
 @media (max-width: 1200px) {
     .cartitems--container {
@@ -49,6 +146,29 @@
     }
     .cartitems--container-empty {
         width: 90%;
+    }
+    .cart-title {
+        width: 90%;
+    }
+    .cart-final-total {
+        width: 90%;
+    }
+}
+
+@media (max-width: 540px) {
+    .cart-title-total-large {
+        display: none;
+    }
+    .cart-title-right button {
+        height: 48px;
+    }
+    .cart-title-total-small {
+        display: flex;
+    }
+}
+@media (max-width: 370px) {
+    .cart-title-right button {
+        width: 130px;
     }
 }
 

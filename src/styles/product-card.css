@@ -116,6 +116,10 @@ button.add_cart:focus {
     background-color: red;
 }
 
+.product_card a {
+    text-decoration: none;
+    color: initial;
+}
 
 @media (min-width: 520px) {
     .Toastify {

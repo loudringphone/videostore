@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { Helmet } from '../components/helmet/Helmet'
 import { cartActions } from '../redux/slices/cartSlice';
 import CartItemCard from '../components/UI/CartItemCard';
+import accounting from 'accounting'
 
 import '../styles/cart.css'
 
@@ -75,10 +76,36 @@ export const Cart = () => {
         });
   }
 
+  const [showArrow, setShowArrow] = useState(false);
+
+  const handleMouseOver = () => {
+    setShowArrow(true);
+  }
+
+  const handleMouseLeave = () => {
+    setShowArrow(false);
+  }
+
   return (
     <Helmet title={title}>
-    
+      
       {cart.cartItems.length > 0 ? (
+        <>        <header className='cart-title'>
+        <div className='cart-title-left'>
+          <h1>Your basket</h1>
+          <div className='cart-title-total-small'>
+            <p>Subtotal</p>
+            {accounting.formatMoney(cart.totalAmount)}
+          </div>
+        </div>
+        <div className='cart-title-right'>
+          <div className='cart-title-total-large'>
+            <p>Subtotal</p>
+            {accounting.formatMoney(cart.totalAmount)}
+          </div>
+          <Link to='/'><button className='cart-title-button'><i className="ri-shopping-cart-line"></i>&nbsp;Check out</button></Link>
+        </div>
+      </header>
         <section className='cartitems--container'>
           <ul className="cartitems--list">
             {
@@ -94,6 +121,30 @@ export const Cart = () => {
           }
           </ul>
         </section>
+        <div className="cart-final-total">
+          <div className="cart-subtitle">
+            <p>Subtotal</p>
+            {accounting.formatMoney(cart.totalAmount)}
+          </div>
+          <div className="cart-shipping">
+            <p className='cart-message'>Tax included and shipping calculated at checkout</p>
+          </div>
+          <Link to='/'><button className='primary-checkout'><i className="ri-shopping-cart-line"></i>&nbsp;Check out</button></Link>
+          <Link to='/' className='cart-continue' onMouseLeave={handleMouseLeave} onMouseOver={handleMouseOver}>
+  Continue shopping&nbsp;
+  {showArrow ? (
+    <i className="ri-arrow-right-line"></i>
+  ) : (
+    <i className="ri-arrow-right-s-line"></i>
+  )}
+</Link>
+        </div>
+        </>
+
+
+
+
+
       ):(
         <section className='cartitems--container-empty'>
 

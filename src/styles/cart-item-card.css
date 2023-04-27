@@ -45,6 +45,9 @@
 .card-item--content .price {
     font-size: small !important;
 }
+.card-item--content .price span{
+    font-weight: 600;
+}
 .cart-item-card .money {
     align-self: center;
     text-align: right;
@@ -101,6 +104,11 @@
 .cart-item-card input:hover:not(:focus) {
     outline: 1px solid rgba(125,125,125,.16);
     box-shadow: 4px 4px 8px #3030301c;
+}
+
+.cart-item-card a {
+    text-decoration: none;
+    color: initial;
 }
 
 @media (max-width: 1000px) {
