@@ -23,7 +23,8 @@ export const ProductDetails = () => {
       try {
         const docSnap = await getDoc(docRef);
         const data = docSnap.data();
-        setItem(data);
+        const id = docSnap.id; // <-- retrieve the document ID
+        setItem({ id, ...data }); // <-- include the ID in the retrieved data
         setLoading(false);
       } catch (error) {
         console.error(error);
@@ -33,55 +34,55 @@ export const ProductDetails = () => {
   }, [itemId]);;
 
   if (item) {
-  if (loading) {
-    return (
-      <Helmet title="Fetching the product information...">
-      <div className="productDetails" style={{display: 'flex',
-        alignItems: 'center'}}>
-        <p className='loading'>Fetching the product information...</p>
-      </div>
-      </Helmet>)
-      
-  }
+    if (loading) {
+      return (
+        <Helmet title="Fetching the product information...">
+        <div className="productDetails" style={{display: 'flex',
+          alignItems: 'center'}}>
+          <p className='loading'>Fetching the product information...</p>
+        </div>
+        </Helmet>)
+        
+    }
 
-  return (
-    <Helmet title={item.title}>
-    <div className="productDetails">
-      <div className="product_img">
-        <img src={item.image[0].downloadURL} alt={item.title}></img>
-      </div>
-      <div className="product_info">
-        <h1 className='product-title'>{item.title}</h1>
-        <p style={{fontWeight: "700"}}>{item.format}</p>
-        <p className='product-price'>${item.price}</p>
-        <p className='product-stock-level'>
-          <span className='product-stock-level-availability'>Availability:&nbsp;</span>
-            {item.stock > 25 ? (
-              <span className="product-stock-level-high">
-                <i className="ri-checkbox-circle-line"></i>&nbsp;Available
-              </span>
-            ) : (
-              item.stock === 0 ? (
-                <span className="product-stock-level-sold-out">
-                  <i className="ri-close-circle-line"></i>&nbsp;Sold out
+    return (
+      <Helmet title={item.title}>
+      <div className="productDetails">
+        <div className="product_img">
+          <img src={item.image[0].downloadURL} alt={item.title}></img>
+        </div>
+        <div className="product_info">
+          <h1 className='product-title'>{item.title}</h1>
+          <p style={{fontWeight: "700"}}>{item.format}</p>
+          <p className='product-price'>${item.price}</p>
+          <p className='product-stock-level'>
+            <span className='product-stock-level-availability'>Availability:&nbsp;</span>
+              {item.stock > 25 ? (
+                <span className="product-stock-level-high">
+                  <i className="ri-checkbox-circle-line"></i>&nbsp;Available
                 </span>
               ) : (
-                <span className="product-stock-level-low">
-                  <i className="ri-error-warning-line"></i>
-                  &nbsp;Low stock
-                </span>
-              )
-            )}
-        </p>
-        
-        <QuantitySelector item={item} />
+                item.stock === 0 ? (
+                  <span className="product-stock-level-sold-out">
+                    <i className="ri-close-circle-line"></i>&nbsp;Sold out
+                  </span>
+                ) : (
+                  <span className="product-stock-level-low">
+                    <i className="ri-error-warning-line"></i>
+                    &nbsp;Low stock
+                  </span>
+                )
+              )}
+          </p>
+          
+          <QuantitySelector item={item} />
 
-        <AddFavourite itemId={itemId} />
+          <AddFavourite itemId={itemId} />
 
-        <p>{item.description}</p>
+          <p>{item.description}</p>
+        </div>
       </div>
-    </div>
-    </Helmet>
-  );
-          }
+      </Helmet>
+    );
+  }
 }

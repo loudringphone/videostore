@@ -33,7 +33,7 @@ const AddFavourite = (props) => {
         return (
             <div className='remove-favourite'>
                 <button onClick={toggleFavourite}>
-                    <i class="ri-close-line"></i>
+                    <i className="ri-close-line"></i>
                 </button>
             </div>
 

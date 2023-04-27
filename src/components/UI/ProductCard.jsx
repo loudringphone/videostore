@@ -29,6 +29,7 @@ const ProductCard = (props) => {
         title: item.title,
         price: item.price,
         image: item.image,
+        stock: item.stock,
       }))
     }, 500); 
   }
@@ -100,7 +101,12 @@ const ProductCard = (props) => {
                                 <span>{item.format}</span>
                             </div>
                             <div className="product_name">
-                              <Link to={{ pathname: `${pathname}/${itemURL}` }}>{item.title}</Link>
+                            {pathname === "/apps/wishlist" ? (
+                              <Link to={{ pathname: `/products/${itemURL}`}}>{item.title}</Link>
+                            ):(
+                              <Link to={{ pathname: `${pathname}/${itemURL}`}}>{item.title}</Link>
+                            )}
+                              
                             </div>
                             {item.format === "CD" && <div className='originator'>{item.originator}</div>}
                             <p className='product-stock-level'>
@@ -124,9 +130,9 @@ const ProductCard = (props) => {
                             </div>
 
                             { item?.stock &&  item.stock > 0 ? (
-                              <motion.button whileTap={{scale: 0.9}} style={buttonStyle} className='add_cart' onClick={addToCart}>Add to cart</motion.button>
+                              <motion.button whileTap={{scale: 0.9}} style={buttonStyle} className='add-cart' onClick={addToCart}>Add to cart</motion.button>
                             ) : (
-                              <button style={buttonStyle} className='sold_out'>Sold out</button>
+                              <button style={buttonStyle} className='sold-out'>Sold out</button>
                             )}
                             
 

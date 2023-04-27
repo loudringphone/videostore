@@ -29,7 +29,7 @@ section.products {
     box-shadow: 0 1px 4px #7d7d7d1c;
     display: flex;
     flex-direction: column;
-    transition: height 0.2s;
+    transition: height 0.15s;
 }
 
 .product_card .product_img img {
@@ -84,7 +84,7 @@ section.products {
     font-size: 0.9rem;
 
 }
-button.sold_out {
+button.sold-out {
     align-self: center;
     background-color: #8a8a8a;
     color: white;
@@ -95,7 +95,7 @@ button.sold_out {
     margin-top: auto;
     margin-bottom: 5px
 }
-button.add_cart {
+button.add-cart {
     align-self: center;
     background-color: red;
     color: white;

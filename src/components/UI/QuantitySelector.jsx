@@ -3,61 +3,123 @@ import { motion } from "framer-motion";
 import { useDispatch, useSelector } from 'react-redux';
 import { cartActions } from '../../redux/slices/cartSlice';
 import { toast } from "react-toastify";
-import '../../styles/product-details.css'
 import { Zoom } from 'react-toastify';
+import { useLocation } from "react-router-dom";
+
+import '../../styles/product-details.css'
 
 const QuantitySelector = (props) => {
     const item = props.item
-    const [quantity, setQuantity] = useState(1);
+    const [quantity, setQuantity] = useState( item.quantity || 1 );
+    const [oldQuantity, setOldQuantity] = useState(0);
     const [input, setInput] = useState(false);
     const inputRef = useRef()
-    const handleSelect = (e) => {
-        const value = e.target.value;
-        if (value !== "10+") {
-            setQuantity(Number(value));
-        } else {
-            setInput(true)
-            setTimeout(() => {
-                inputRef.current.focus();
-            }, 0);
-        }
-    };
-
+    const {pathname} = useLocation()
     const cart = useSelector(state => state.cart);
+    const dispatch = useDispatch()
     useEffect(() => {
         localStorage.setItem('cart', JSON.stringify(cart));
-    }, [cart]);
-    const dispatch = useDispatch()
+        if (cart.cartItems.length > 0) {
+            for (let cartItem of cart.cartItems) {
+                if (cartItem.id === item.id) {
+                    setOldQuantity(cartItem.quantity)
+                }
+            }
+        }
+    }, [item, cart]);
+    useEffect(() => {
+        if (quantity > 9) {
+            setInput(true)
+        }
+    }, [oldQuantity]);
+    const handleInputBlur = (e) => {
+        const value = e.target.value;
+        if (pathname === '/cart' && value === "") {
+            if (document.activeElement !== inputRef.current) {
+                setQuantity(oldQuantity)
+            }
+        }
+    }
+    const handleQuantityChange = (e) => {
+        const value = e.target.value;
+        if (pathname === '/cart') {
+            if (value === "10+") {
+                setInput(true)
+                setTimeout(() => {
+                    inputRef.current.focus();
+                    setQuantity(10);
+                    if (item.stock < 10) {
+                        toast.error(`You can't add more ${item.title} to the cart.`, { className: "custom-toast-error", transition: Zoom })
+                    setQuantity(oldQuantity);
+                    } else {
+                        setQuantity(10);
+                        setTimeout(() => {
+                            dispatch(cartActions.amendItem({
+                                id: item.id,
+                                quantity: 10,
+                            }))
+                            }, 500);
+                    }
+                }, 0); 
+            } else {
+                if (value > (item.stock)) {
+                    toast.error(`You can't add more ${item.title} to the cart.`, { className: "custom-toast-error", transition: Zoom })
+                setQuantity(oldQuantity);
+                } else {
+                    setQuantity(Number(value));
+                    setTimeout(() => {
+                        dispatch(cartActions.amendItem({
+                            id: item.id,
+                            quantity: Number(value),
+                        }))
+                        }, 500);
+                }
+            }
+        } else {
+            if (value !== "10+") {
+                setQuantity(Number(value));
+            } else {
+                setInput(true)
+                setTimeout(() => {
+                    inputRef.current.focus();
+                }, 0);
+            }
+        }
+    };
+    
+    
+    
     const [overordering, setOverordering] = useState(false);
 
     const addToCart = () => {
-        if (quantity > item.stock) {
+        if (quantity > item.stock - oldQuantity) {
             if (overordering === false) {
                 toast.error(`You can't add more ${item.title} to the cart.`, { autoClose: false, className: "custom-toast-error", transition: Zoom })
                 setOverordering(true)
             }
             
         } else {
-            console.log(overordering)
             if (overordering === true) {
                toast.dismiss()
                setOverordering(false)
             }
-            toast.success(<div>{quantity === 1? "Item" : "Items"} added to your cart: <br />
-                        {item.title} <br />
-                        {quantity} × ${item.price}</div>)
+            toast.success(<div>Item added to your cart: <br />
+                  {item.title} <br />
+                  {quantity} × ${item.price}</div>)
             setTimeout(() => {
             dispatch(cartActions.addItem({
                 id: item.id,
                 title: item.title,
                 price: item.price,
                 image: item.image,
+                stock: item.stock,
                 quantity: quantity,
             }))
             }, 500);
         }
     }
-    
+
+
     return (
         <div className="form-button-wrapper">
             <div className="form-field-select-wrapper">
@@ -69,8 +131,8 @@ const QuantitySelector = (props) => {
                 id="product-quantity-select"
                 className="form-field"
                 aria-label="Quantity"
-                defaultValue="1"
-                onChange={handleSelect}
+                value={quantity || ""}
+                onChange={handleQuantityChange}
                 style={input ? { display: 'none' } : { display: 'block' }}
                 >
                     <option value="1">
@@ -107,18 +169,20 @@ const QuantitySelector = (props) => {
                 <input 
                 type="number"
                 className="form-field"
-                onChange={handleSelect}
-                onFocus={e => e.target.select()}
+                value={quantity || ""}
+                onChange={handleQuantityChange}
+                onBlur={handleInputBlur}
+                // onFocus={e => e.target.select()}
                 style={input ? { display: 'block' } : { display: 'none' }}
                 ref={inputRef}
                 />
             </div>
-            <i className="ri-arrow-down-s-line"></i>
+            <i className="ri-arrow-down-s-line" style={input ? { display: 'none' } : { display: 'block' }}></i>
             </div>
             { item?.stock &&  item.stock > 0 ? (
-            <motion.button whileTap={{scale: 0.9}} className='add_cart' onClick={addToCart}>Add to cart</motion.button>
+            <motion.button whileTap={{scale: 0.9}} className='add-cart' onClick={addToCart}>Add to cart</motion.button>
             ) : (
-            <button className='sold_out'>Sold out</button>
+            <button className='sold-out'>Sold out</button>
             )}
         </div>
     )

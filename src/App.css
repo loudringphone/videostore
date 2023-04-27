@@ -18,10 +18,10 @@ body {
   overflow-x: hidden;
 }
 select:active, select:hover, select:focus {
-  outline: none
+  outline: none;
 }
 input:active, input:hover, input:focus {
-  outline: none
+  outline: none;
 }
 
 ul {
