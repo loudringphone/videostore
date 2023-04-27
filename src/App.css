@@ -48,3 +48,30 @@ a:hover {
 a:focus {
   color: black !important;
 }
+
+
+
+
+
+
+
+
+.toast-message {
+  display: flex;
+  align-items: center;
+}
+.toast-message .product_img {
+  display: grid;
+    grid-template-columns: 75px;
+    grid-template-rows: 75px;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+}
+.toast-message .product_img img {
+  max-width: 75px;
+  max-height: 75px;
+}
+.toast-text span{
+  font-weight: 700 !important;
+}

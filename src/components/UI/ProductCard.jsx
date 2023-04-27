@@ -13,7 +13,7 @@ const ProductCard = (props) => {
   const item = props.item;
   let {pathname} = useLocation()
   if (pathname === '/') {
-    pathname = '/shop/all'
+    pathname = '/products'
   }
   const cart = useSelector(state => state.cart);
   useEffect(() => {
@@ -21,9 +21,18 @@ const ProductCard = (props) => {
   }, [cart]);
   const dispatch = useDispatch();
   const addToCart = () => {
-    toast.success(<div>Item added to your cart: <br />
-                  {item.title} <br />
-                  1 × {accounting.formatMoney(item.price)}</div>)
+    toast.dismiss()
+    toast(
+        <div className='toast-message'>
+          <div className="product_img">
+            <img src={item.image[0].downloadURL} alt={item.title}></img>
+          </div>
+
+          <div className='toast-text'><span>Item added to your cart: </span><br />
+          {item.title} <br />
+          1 × {accounting.formatMoney(item.price)}</div>
+        </div>
+        )
     setTimeout(() => {
       dispatch(cartActions.addItem({
         id: item.id,

@@ -14,12 +14,12 @@ import { Slide } from 'react-toastify';
 
 
 const toastContainerStyle = {
-  width: window.innerWidth > 520 ? "auto" : "100%",
+  width: window.innerWidth > 600 ? "auto" : "100%",
 };
-const toastContainerPosition = window.innerWidth <= 520 ? "bottom-center" : "top-center";
+const toastContainerPosition = window.innerWidth <= 600 ? "bottom-center" : "top-center";
 
 window.addEventListener("resize", () => {
-  toastContainerStyle.width = window.innerWidth > 520 ? "auto" : "100%";
+  toastContainerStyle.width = window.innerWidth > 600 ? "auto" : "100%";
 });
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -32,7 +32,7 @@ root.render(
         bodyClassName="toastBody" 
         position={toastContainerPosition}
         hideProgressBar={true}
-        autoClose={1000}
+        autoClose={5000}
         newestOnTop={false}
         closeOnClick
         pauseOnHover

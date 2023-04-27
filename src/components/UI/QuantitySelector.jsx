@@ -99,13 +99,22 @@ const QuantitySelector = (props) => {
             }
             
         } else {
+            toast.dismiss()
             if (overordering === true) {
-               toast.dismiss()
+            //    toast.dismiss()
                setOverordering(false)
             }
-            toast.success(<div>Item added to your cart: <br />
+            toast(
+                <div className='toast-message'>
+                  <div className="product_img">
+                    <img src={item.image[0].downloadURL} alt={item.title}></img>
+                  </div>
+        
+                  <div className='toast-text'><span>Item added to your cart: </span><br />
                   {item.title} <br />
-                  {quantity} × {accounting.formatMoney(item.price)}</div>)
+                  {quantity} × {accounting.formatMoney(item.price)}</div>
+                </div>
+                )
             setTimeout(() => {
             dispatch(cartActions.addItem({
                 id: item.id,
