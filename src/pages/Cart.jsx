@@ -35,7 +35,9 @@ export const Cart = () => {
     if (cart.cartItems.length > 0) {
       let arr = []
       for (let item of cart.cartItems) {
-        arr.push(item.id)
+        if (item.id.length > 0) {
+          arr.push(item.id)
+        }
       }
       setCartItemIds(arr)
     }
@@ -50,8 +52,8 @@ export const Cart = () => {
   let title = "Your Basket";
   let q = query(collection(db, "empty"))
   const [loading, setLoading] = useState(true);
-  if (cartItemIds.length >= 1) {
-  q = query(collection(db, "items"), where(documentId(), 'in', cartItemIds));
+  if (cartItemIds.length >= 1 && cartItemIds.length === cart.cartItems.length) {
+    q = query(collection(db, "items"), where(documentId(), 'in', cartItemIds));
   }
   const fetchItems = async () => {
     setLoading(true);

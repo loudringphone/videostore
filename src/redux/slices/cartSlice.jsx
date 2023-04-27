@@ -8,6 +8,7 @@ const initialState = localStorage.getItem('cart') ?
     totalQuantity: 0
   };
 
+  
 const cartSlice = createSlice({
   name: 'cart',
   initialState,
@@ -59,6 +60,14 @@ const cartSlice = createSlice({
       existingItem.quantity = targetItem.quantity
       existingItem.totalPrice = Number(existingItem.price) * Number(targetItem.quantity)
       state.totalAmount = state.totalAmount + existingItem.totalPrice
+    },
+    removeItem: (state, action) => {
+      let targetItem = action.payload;
+    },
+    removeAllItems: (state, action) => {
+      state.cartItems = [];
+      state.totalAmount = 0;
+      state.totalQuantity = 0
     },
   }
 });
