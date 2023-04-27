@@ -5,7 +5,7 @@ import { cartActions } from '../../redux/slices/cartSlice';
 import { toast } from "react-toastify";
 import { Zoom } from 'react-toastify';
 import { useLocation } from "react-router-dom";
-
+import accounting from 'accounting'
 import '../../styles/product-details.css'
 
 const QuantitySelector = (props) => {
@@ -105,7 +105,7 @@ const QuantitySelector = (props) => {
             }
             toast.success(<div>Item added to your cart: <br />
                   {item.title} <br />
-                  {quantity} × ${item.price}</div>)
+                  {quantity} × {accounting.formatMoney(item.price)}</div>)
             setTimeout(() => {
             dispatch(cartActions.addItem({
                 id: item.id,

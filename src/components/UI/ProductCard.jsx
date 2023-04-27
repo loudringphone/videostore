@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { cartActions } from '../../redux/slices/cartSlice';
 import { toast } from "react-toastify";
 import AddFavourite from './AddFavourite';
+import accounting from 'accounting'
 
 const ProductCard = (props) => {
   const item = props.item;
@@ -22,7 +23,7 @@ const ProductCard = (props) => {
   const addToCart = () => {
     toast.success(<div>Item added to your cart: <br />
                   {item.title} <br />
-                  1 × ${item.price}</div>)
+                  1 × {accounting.formatMoney(item.price)}</div>)
     setTimeout(() => {
       dispatch(cartActions.addItem({
         id: item.id,
@@ -97,7 +98,7 @@ const ProductCard = (props) => {
                     
                         <div className="product_card-bottom">
                             <div className="price_and_format">
-                                <h5 className="price">${item.price}</h5>
+                                <h5 className="price">{accounting.formatMoney(item.price)}</h5>
                                 <span>{item.format}</span>
                             </div>
                             <div className="product_name">

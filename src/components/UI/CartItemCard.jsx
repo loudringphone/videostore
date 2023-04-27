@@ -3,7 +3,7 @@ import "../../styles/cart-item-card.css";
 import { Link } from "react-router-dom";
 import QuantitySelector from './QuantitySelector';
 import { motion } from "framer-motion";
-
+import accounting from 'accounting'
 
 const CartItemCard = (props) => {
   const item = props.item;
@@ -25,7 +25,7 @@ const CartItemCard = (props) => {
                         <div className="cart-item--inner">
                             <div className="card-item--content">
                                 <Link to={{ pathname: `/products/${itemURL}` }}>{item.title}</Link>
-                                <p className="price">Price ${item.price}</p>
+                                <p className="price">Price {accounting.formatMoney(item.price)}</p>
                                 
                                 <p className='product-stock-level'>
                                     {item.stock > 25 ? (
@@ -50,7 +50,7 @@ const CartItemCard = (props) => {
                                 <QuantitySelector item={item}/>
                                 <div className="cart-item--info">
                                 <div className="money">
-                                    ${item.totalPrice}
+                                    {accounting.formatMoney(item.totalPrice)}
                                 </div>
                                 <motion.i whileHover={{scale:1.1}}className="ri-close-circle-fill"></motion.i>
                             </div>

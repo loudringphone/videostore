@@ -3,6 +3,7 @@ import { Helmet } from '../components/helmet/Helmet'
 import { useParams } from 'react-router-dom';
 import { collection, query, where, getDocs, Timestamp, doc, getDoc } from "firebase/firestore";
 import {db} from '../firebase_setup/firebase';
+import accounting from 'accounting'
 
 
 import AddFavourite from '../components/UI/AddFavourite';
@@ -54,7 +55,7 @@ export const ProductDetails = () => {
         <div className="product_info">
           <h1 className='product-title'>{item.title}</h1>
           <p style={{fontWeight: "700"}}>{item.format}</p>
-          <p className='product-price'>${item.price}</p>
+          <p className='product-price'>{accounting.formatMoney(item.price)}</p>
           <p className='product-stock-level'>
             <span className='product-stock-level-availability'>Availability:&nbsp;</span>
               {item.stock > 25 ? (
