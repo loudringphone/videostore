@@ -4,13 +4,12 @@ import CommonSection from '../components/UI/CommonSection'
 import { Helmet } from '../components/helmet/Helmet'
 import { Container, Row } from "reactstrap"
 import { useSelector } from "react-redux"
-import { collection, query, where, getDocs, Timestamp } from "firebase/firestore";
-import {db} from '../firebase_setup/firebase';
-import {documentId} from 'firebase/firestore';
+import { Timestamp } from "firebase/firestore";
 import '../styles/shop.css'
 
 import ProductsList from '../components/UI/ProductsList';
 
+import { firebaseQuery } from '../assets/functions/firebaseQuery';
 
 
 export const Wishlist = () => {
@@ -21,33 +20,19 @@ export const Wishlist = () => {
     const [sortValue, setSortValue] = useState('featured');
     const {id} = useParams();
     let title = "WISHLIST";
-    let q = query(collection(db, "empty"))
     const [loading, setLoading] = useState(true);
-    if (wishlist.length >= 1) {
-    q = query(collection(db, "items"), where(documentId(), 'in', wishlist));
-    }
+    
 
-   
     const fetchItems = async () => {
-        setLoading(true);
-        await getDocs(q)
-            .then((querySnapshot) => {
-                const newData = querySnapshot.docs
-                    .map((doc) => ({ ...doc.data(), id: doc.id }))
-                    .sort((a, b) => {
-                        const aTime = new Timestamp(a.createdAt.seconds, a.createdAt.nanoseconds).toDate();
-                        const bTime = new Timestamp(b.createdAt.seconds, b.createdAt.nanoseconds).toDate();
-                        return bTime - aTime;
-                    }); // Sort by createdAt field
-                
-                setItems(newData);
-                // console.log(items, newData);
-                setLoading(false)
-            });
+      setLoading(true);
+      const newData = await firebaseQuery(wishlist, 'items');
+      setItems(newData);
+      setLoading(false);
     }
   
+    
+  
 
-    console.log(items)
 
   useEffect(()=>{
     setItems([])
@@ -59,7 +44,7 @@ export const Wishlist = () => {
 
   useEffect(()=>{
     let wishedItems
-    if (items.length > 0) {
+    if (items && items.length > 0) {
         wishedItems = items
         for (let item of items) {
             if (!wishlist.includes(item.id)) {
@@ -187,7 +172,7 @@ export const Wishlist = () => {
                     <p className='loading'>Fetching the latest product information...</p>
                 ) :
                 !filteredItems ? (
-                    items.length === 0 ? (
+                    items && items.length === 0 ? (
                         <p className='notFound'>Your wishlist is empty.</p>
                     ) : (
                         <ProductsList items={items} />
