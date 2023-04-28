@@ -1,3 +1,8 @@
+.processing {
+    display: flex;
+    gap: 10px;
+}
+
 section.account-page-login, .account-page-register {
     margin-top: 50px !important;
     margin-bottom: 50px !important;
@@ -5,6 +10,7 @@ section.account-page-login, .account-page-register {
     margin: auto;
     flex-direction: column;
     align-items: center;
+    min-height: 350px;
 }
 .account-page-content {
     margin-top: 50px !important;
@@ -78,13 +84,33 @@ form#customer_login input, form#create_customer input {
 form#create_customer {
     display: grid;
     grid-template-columns: 285px 285px;
-    grid-template-rows: 50px 50px;
+    grid-template-rows: auto 50px 50px;
     gap: 20px;
 }
 form#create_customer div.form-action-row {
     grid-column: 1/3;
     margin-right: auto;
 }
+
+.account-message-error {
+    color: #f05d5d;
+    background-color: #f7dddd;
+    padding: 0.46875rem 0.703125rem;
+    grid-column: 1/3;
+}
+
+.account-message-error ul {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+}
+.account-message-error li {
+    padding: 0;
+    text-align: left;
+
+}
+
 
 
 
