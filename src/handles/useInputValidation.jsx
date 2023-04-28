@@ -54,7 +54,12 @@ function useInputValidation() {
   }
 
   const handleEmailChange = (event) => {
-    setEmailHasValue(event.target.value !== '');
+    event.preventDefault();
+    if (event.key === 'Enter') {
+       passwordInputRef.current.focus()
+    } else {
+      setEmailHasValue(event.target.value !== '');
+    }
   }
 
   const handlePasswordFocus = () => {

@@ -69,11 +69,11 @@ const Login = () => {
             <div className="form-action-row">
               <button className="sign-in">Sign in</button>
               <div className="form-action-row--helper">
-                <span class="form-action-row--helper-item">
+                <span className="form-action-row--helper-item">
                   New Customer?&nbsp;
                   <Link to="/account/register" id="customer_register_link">Create account</Link>
                 </span>
-                <span class="form-action-row--helper-item">
+                <span className="form-action-row--helper-item">
                   <Link to="#customer_recovery">Forgot your password?</Link>
                 </span> 
               </div>
