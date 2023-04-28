@@ -46,7 +46,7 @@ export const Cart = () => {
       }
       setCartItemIds(arr)
     }
-    // console.log(cart.cartItems)
+    console.log(cart.cartItems)
   }, [cart])
   useEffect(()=>{
     if (cartItemIds.length > 0 && !isFetched) {

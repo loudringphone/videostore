@@ -23,6 +23,7 @@ const QuantitySelector = (props) => {
             for (let cartItem of cart.cartItems) {
                 if (cartItem.id === item.id) {
                     setOldQuantity(cartItem.quantity)
+                    setQuantity(cartItem.quantity)
                 }
             }
         }

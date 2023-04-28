@@ -57,15 +57,23 @@ const cartSlice = createSlice({
       let targetItem = action.payload;
       console.log(targetItem)
       const existingItem = state.cartItems.find(item => item.id === targetItem.id);
-      targetItem.quantity = targetItem.quantity && targetItem.quantity > 0 && typeof targetItem.quantity === "number" ? targetItem.quantity : 1
-      state.totalQuantity =  state.totalQuantity + targetItem.quantity - existingItem.quantity
-      state.totalAmount = state.totalAmount - existingItem.totalPrice
-      existingItem.quantity = targetItem.quantity
-      existingItem.totalPrice = existingItem.price * targetItem.quantity
-      state.totalAmount = state.totalAmount + existingItem.totalPrice
+      if (existingItem) {
+        targetItem.quantity = targetItem.quantity && targetItem.quantity > 0 && typeof targetItem.quantity === "number" ? targetItem.quantity : 1
+        state.totalQuantity =  state.totalQuantity + targetItem.quantity - existingItem.quantity
+        state.totalAmount = state.totalAmount - existingItem.totalPrice
+        existingItem.quantity = targetItem.quantity
+        existingItem.totalPrice = existingItem.price * targetItem.quantity
+        state.totalAmount = state.totalAmount + existingItem.totalPrice
+      }
     },
     removeItem: (state, action) => {
       let targetItem = action.payload;
+      const existingItem = state.cartItems.find(item => item.id === targetItem.id);
+      if (existingItem) {
+        state.totalQuantity =  state.totalQuantity - existingItem.quantity
+        state.totalAmount = state.totalAmount - existingItem.totalPrice
+        state.cartItems = state.cartItems.filter(item => item.id !== existingItem.id)
+      }
     },
     removeAllItems: (state, action) => {
       state.cartItems = [];
