@@ -50,6 +50,7 @@ const Signup = () => {
                 onFocus={handleFirstNameFocus}
                 onBlur={handleFirstNameBlur}
                 onChange={handleFirstNameChange}
+                onKeyDown={handleFirstNameChange}
                 ref={firstNameInputRef}
               />
               <label 
@@ -69,6 +70,7 @@ const Signup = () => {
                 onFocus={handleLastNameFocus}
                 onBlur={handleLastNameBlur}
                 onChange={handleLastNameChange}
+                onKeyDown={handleLastNameChange}
                 ref={lastNameInputRef}
               />
               <label 
@@ -89,7 +91,6 @@ const Signup = () => {
                 onBlur={handleEmailBlur}
                 onChange={handleEmailChange}
                 onKeyDown={handleEmailChange}
-
                 ref={emailInputRef}
               />
               <label 

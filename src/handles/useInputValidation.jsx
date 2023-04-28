@@ -26,7 +26,13 @@ function useInputValidation() {
   }
 
   const handleFirstNameChange = (event) => {
-    setFirstNameHasValue(event.target.value !== '');
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      setFirstNameHasValue(event.target.value !== '');
+      lastNameInputRef.current.focus()
+    } else {
+      setFirstNameHasValue(event.target.value !== '');
+    }
   }
 
   const handleLastNameFocus = () => {
@@ -40,7 +46,13 @@ function useInputValidation() {
   }
 
   const handleLastNameChange = (event) => {
-    setLastNameHasValue(event.target.value !== '');
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      setLastNameHasValue(event.target.value !== '');
+      emailInputRef.current.focus()
+    } else {
+      setLastNameHasValue(event.target.value !== '');
+    }
   }
 
   const handleEmailFocus = () => {
@@ -54,8 +66,9 @@ function useInputValidation() {
   }
 
   const handleEmailChange = (event) => {
-    event.preventDefault();
     if (event.key === 'Enter') {
+      event.preventDefault();
+      setEmailHasValue(event.target.value !== '');
        passwordInputRef.current.focus()
     } else {
       setEmailHasValue(event.target.value !== '');

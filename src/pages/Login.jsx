@@ -39,6 +39,7 @@ const Login = () => {
                 onFocus={handleEmailFocus}
                 onBlur={handleEmailBlur}
                 onChange={handleEmailChange}
+                onKeyDown={handleEmailChange}
                 ref={emailInputRef}
               />
               <label 
