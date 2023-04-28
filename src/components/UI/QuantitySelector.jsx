@@ -94,41 +94,44 @@ const QuantitySelector = (props) => {
     const [overordering, setOverordering] = useState(false);
 
     const addToCart = () => {
-        if (quantity > item.stock - oldQuantity) {
-            if (overordering === false) {
+        if (pathname && pathname != '/cart') {
+            if (quantity > item.stock - oldQuantity) {
+                if (overordering === false) {
+                    toast.dismiss()
+                    toast.error(`You can't add more ${item.title} to the cart.`, { autoClose: false, className: "custom-toast-error", transition: Zoom })
+                    setOverordering(true)
+                }
+                
+            } else {
                 toast.dismiss()
-                toast.error(`You can't add more ${item.title} to the cart.`, { autoClose: false, className: "custom-toast-error", transition: Zoom })
-                setOverordering(true)
-            }
+                if (overordering === true) {
+                //    toast.dismiss()
+                   setOverordering(false)
+                }
+                toast(
+                    <div className='toast-message'>
+                      <div className="product_img">
+                        <img src={item.image[0].downloadURL} alt={item.title}></img>
+                      </div>
             
-        } else {
-            toast.dismiss()
-            if (overordering === true) {
-            //    toast.dismiss()
-               setOverordering(false)
+                      <div className='toast-text'><span>Item added to your cart: </span><br />
+                      {item.title} <br />
+                      {quantity} × {accounting.formatMoney(item.price)}</div>
+                    </div>
+                    )
+                setTimeout(() => {
+                dispatch(cartActions.addItem({
+                    id: item.id,
+                    title: item.title,
+                    price: item.price,
+                    image: item.image,
+                    stock: item.stock,
+                    quantity: quantity,
+                }))
+                }, 500);
             }
-            toast(
-                <div className='toast-message'>
-                  <div className="product_img">
-                    <img src={item.image[0].downloadURL} alt={item.title}></img>
-                  </div>
-        
-                  <div className='toast-text'><span>Item added to your cart: </span><br />
-                  {item.title} <br />
-                  {quantity} × {accounting.formatMoney(item.price)}</div>
-                </div>
-                )
-            setTimeout(() => {
-            dispatch(cartActions.addItem({
-                id: item.id,
-                title: item.title,
-                price: item.price,
-                image: item.image,
-                stock: item.stock,
-                quantity: quantity,
-            }))
-            }, 500);
         }
+        
     }
 
 

@@ -8,6 +8,7 @@ import { Helmet } from '../components/helmet/Helmet'
 import { cartActions } from '../redux/slices/cartSlice';
 import CartItemCard from '../components/UI/CartItemCard';
 import accounting from 'accounting'
+import { firebaseQuery } from '../assets/functions/firebaseQuery';
 
 import '../styles/cart.css'
 
@@ -15,6 +16,7 @@ export const Cart = () => {
   const cart = useSelector(state => state.cart)
   const [cartItemIds, setCartItemIds] = useState([])
   const [items, setItems] = useState([]);
+  const [isFetched, setIsFetched] = useState(false);
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cart));
   }, [cart]);
@@ -47,34 +49,24 @@ export const Cart = () => {
     // console.log(cart.cartItems)
   }, [cart])
   useEffect(()=>{
-    if (cartItemIds.length > 0) {
+    if (cartItemIds.length > 0 && !isFetched) {
       fetchItems();
+      setIsFetched(true);
+      console.log('fetched')
     }
-  }, [])
+  }, [cartItemIds, isFetched])
 
   let title = "Your Basket";
-  let q = query(collection(db, "empty"))
   const [loading, setLoading] = useState(true);
-  if (cartItemIds.length >= 1 && cartItemIds.length === cart.cartItems.length) {
-    q = query(collection(db, "items"), where(documentId(), 'in', cartItemIds));
-  }
+  
+
   const fetchItems = async () => {
     setLoading(true);
-    await getDocs(q)
-        .then((querySnapshot) => {
-            const newData = querySnapshot.docs
-                .map((doc) => ({ ...doc.data(), id: doc.id }))
-                .sort((a, b) => {
-                    const aTime = new Timestamp(a.createdAt.seconds, a.createdAt.nanoseconds).toDate();
-                    const bTime = new Timestamp(b.createdAt.seconds, b.createdAt.nanoseconds).toDate();
-                    return bTime - aTime;
-                }); // Sort by createdAt field
-            
-            setItems(newData);
-            console.log(items, newData);
-            setLoading(false)
-        });
+    const newData = await firebaseQuery(cartItemIds, 'items');
+    setItems(newData);
+    setLoading(false);
   }
+  
 
   const [showArrow, setShowArrow] = useState(false);
 
