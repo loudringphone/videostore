@@ -35,6 +35,15 @@
     letter-spacing: 0em;
     font-size: 1.96rem;
 }
+.product-info-secondary {
+    margin-bottom: 0.75rem;
+}
+.product-info-secondary p{
+    margin: 0;
+}
+.product-info-secondary span{
+    font-weight: 600;
+}
 .product-price {
     font-size: larger;
 }

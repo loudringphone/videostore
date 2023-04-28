@@ -1,0 +1,83 @@
+section.account-page-login {
+    margin-top: 50px !important;
+    margin-bottom: 50px !important;
+    display: flex;
+    margin: auto;
+    flex-direction: column;
+    align-items: center;
+}
+.account-page-content {
+    margin-top: 50px !important;
+    margin-bottom: 50px !important;
+    display: flex;
+    margin: auto;
+    flex-direction: column;
+    align-items: center;
+}
+
+form#customer_login .form-field {
+    margin-bottom: 1.17rem;
+    /* width: 100%; */
+    position: relative;
+
+}
+form#customer_login label {
+    color: #909090 ;
+    position: absolute;
+    padding-left: 0.625rem;
+    left:0;
+    top: 0.7rem;
+    font-size: medium;
+    height: 100%;
+}
+form#customer_login label.form-field-title--input {
+    font-size: smaller;
+    top: 0.2rem
+}
+form#customer_login input {
+    text-align: left;
+    height: 50px;
+    font-style: normal;
+    width: 100%;
+    padding: 1.5rem 0.625rem 0.375rem;
+    color: #1d1d1d;
+    background-color: #fff;
+    border: 1px solid #dddddd;
+    border-radius: 3px;
+}
+
+.form-action-row {
+    display: flex;
+    gap: 20px;
+}
+.form-action-row button {
+    width: 100px;
+}
+
+.form-action-row  a {
+    color: #E5342E;
+    text-decoration: #E5342E;
+}
+.form-action-row--helper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.form-action-row--helper span {
+    text-align: left;
+}
+
+@media (max-width: 400px) {
+    section.account-page-login {
+        width: 80%;
+    }
+    .account-page-content {
+        width: 100%
+    }
+    .form-action-row--helper {
+        font-size: small;
+    }
+    .form-action-row button {
+        max-width: 80px;
+    }
+}

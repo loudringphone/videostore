@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Helmet } from '../components/helmet/Helmet'
 import { useParams } from 'react-router-dom';
-import { collection, query, where, getDocs, Timestamp, doc, getDoc } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import {db} from '../firebase_setup/firebase';
 import accounting from 'accounting'
 
@@ -79,7 +79,12 @@ export const ProductDetails = () => {
           <QuantitySelector item={item} />
 
           <AddFavourite itemId={itemId} />
-
+          <div className='product-info-secondary'>
+            {item.label? (<p><span>Lable: </span>{item.label}</p>):(<></>)}
+            {item.edition? (<p><span>Edition: </span>{item.edition}</p>):(<></>)}
+            {item.originator && item.format != 'CD'? (<p><span>Director: </span>{item.originator}</p>):(<></>)}
+            {item.originator && item.format === 'CD'? (<p><span>Artist: </span>{item.originator}</p>):(<></>)}
+          </div>
           <p>{item.description}</p>
         </div>
       </div>
