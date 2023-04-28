@@ -170,7 +170,7 @@ const Header = () => {
                             <div className="navigation" >
                                 
                                     <div className="nav_icons" >
-                                    <NavLink to='login' style={{ display: navDisplay }}><span className="user_icon"><UserLineIcon size={30} /> Login</span></NavLink>
+                                    <NavLink to='account/login' style={{ display: navDisplay }}><span className="user_icon"><UserLineIcon size={30} /> Login</span></NavLink>
                                         <NavLink to='apps/wishlist' style={{ display: navDisplay }}><span className="fav_icon"><Heart3LineIcon size={30} />
                                         {totalWishes > 0 && (
                                             <span className="badge" style={{fontSize: totalWishes > 99? "10px" : ""}}>
@@ -222,7 +222,7 @@ const Header = () => {
                                     <div className="navigation" style={navigationStyle}>
                                         <ul className="menu">
                                             <div className="nav_icons">
-                                                <span className="user_icon" onClick={handleClose}><NavLink to='login'><UserLineIcon size={30} /> Login</NavLink></span>
+                                                <span className="user_icon" onClick={handleClose}><NavLink to='account/login'><UserLineIcon size={30} /> Login</NavLink></span>
                                                 <span className="fav_icon" onClick={handleClose}><NavLink to='apps/wishlist'><Heart3LineIcon size={30} />
                                                 {totalWishes > 0 && (
                                                     <span className="badge" style={{fontSize: totalWishes > 99? "10px" : ""}}>

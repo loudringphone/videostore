@@ -24,8 +24,8 @@ const Routers = () => {
             <Route path='collections/:id/:itemId' element={<ProductDetails />} />
             <Route path='cart' element={<Cart />} />
             <Route path='checkout' element={<Checkout />} />
-            <Route path='login' element={<Login />} />
-            <Route path='signup' element={<Signup />} />
+            <Route path='account/login' element={<Login />} />
+            <Route path='/account/register' element={<Signup />} />
         </Routes>
     )
 };

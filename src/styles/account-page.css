@@ -1,4 +1,4 @@
-section.account-page-login {
+section.account-page-login, .account-page-register {
     margin-top: 50px !important;
     margin-bottom: 50px !important;
     display: flex;
@@ -14,14 +14,18 @@ section.account-page-login {
     flex-direction: column;
     align-items: center;
 }
+form#customer_login {
+    gap: 1.17rem;
+}
 
+.form-field {
+    /* margin-bottom: 1.17rem; */
+    position: relative;
+}
 form#customer_login .form-field {
     margin-bottom: 1.17rem;
-    /* width: 100%; */
-    position: relative;
-
 }
-form#customer_login label {
+form#customer_login label, form#create_customer label {
     color: #909090 ;
     position: absolute;
     padding-left: 0.625rem;
@@ -30,11 +34,11 @@ form#customer_login label {
     font-size: medium;
     height: 100%;
 }
-form#customer_login label.form-field-title--input {
+form#customer_login label.form-field-title--input, form#create_customer label.form-field-title--input {
     font-size: smaller;
     top: 0.2rem
 }
-form#customer_login input {
+form#customer_login input, form#create_customer input {
     text-align: left;
     height: 50px;
     font-style: normal;
@@ -67,6 +71,49 @@ form#customer_login input {
     text-align: left;
 }
 
+
+
+
+
+form#create_customer {
+    display: grid;
+    grid-template-columns: 285px 285px;
+    grid-template-rows: 50px 50px;
+    gap: 20px;
+}
+form#create_customer div.form-action-row {
+    grid-column: 1/3;
+    margin-right: auto;
+}
+
+
+
+@media (max-width: 650px) {
+    form#create_customer {
+        grid-template-columns: 90vw;
+        grid-template-rows: 0.5fr 0.5fr 0.5fr 0.5fr 1fr;
+        gap: 15px;
+    }
+    form#create_customer div.form-action-row {
+        margin-top: 15px;
+        grid-column: 1;
+        margin-right: auto;
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+
+   
+
+}
+
+
+
+
+
+
 @media (max-width: 400px) {
     section.account-page-login {
         width: 80%;
@@ -77,7 +124,7 @@ form#customer_login input {
     .form-action-row--helper {
         font-size: small;
     }
-    .form-action-row button {
+    .form-action-row button.sign-in {
         max-width: 80px;
     }
 }

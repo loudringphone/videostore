@@ -1,44 +1,25 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from 'react-router-dom';
+import useInputValidation from "../handles/useInputValidation";
 
-import '../styles/login.css'
+
+import '../styles/account-page.css'
 
 const Login = () => {
-  const [emailFocused, setEmailFocused] = useState(false);
-  const [emailHasValue, setEmailHasValue] = useState(false);
-  const [passwordFocused, setPasswordFocused] = useState(false);
-  const [passwordHasValue, setPasswordHasValue] = useState(false);
-  
-  const emailInputRef = useRef(null);
-  const passwordInputRef = useRef(null);
-
-  const handleEmailFocus = () => {
-    setEmailFocused(true);
-  }
-
-  const handleEmailBlur = () => {
-    if (!emailInputRef.current.value) {
-      setEmailFocused(false);
-    }
-  }
-
-  const handleEmailChange = (event) => {
-    setEmailHasValue(event.target.value !== '');
-  }
-
-  const handlePasswordFocus = () => {
-    setPasswordFocused(true);
-  }
-
-  const handlePasswordBlur = () => {
-    if (!passwordInputRef.current.value) {
-      setPasswordFocused(false);
-    }
-  }
-
-  const handlePasswordChange = (event) => {
-    setPasswordHasValue(event.target.value !== '');
-  }
+  const {
+    emailFocused,
+    emailHasValue,
+    passwordFocused,
+    passwordHasValue,
+    emailInputRef,
+    passwordInputRef,
+    handleEmailFocus,
+    handleEmailBlur,
+    handleEmailChange,
+    handlePasswordFocus,
+    handlePasswordBlur,
+    handlePasswordChange,
+  } = useInputValidation();
 
   return (
     <section className='account-page-login'>
@@ -86,7 +67,7 @@ const Login = () => {
               </label>
             </div>
             <div className="form-action-row">
-              <button className="form-action--submit">Sign in</button>
+              <button className="sign-in">Sign in</button>
               <div className="form-action-row--helper">
                 <span class="form-action-row--helper-item">
                   New Customer?&nbsp;
