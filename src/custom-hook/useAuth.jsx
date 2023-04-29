@@ -6,7 +6,7 @@ import {db} from '../firebase_setup/firebase';
 import { useDispatch, useSelector } from 'react-redux';
 import { wishlistActions } from '../redux/slices/wishlistSlice';
 import { cartActions } from '../redux/slices/cartSlice';
-
+import combineCart from '../functions/combineCart'
 
 const useAuth = () => {
     const [currentUser, setCurrentUser] = useState({})
@@ -47,7 +47,6 @@ const useAuth = () => {
     const dispatch = useDispatch();
     useEffect(() => {
         if (userInfo.wishlist && userInfo.wishlist.length >= 0) {
-            const userRef = doc(db, "users", userInfo.uid);
             for (let itemId of userInfo.wishlist) {
                 if (!wishlist.includes(itemId)) {
                     dispatch(wishlistActions.addItem(itemId))
@@ -60,6 +59,7 @@ const useAuth = () => {
                 }
             }
             async function updateUserWishlist() {
+                const userRef = doc(db, "users", userInfo.uid);
                 await updateDoc(userRef, {
                     wishlist: userInfo.wishlist.concat(NotOnList)
                   });
@@ -85,14 +85,13 @@ const useAuth = () => {
                 }
             }
 
-
-
-            // async function updateUserCart() {
-            //     await updateDoc(userRef, {
-            //         cart: updatedCart
-            //       });
-            // }
-            // updateUserCart()
+            async function updateUserCart() {
+                const userRef = doc(db, "users", userInfo.uid);
+                await updateDoc(userRef, {
+                    cart: combineCart(userInfo.cart, cart)
+                  });
+            }
+            updateUserCart()
 
 
 
