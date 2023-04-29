@@ -9,7 +9,10 @@ import { cartActions } from '../../redux/slices/cartSlice';
 
 const CartItemCard = (props) => {
   const item = props.item;
-  let itemURL = item.id + '-' + item.title.toLowerCase().replace(/[^a-z0-9'""]/g, "-").replace(/['"]/g, "");
+  let itemURL = item.id
+  if (item.title) {
+    itemURL = item.id + '-' + item.title.toLowerCase().replace(/[^a-z0-9'""]/g, "-").replace(/['"]/g, "");
+  }
   if (itemURL.endsWith("-")) {
     itemURL = itemURL.slice(0, -1);
   };
@@ -28,7 +31,11 @@ const CartItemCard = (props) => {
      <div className="cart-item-card" >
                         <div className="product_img">
                             <Link to={{ pathname: `/products/${itemURL}` }}>
-                                <img src={item.image[0].downloadURL} alt={item.title}></img>
+                                {item.image[0].downloadURL !== "" ? (
+                                    <img src={item.image[0].downloadURL} alt={item.title}></img>
+                                ):(
+                                    <></>
+                                )}
                             </Link>
                         </div>
                         <div className="cart-item--inner">
@@ -37,7 +44,8 @@ const CartItemCard = (props) => {
                                 <p className="price"><span>Price </span>{accounting.formatMoney(item.price)}</p>
                                 
                                 <p className='product-stock-level'>
-                                    {item.stock > 25 ? (
+                                    {item.stock? (
+                                    item.stock > 25 ? (
                                     <span className="product-stock-level-high" style={{display:'none'}}>
                                         Available
                                     </span>
@@ -51,7 +59,8 @@ const CartItemCard = (props) => {
                                         Low stock
                                         </span>
                                     )
-                                    )}
+                                    )
+                                    ):(<></>)}
                                 </p>
                             </div>
 

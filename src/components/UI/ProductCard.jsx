@@ -38,8 +38,6 @@ const ProductCard = (props) => {
         id: item.id,
         title: item.title,
         price: item.price,
-        image: item.image,
-        stock: item.stock,
       }))
     }, 500); 
   }

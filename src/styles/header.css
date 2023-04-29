@@ -13,6 +13,7 @@ header.header {
 .navigation {
     display: flex;
     align-items: center;
+    margin-left: 30px;
 }
 div.logo {
     width: 200px;
@@ -44,29 +45,46 @@ div.logo > h3 {
     margin-top: 0px;
     margin-bottom: 0px;
 }
+span.user_icon {
+    margin-right: 25px;
+    display: flex;
+    align-items: center;
+    height: 30px;
+}
+.account-links {
+    margin-left: 3px;
+    display: flex;
+    flex-direction: column;
+    width: max-content;
+    font-size: smaller;
+    align-items: flex-start;
+}
+.account-links span {
+    font-weight: 600;
+    font-size: medium;
+
+}
 div.nav_icons {
-    width: 210px;
+    display: flex;
+    width: max-content;
     text-align: right;
 }
 div.nav_icons > span {
     margin-left: 10px;
     
 }
-span.user_icon {
-    margin-right: 25px;
-    padding-top: 20px;
-}
+
 
 span.cart_icon, span.fav_icon {
     position: relative;
-    padding-top: 20px;
+    /* padding-top: 20px; */
     padding-right: 10px;
     cursor: pointer;
 }
 
 span.badge, span.badge-cart {
     position: absolute;
-    top: 8px;
+    top: -10px;
     right: -2px;
     background-color: red;
     border: 2px solid rgb(255,255,255);
@@ -99,7 +117,9 @@ div.mobile_menu {
     font-weight: 750;
 }
 
-
+/* .mobileMenuDisplay {
+    display: inline;
+} */
 
 #nav {
     transition: all 0.2s;
@@ -143,8 +163,8 @@ div.mobile_menu {
 .mobile_nav ul.quick_links {
     flex-direction: column;
     padding-left: 0;
-    text-align: left;
     justify-content: left;
+    text-align-last: left;
     width:max
 }
 
@@ -184,7 +204,23 @@ header a {
 }
 
 @media (max-width: 1020px) {
-   
+    .account-links {
+        align-items: center;
+        margin: 0;
+        flex-direction: row;
+        gap: 10px;
+        font-size: medium;
+        margin-right: 20px;
+        line-height: 1.2;
+    }
+    .account-links span {
+        width:70px;
+        text-align: left;
+    }
+    .quick_links li {
+        margin: 0;
+        padding: 0;
+    }
     header.header  {
         height: 120px !important;
     }
@@ -213,6 +249,9 @@ header a {
 }
 
 @media (max-width: 330px) {
+    .account-links {
+        align-items: flex-end;
+    }
     .mobile_nav > div {
         padding-right: 10px;
     }
@@ -222,6 +261,13 @@ header a {
     div.nav_icons {
         width: 150px;
         text-align: right;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 35px;
+        align-items: flex-start;
+    }
+    span.fav_icon {
+        margin-left: 0 !important;
     }
     .mobile_nav .user_icon {
         margin-right: 0px;

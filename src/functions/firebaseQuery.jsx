@@ -1,5 +1,5 @@
 import { collection, query, where, getDocs, Timestamp } from "firebase/firestore";
-import { db } from '../../firebase_setup/firebase';
+import { db } from '../firebase_setup/firebase';
 import { documentId } from 'firebase/firestore';
 
 const MAX_QUERY_LENGTH = 10;

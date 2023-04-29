@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux"
-import { collection, query, where, getDocs, Timestamp } from "firebase/firestore";
-import {db} from '../firebase_setup/firebase';
-import {documentId} from 'firebase/firestore';
 import { Link } from 'react-router-dom';
 import { Helmet } from '../components/helmet/Helmet'
 import { cartActions } from '../redux/slices/cartSlice';
 import CartItemCard from '../components/UI/CartItemCard';
 import accounting from 'accounting'
-import { firebaseQuery } from '../assets/functions/firebaseQuery';
+import { firebaseQuery } from '../functions/firebaseQuery';
 
 import '../styles/cart.css'
 
@@ -17,6 +14,7 @@ export const Cart = () => {
   const [cartItemIds, setCartItemIds] = useState([])
   const [items, setItems] = useState([]);
   const [isFetched, setIsFetched] = useState(false);
+  const [cartItems, setCartItems] = useState([]);
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cart));
   }, [cart]);
@@ -27,12 +25,11 @@ export const Cart = () => {
         id: item.id,
         title: item.title,
         price: item.price,
-        image: item.image,
-        stock: item.stock,
         quantity: 0,
       }))
     }
     // console.log(cart.cartItems)
+
   }, [items])
   useEffect(()=>{
     if (cart.cartItems.length > 0) {
@@ -46,15 +43,34 @@ export const Cart = () => {
       }
       setCartItemIds(arr)
     }
-    console.log(cart.cartItems)
   }, [cart])
   useEffect(()=>{
     if (cartItemIds.length > 0 && !isFetched) {
       fetchItems();
       setIsFetched(true);
-      console.log('fetched')
     }
   }, [cartItemIds, isFetched])
+
+  useEffect(() => {
+    let updatedCartItems = cart.cartItems.map((cartItem) => {
+      let item = items.find((item) => item.id === cartItem.id);
+      if (item) {
+        return {
+          ...cartItem,
+          image: item.image,
+          stock: item.stock
+        };
+      } else {
+        return {
+          ...cartItem,
+          image: [{downloadURL: ""}],
+          stock: 0
+        };
+      }
+    });
+    setCartItems(updatedCartItems)
+  }, [cart.cartItems, items]);
+
 
   let title = "Your Basket";
   const [loading, setLoading] = useState(true);
@@ -81,7 +97,7 @@ export const Cart = () => {
   return (
     <Helmet title={title}>
       
-      {cart.cartItems.length > 0 ? (
+      {cartItems.length > 0 ? (
         <>        <header className='cart-title'>
         <div className='cart-title-left'>
           <h1>Your basket</h1>
@@ -101,7 +117,7 @@ export const Cart = () => {
         <section className='cartitems--container'>
           <ul className="cartitems--list">
             {
-              cart.cartItems?.map((item, i) => (
+              cartItems?.map((item, i) => (
                 item.id? (
                   <li key={i}>
                     <CartItemCard key={i} item={item}/>

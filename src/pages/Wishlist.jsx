@@ -9,7 +9,7 @@ import '../styles/shop.css'
 
 import ProductsList from '../components/UI/ProductsList';
 
-import { firebaseQuery } from '../assets/functions/firebaseQuery';
+import { firebaseQuery } from '../functions/firebaseQuery';
 
 
 export const Wishlist = () => {

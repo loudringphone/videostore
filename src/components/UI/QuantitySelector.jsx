@@ -23,7 +23,9 @@ const QuantitySelector = (props) => {
             for (let cartItem of cart.cartItems) {
                 if (cartItem.id === item.id) {
                     setOldQuantity(cartItem.quantity)
-                    setQuantity(cartItem.quantity)
+                    if (pathname === '/cart') {
+                        setQuantity(cartItem.quantity)
+                    }
                 }
             }
         }
@@ -125,8 +127,6 @@ const QuantitySelector = (props) => {
                     id: item.id,
                     title: item.title,
                     price: item.price,
-                    image: item.image,
-                    stock: item.stock,
                     quantity: quantity,
                 }))
                 }, 500);

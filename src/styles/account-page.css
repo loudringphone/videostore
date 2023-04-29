@@ -29,7 +29,7 @@ form#customer_login {
     position: relative;
 }
 form#customer_login .form-field {
-    margin-bottom: 1.17rem;
+    margin-bottom: 1.17rem;  
 }
 form#customer_login label, form#create_customer label {
     color: #909090 ;
@@ -38,7 +38,8 @@ form#customer_login label, form#create_customer label {
     left:0;
     top: 0.7rem;
     font-size: medium;
-    height: 100%;
+    height: max-content;
+    
 }
 form#customer_login label.form-field-title--input, form#create_customer label.form-field-title--input {
     font-size: smaller;

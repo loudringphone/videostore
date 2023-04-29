@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { NavLink, Link } from 'react-router-dom';
-import { Container, Row } from "reactstrap"
-
-import logo from "../../assets/images/vs-logo.png"
-
+import { NavLink, Link, useLocation, useNavigate } from 'react-router-dom';
+import { useSelector } from "react-redux"
+import useAuth from '../../custom-hook/useAuth'
+import { signOut } from "firebase/auth"
+import { auth } from "../../firebase_setup/firebase"
+import { toast } from "react-toastify"
 import UserLineIcon from 'remixicon-react/UserLineIcon';
 import Heart3LineIcon from 'remixicon-react/Heart3LineIcon';
 import ShoppingCartLineIcon from 'remixicon-react/ShoppingCartLineIcon';
 import MenuLineIcon from 'remixicon-react/MenuLineIcon';
 import CloseLineIcon from 'remixicon-react/CloseLineIcon';
-import { useSelector } from "react-redux"
+
+import {db} from '../../firebase_setup/firebase';
 
 import SearchBox from "../UI/SearchBox";
+
+import logo from "../../assets/images/vs-logo.png"
 import '../../styles/header.css';
 
 const nav_links = [
@@ -58,19 +62,19 @@ const Header = () => {
     const [headerStyle, setHeaderStyle] = useState(null);
     const [isNavVisible, setIsNavVisible] = useState(true);
     const [prevScrollY, setPrevScrollY] = useState(0);
-    const [navDisplay, setNavDisplay] = useState("inline");
+    const [isMobile, setIsMobile] = useState(false);
     const [mobileMenuDisplay, setMobileMenuDisplay] = useState("none");
 
     useEffect(() => {
         function handleResize() {
         if (window.innerWidth <= 1020) {
-            setNavDisplay("none");
+            setIsMobile(true)
             setMobileMenuDisplay("inline");
             setHeaderStyle({height: '120px'});
             setIsNavVisible(false);
             
         } else {
-            setNavDisplay("inline");
+            setIsMobile(false)
             setMobileMenuDisplay("none");
             if (window.scrollY <= 150) {
                 setHeaderStyle({height: '105px'});
@@ -142,8 +146,32 @@ const Header = () => {
         setHeaderStyle({overflow: 'visible'})
     }
 
+    const currentUser = useAuth()
+    
+   
 
 
+
+
+
+
+
+
+
+
+    const {pathname} = useLocation()
+    const navigate = useNavigate()
+    const logout = (event) => {
+        event.preventDefault()
+        signOut(auth).then(() => {
+            toast.success("Successfully logged out.", {autoClose: 1500})
+            if (pathname==="/apps/wishlist" || pathname==="/cart" || pathname==="/checkout") {
+                navigate('/')
+            }
+        }).catch(error => {
+            console.log(error.message)
+        })
+    }
 
     return (
         <>
@@ -168,16 +196,31 @@ const Header = () => {
                                 <SearchBox onClick={handleClick}/>
                             </div>
                             <div className="navigation" >
-                                
+                                { !isMobile ? (
                                     <div className="nav_icons" >
-                                    <NavLink to='account/login' style={{ display: navDisplay }}><span className="user_icon"><UserLineIcon size={30} /> Login</span></NavLink>
-                                        <NavLink to='apps/wishlist' style={{ display: navDisplay }}><span className="fav_icon"><Heart3LineIcon size={30} />
-                                        {totalWishes > 0 && (
-                                            <span className="badge" style={{fontSize: totalWishes > 99? "10px" : ""}}>
-                                                {totalWishes > 99 ? "99+" : totalWishes}
-                                            </span>
-                                        )}
-                                        </span></NavLink>
+                                     { currentUser ? (
+                                         <span className="user_icon"><NavLink to='account' ><UserLineIcon size={30} /></NavLink><div className="account-links"><span><NavLink to='account'>My Account</NavLink></span> <NavLink onClick={logout} to='account/logout'>Logout</NavLink></div></span>
+                                     ): (
+                                         <NavLink to='account/login'><span className="user_icon"><UserLineIcon size={30} /> Login</span></NavLink>)}
+                                 
+                                     <NavLink to='apps/wishlist'><span className="fav_icon"><Heart3LineIcon size={30} />
+                                     {totalWishes > 0 && (
+                                         <span className="badge" style={{fontSize: totalWishes > 99? "10px" : ""}}>
+                                             {totalWishes > 99 ? "99+" : totalWishes}
+                                         </span>
+                                     )}
+                                     </span></NavLink>
+                                     <NavLink to='cart' className="badge-cart"><span className="cart_icon"><ShoppingCartLineIcon size={30} />
+                                     {totalQuantity > 0 && (
+                                         <span className="badge-cart" style={{fontSize: totalQuantity > 99? "10px" : ""}}>
+                                             {totalQuantity > 99 ? "99+" : totalQuantity}
+                                         </span>
+                                     )}
+                                     </span></NavLink>
+
+                                    </div>
+                                ):(
+                                    <div className="nav_icons" >
                                         <NavLink to='cart' className="badge-cart"><span className="cart_icon"><ShoppingCartLineIcon size={30} />
                                         {totalQuantity > 0 && (
                                             <span className="badge-cart" style={{fontSize: totalQuantity > 99? "10px" : ""}}>
@@ -185,8 +228,9 @@ const Header = () => {
                                             </span>
                                         )}
                                         </span></NavLink>
-
                                     </div>
+                                )}
+                                   
                                     
                                 
                             </div>
@@ -222,7 +266,12 @@ const Header = () => {
                                     <div className="navigation" style={navigationStyle}>
                                         <ul className="menu">
                                             <div className="nav_icons">
-                                                <span className="user_icon" onClick={handleClose}><NavLink to='account/login'><UserLineIcon size={30} /> Login</NavLink></span>
+                                            { currentUser ? (
+                                                <div className="account-links"><span><NavLink to='account'>My Account</NavLink></span> <NavLink to='account/logout' onClick={logout}>Logout</NavLink></div>
+                                            ):(
+                                                <span className="user_icon" onClick={handleClose}><NavLink to='account/login'><UserLineIcon size={30} />Login</NavLink></span>
+                                            )}
+                                                
                                                 <span className="fav_icon" onClick={handleClose}><NavLink to='apps/wishlist'><Heart3LineIcon size={30} />
                                                 {totalWishes > 0 && (
                                                     <span className="badge" style={{fontSize: totalWishes > 99? "10px" : ""}}>

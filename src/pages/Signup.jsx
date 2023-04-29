@@ -9,8 +9,10 @@ import { setDoc, doc } from "firebase/firestore"
 import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
 import processing from '../assets/images/loading.gif'
+import { useSelector } from "react-redux"
 
-const Signup = () => {
+
+const Signup = (props) => {
   const {
     firstNameFocused,
     firstNameHasValue,
@@ -64,7 +66,11 @@ const Signup = () => {
   const [errorBlankPasswordDisplay, setErrorBlankPasswordDisplay] = useState({display: "none"})
   const [errorShortPasswordDisplay, setErrorShortPasswordDisplay] = useState({display: "none"})
   const navigate = useNavigate()
-  const signup = async(e) => {
+
+  const wishlist = useSelector(state => state.wishlist)
+  const cart = useSelector(state => state.cart)
+
+  const signUp = async(e) => {
     e.preventDefault();
     setLoading(true)
     setErrorMessageDisplay({display: "none"})
@@ -77,18 +83,22 @@ const Signup = () => {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       console.log(user);
-      console.log(firstName)
       await setDoc(doc(db, "users", user.uid), {
           uid: user.uid,
           email,
           firstName: firstName,
-          lastName: lastName
+          lastName: lastName,
+          wishlist: wishlist,
+          cart: cart,
         })
       setLoading(false)
-      toast.success("Congratulations, your account has been successfully created.")
-      navigate('/')
+      toast.success("Congratulations, your account has been successfully created.", {autoClose: 1500})
+      if (props.prevLocation === undefined || props.prevLocation === null) {
+        navigate('/')
+      } else {
+        navigate(props.prevLocation)
+      }
     } catch (error) {
-      setLoading(false)
       console.log(error.code)
       setErrorMessageDisplay({display: "block"})
       const isInvalidEmail = (str) => {
@@ -110,8 +120,7 @@ const Signup = () => {
       if (password.length <= 5 || error.code === "auth/weak-password") {
         setErrorShortPasswordDisplay({display: "block"});
       }
-
-      
+      setLoading(false)
     }
   }
 
@@ -134,18 +143,18 @@ const Signup = () => {
         </header>
         <article className="account-page-content">
           <div className="account-signup">
-            <form autoComplete='off' onSubmit={signup} action="/account/" id="create_customer">
+            <form autoComplete='off' onSubmit={signUp} action="/" id="create_customer">
               <div className="account-message-error" style={errorMessageDisplay}>
-              <div className="errors">
-                <ul>
-                  <li style={errorBlankEmailDisplay}>Email can't be blank.</li>
-                  <li style={errorInvalidEmailDisplay}>Email is invalid.</li>
-                  <li style={errorTakenEmailDisplay}>This email address is already associated with an account. If this account is yours, you can reset your password.</li>
-                  <li style={errorBlankPasswordDisplay}>Password can't be blank.</li>
-                  <li style={errorShortPasswordDisplay}>Password is too short (minimum is 6 characters)</li>
-                </ul>
+                <div className="errors">
+                  <ul>
+                    <li style={errorBlankEmailDisplay}>Email can't be blank.</li>
+                    <li style={errorInvalidEmailDisplay}>Email is invalid.</li>
+                    <li style={errorTakenEmailDisplay}>This email address is already associated with an account. If this account is yours, you can reset your password.</li>
+                    <li style={errorBlankPasswordDisplay}>Password can't be blank.</li>
+                    <li style={errorShortPasswordDisplay}>Password is too short (minimum is 6 characters)</li>
+                  </ul>
+                </div>
               </div>
-            </div>
               <div className="form-field">
                 <input 
                   type="text" 

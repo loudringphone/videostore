@@ -15,32 +15,44 @@ export const ProductDetails = () => {
   let {itemId} = useParams()
   itemId = itemId.substring(0, itemId.indexOf("-"));
   const [loading, setLoading] = useState(true);
+  const [itemFound, setItemFound] = useState(true);
   
   useEffect(() => {
-    const docRef = doc(db, "items", itemId);
-
     const fetchItem = async () => {
       setLoading(true);
       try {
+        const docRef = doc(db, "items", itemId);
         const docSnap = await getDoc(docRef);
         const data = docSnap.data();
         const id = docSnap.id; // <-- retrieve the document ID
         setItem({ id, ...data }); // <-- include the ID in the retrieved data
         setLoading(false);
+        setItemFound(true);
       } catch (error) {
         console.error(error);
+        setItemFound(false);
       }
     };
     fetchItem();
   }, [itemId]);;
 
+  if (!itemFound) {
+    return (
+      <Helmet title="Item not found">
+        <div className="productDetails" style={{display: 'flex',
+          alignItems: 'center'}}>
+          <p className='loading'>Item not found.</p>
+        </div>
+      </Helmet>
+    )
+  }
   if (item) {
     if (loading) {
       return (
         <Helmet title="Fetching the product information...">
         <div className="productDetails" style={{display: 'flex',
           alignItems: 'center'}}>
-          <p className='loading'>Fetching the product information...</p>
+          <p className='item-not-found'>Fetching the product information...</p>
         </div>
         </Helmet>)
         
