@@ -98,9 +98,10 @@ export const Cart = () => {
     <Helmet title={title}>
       
       {cartItems.length > 0 ? (
-        <>        <header className='cart-title'>
+        <> 
+        <header className='cart-title'>
         <div className='cart-title-left'>
-          <h1>Your basket</h1>
+          <h2>Your basket</h2>
           <div className='cart-title-total-small'>
             <p>Subtotal</p>
             {accounting.formatMoney(cart.totalAmount)}
@@ -154,6 +155,23 @@ export const Cart = () => {
 
 
       ):(
+        <>
+        <header className='cart-title'>
+        <div className='cart-title-left'>
+          <h2>Your basket</h2>
+        </div>
+        <div className='cart-title-right'>
+          
+        <Link to='/' className='cart-continue' onMouseLeave={handleMouseLeave} onMouseOver={handleMouseOver}>
+  Continue shopping&nbsp;
+  {showArrow ? (
+    <i className="ri-arrow-right-line"></i>
+  ) : (
+    <i className="ri-arrow-right-s-line"></i>
+  )}
+</Link>
+        </div>
+      </header>
         <section className='cartitems--container-empty'>
 
           <div className="cartitems-empty">
@@ -162,6 +180,7 @@ export const Cart = () => {
   </Link>
           </div>
         </section>
+        </>
       )}
       
     
