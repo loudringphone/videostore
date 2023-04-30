@@ -67,7 +67,7 @@ const useAuth = () => {
             updateUserWishlist()
         }
         if (userInfo.cart && userInfo.cart.cartItems.length >= 0) {
-            console.log(userInfo.cart.cartItems)
+            // console.log(userInfo.cart.cartItems)
             for (let cartItem of userInfo.cart.cartItems) {
                 const localIndex = cart.cartItems.findIndex(item => item.id === cartItem.id)
                 if (localIndex < 0) {

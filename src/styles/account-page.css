@@ -2,8 +2,10 @@
     display: flex;
     gap: 10px;
 }
-
-section.account-page-login, .account-page-register {
+.account-page-title {
+    margin: 0;
+}
+.account-page  {
     margin-top: 50px !important;
     margin-bottom: 50px !important;
     display: flex;
@@ -12,9 +14,13 @@ section.account-page-login, .account-page-register {
     align-items: center;
     min-height: 350px;
 }
+.account-page a {
+    color: #E5342E !important;
+    text-decoration: #E5342E !important;
+}
 .account-page-content {
-    margin-top: 50px !important;
-    margin-bottom: 50px !important;
+    margin-top: 40px !important;
+    margin-bottom: 40px !important;
     display: flex;
     margin: auto;
     flex-direction: column;
@@ -111,6 +117,36 @@ form#create_customer div.form-action-row {
     text-align: left;
 
 }
+
+.account-page--two-column {
+    display: grid;
+    gap: 35px;
+    grid-template-columns: 50vw auto;
+}
+.account-page--column-large.account-order-history {
+    justify-self: left;
+}
+.account-page--column-small.account-info {
+    justify-self: left;
+}
+.account-page-details h4 {
+    margin: 0;
+    margin-bottom: 20px;
+}
+.account-page-subtitle {
+    text-align: left;
+    
+}
+
+.account-page-details ul {
+    margin: 0;
+    padding: 0;
+    justify-content: left;
+}
+.account-page-details li {
+    padding: 0;
+}
+
 
 
 

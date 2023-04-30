@@ -51,7 +51,7 @@ const Login = (props) => {
       setLoading(false)
       toast.success("Successfully logged in.", {autoClose: 1500})
       // console.log(props.prevLocation)
-      if (props.prevLocation === undefined || props.prevLocation === null) {
+      if (props.prevLocation === undefined || props.prevLocation === null || props.prevLocation === 'account/logout') {
         navigate('/')
       } else {
         navigate(props.prevLocation)
@@ -63,10 +63,9 @@ const Login = (props) => {
       setLoading(false)
     }
   }
-  
   if (loading) {
     return (
-      <section className='account-page-register'>
+      <section className='account-page'>
         <div className="processing">
           <img src={processing} alt="processing" style={{height: '30px'}}/>
         Securely logging you in...
@@ -75,9 +74,9 @@ const Login = (props) => {
     )
   } else {
     return (
-      <section className='account-page-login'>
+      <section className='account-page account-page-login'>
         <header className='account-page-masthead'>
-          <h1 className="account-page-title">Login</h1>
+          <h2 className="account-page-title">Login</h2>
         </header>
         <article className="account-page-content">
           <div className="account-login">

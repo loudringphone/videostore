@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { NavLink, Link, useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from "react-redux"
 import useAuth from '../../custom-hook/useAuth'
+import { doc, updateDoc } from "firebase/firestore";
 import { signOut } from "firebase/auth"
 import { auth } from "../../firebase_setup/firebase"
 import { toast } from "react-toastify"
@@ -57,8 +58,8 @@ const nav_links = [
 ]
 
 const Header = () => {
-    const totalQuantity = useSelector(state => state.cart.totalQuantity)
-    const totalWishes = useSelector(state => state.wishlist.length)
+    const cart = useSelector(state => state.cart)
+    const wishlist = useSelector(state => state.wishlist)
     const [headerStyle, setHeaderStyle] = useState(null);
     const [isNavVisible, setIsNavVisible] = useState(true);
     const [prevScrollY, setPrevScrollY] = useState(0);
@@ -147,30 +148,47 @@ const Header = () => {
     }
 
     const currentUser = useAuth()
-    
-   
-
-
-
-
-
-
-
-
-
 
     const {pathname} = useLocation()
     const navigate = useNavigate()
-    const logout = (event) => {
+    const logout = async (event) => {
         event.preventDefault()
-        signOut(auth).then(() => {
-            toast.success("Successfully logged out.", {autoClose: 1500})
-            if (pathname==="/apps/wishlist" || pathname==="/cart" || pathname==="/checkout") {
-                navigate('/')
-            }
-        }).catch(error => {
-            console.log(error.message)
-        })
+        async function updateUserWishlist() {
+            const userRef = doc(db, "users", currentUser.uid);
+            await updateDoc(userRef, {
+                wishlist: wishlist
+              });
+        }
+
+        async function updateUserCart() {
+            const userRef = doc(db, "users", currentUser.uid);
+            await updateDoc(userRef, {
+                cart: cart
+              });
+        }
+       
+        try {
+            await updateUserWishlist();
+            await updateUserCart();
+            await signOut(auth).then(() => {
+                toast.success("Successfully logged out.", {autoClose: 1500});
+                if (pathname==="/apps/wishlist" || pathname==="/cart" || pathname==="/checkout" || pathname==="/account") {
+                    navigate('/');
+                }
+            }).catch(error => {
+                console.log(error.message);
+            })
+        } catch(error){
+            console.log(error.message);
+            await signOut(auth).then(() => {
+                toast.success("Successfully logged out.", {autoClose: 1500});
+                if (pathname==="/apps/wishlist" || pathname==="/cart" || pathname==="/checkout" || pathname==="/account") {
+                    navigate('/');
+                }
+            }).catch(error => {
+                console.log(error.message);
+            })
+        }
     }
 
     return (
@@ -204,16 +222,16 @@ const Header = () => {
                                          <NavLink to='account/login'><span className="user_icon"><UserLineIcon size={30} /> Login</span></NavLink>)}
                                  
                                      <NavLink to='apps/wishlist'><span className="fav_icon"><Heart3LineIcon size={30} />
-                                     {totalWishes > 0 && (
-                                         <span className="badge" style={{fontSize: totalWishes > 99? "10px" : ""}}>
-                                             {totalWishes > 99 ? "99+" : totalWishes}
+                                     {wishlist.length > 0 && (
+                                         <span className="badge" style={{fontSize: wishlist.length > 99? "10px" : ""}}>
+                                             {wishlist.length > 99 ? "99+" : wishlist.length}
                                          </span>
                                      )}
                                      </span></NavLink>
                                      <NavLink to='cart' className="badge-cart"><span className="cart_icon"><ShoppingCartLineIcon size={30} />
-                                     {totalQuantity > 0 && (
-                                         <span className="badge-cart" style={{fontSize: totalQuantity > 99? "10px" : ""}}>
-                                             {totalQuantity > 99 ? "99+" : totalQuantity}
+                                     {cart.totalQuantity > 0 && (
+                                         <span className="badge-cart" style={{fontSize: cart.totalQuantity > 99? "10px" : ""}}>
+                                             {cart.totalQuantity > 99 ? "99+" : cart.totalQuantity}
                                          </span>
                                      )}
                                      </span></NavLink>
@@ -222,9 +240,9 @@ const Header = () => {
                                 ):(
                                     <div className="nav_icons" >
                                         <NavLink to='cart' className="badge-cart"><span className="cart_icon"><ShoppingCartLineIcon size={30} />
-                                        {totalQuantity > 0 && (
-                                            <span className="badge-cart" style={{fontSize: totalQuantity > 99? "10px" : ""}}>
-                                                {totalQuantity > 99 ? "99+" : totalQuantity}
+                                        {cart.totalQuantity > 0 && (
+                                            <span className="badge-cart" style={{fontSize: cart.totalQuantity > 99? "10px" : ""}}>
+                                                {cart.totalQuantity > 99 ? "99+" : cart.totalQuantity}
                                             </span>
                                         )}
                                         </span></NavLink>
@@ -273,9 +291,9 @@ const Header = () => {
                                             )}
                                                 
                                                 <span className="fav_icon" onClick={handleClose}><NavLink to='apps/wishlist'><Heart3LineIcon size={30} />
-                                                {totalWishes > 0 && (
-                                                    <span className="badge" style={{fontSize: totalWishes > 99? "10px" : ""}}>
-                                                        {totalQuantity > 99 ? "99+" : totalWishes}
+                                                {wishlist.length > 0 && (
+                                                    <span className="badge" style={{fontSize: wishlist.length > 99? "10px" : ""}}>
+                                                        {cart.totalQuantity > 99 ? "99+" : wishlist.length}
                                                     </span>
                                                 )}
                                         </NavLink></span>

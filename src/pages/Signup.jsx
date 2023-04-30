@@ -90,6 +90,11 @@ const Signup = (props) => {
           lastName: lastName,
           wishlist: wishlist,
           cart: cart,
+          addresses: {
+            1:{firstName:"",lastName:"",company:"",address1:"",address2:"",city:"",country:"Australia",state:"",zip:"",phone:""},
+            2:{},
+            3:{},
+            default: 1}
         })
       setLoading(false)
       toast.success("Congratulations, your account has been successfully created.", {autoClose: 1500})
@@ -127,7 +132,7 @@ const Signup = (props) => {
 
   if (loading) {
     return (
-      <section className='account-page-register'>
+      <section className='account-page'>
         <div className="processing">
           <img src={processing} alt="processing" style={{height: '30px'}}/>
         Your account is being created...
@@ -137,9 +142,9 @@ const Signup = (props) => {
   } else {
 
     return (
-      <section className='account-page-register'>
+      <section className='account-page account-page-register'>
         <header className='account-page-masthead'>
-          <h1 className="account-page-title">Create account</h1>
+          <h2 className="account-page-title">Create account</h2>
         </header>
         <article className="account-page-content">
           <div className="account-signup">

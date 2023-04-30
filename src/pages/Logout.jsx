@@ -1,30 +1,76 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useSelector } from "react-redux"
 import { auth } from "../firebase_setup/firebase"
+import {db} from '../firebase_setup/firebase';
+import { doc, updateDoc } from "firebase/firestore";
 import { signOut } from "firebase/auth"
 import { toast } from "react-toastify"
+import useAuth from '../custom-hook/useAuth'
+
 
 
 import processing from '../assets/images/loading.gif'
 import '../styles/account-page.css'
 
 const Logout = () => {
+    const cart = useSelector(state => state.cart)
+    const wishlist = useSelector(state => state.wishlist)
     const { pathname } = useLocation();
     const navigate = useNavigate();
-    const logout = () => {
-        signOut(auth).then(() => {
+    const currentUser = useAuth()
+   
+    const logout = async () => {
+
+      async function updateUserWishlist() {
+        const userRef = doc(db, "users", currentUser.uid);
+        await updateDoc(userRef, {
+            wishlist: wishlist
+          });
+        console.log('updateUserWishlist')
+      }
+      async function updateUserCart() {
+        const userRef = doc(db, "users", currentUser.uid);
+        await updateDoc(userRef, {
+            cart: cart
+          });
+        console.log('updateUserCart')
+
+      }
+      try {
+        await updateUserWishlist();
+        await updateUserCart();
+        await signOut(auth).then(() => {
             toast.dismiss()
             toast.success("Successfully logged out.", {autoClose: 1500})
-            if (pathname==="/apps/wishlist" || pathname==="/cart" || pathname==="/checkout" || pathname==="/account/logout") {
+            if (pathname==="/account/logout") {
                 navigate('/')
             }
-        }).catch(error => {
-            console.log(error.message)
-        })
+            }).catch(error => {
+                console.log(error.message)
+            })
+      } catch(error) {
+        console.log(error.message);
+        await signOut(auth).then(() => {
+          toast.dismiss()
+          toast.success("Successfully logged out.", {autoClose: 1500})
+          if (pathname==="/account/logout") {
+              navigate('/')
+          }
+          }).catch(error => {
+              console.log(error.message)
+          })
+      }
     }
+    
     useEffect(() => {
-            logout();
-    }, []);
+      if (currentUser != null) {       
+        logout()
+      } else {
+        navigate('/')
+      }
+  }, [currentUser])
+  
 
     return (
         <section className='account-page-register'>
