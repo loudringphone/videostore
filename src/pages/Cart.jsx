@@ -7,6 +7,7 @@ import CartItemCard from '../components/UI/CartItemCard';
 import accounting from 'accounting'
 import { firebaseQuery } from '../functions/firebaseQuery';
 
+import processing from '../assets/images/loading.gif'
 import '../styles/cart.css'
 
 export const Cart = () => {
@@ -15,8 +16,12 @@ export const Cart = () => {
   const [items, setItems] = useState([]);
   const [isFetched, setIsFetched] = useState(false);
   const [cartItems, setCartItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cart));
+    setLoading(false);
+
   }, [cart]);
   const dispatch = useDispatch();
   useEffect(()=>{
@@ -69,18 +74,16 @@ export const Cart = () => {
       }
     });
     setCartItems(updatedCartItems)
+    // setLoading(false);
   }, [cart.cartItems, items]);
 
 
   let title = "Your Basket";
-  const [loading, setLoading] = useState(true);
   
 
   const fetchItems = async () => {
-    setLoading(true);
     const newData = await firebaseQuery(cartItemIds, 'items');
     setItems(newData);
-    setLoading(false);
   }
   
 
@@ -92,6 +95,40 @@ export const Cart = () => {
 
   const handleMouseLeave = () => {
     setShowArrow(false);
+  }
+
+  if (loading) {
+    return (
+      <Helmet title='Your Basket'>
+        <>
+        <header className='cart-title'>
+        <div className='cart-title-left'>
+          <h2>Your basket</h2>
+        </div>
+        <div className='cart-title-right'>
+          
+        <Link to='/' className='cart-continue' onMouseLeave={handleMouseLeave} onMouseOver={handleMouseOver}>
+  Continue shopping&nbsp;
+  {showArrow ? (
+    <i className="ri-arrow-right-line"></i>
+  ) : (
+    <i className="ri-arrow-right-s-line"></i>
+  )}
+</Link>
+        </div>
+      </header>
+      <section className='cartitems--container-empty'>
+
+<div className="processing">
+        <img src={processing} alt="processing" style={{height: '30px'}}/>
+        Retrieving shopping cart...
+</div>
+</section>
+        </>
+        
+      </Helmet>
+
+    )
   }
 
   return (

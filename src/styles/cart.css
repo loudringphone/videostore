@@ -131,7 +131,7 @@ button.primary-checkout {
     margin-bottom: 20px;
 }
 a.cart-continue {
-    color: #E5342E;
+    color: #E5342E !important;
     text-decoration: #E5342E !important;
 }
 
