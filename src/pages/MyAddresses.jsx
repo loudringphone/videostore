@@ -1,6 +1,7 @@
 import React from 'react'
 import { useNavigate } from "react-router-dom"
-
+import { Helmet } from '../components/helmet/Helmet'
+import processing from '../assets/images/loading.gif'
 
 export const MyAddresses = (props) => {
     const currentUser = props.currentUser
@@ -15,21 +16,31 @@ export const MyAddresses = (props) => {
             navigate('/account/login')
         }, 1500)
         return (
+            <Helmet title='Addresses'>
             <section className='account-page'>
                 <div className="processing">
                     Please log in to view your account.
                 </div>
             </section>
+            </Helmet>
         ) 
     }
     else {
         if (Object.keys(currentUser)?.length === 0) {
             return (
+                <Helmet title='Addresses'>
                 <section className="account-page account-page-addresses">
+                    <div className="processing">
+                        <img src={processing} alt="processing" style={{height: '30px'}}/>
+                        Loading address information...
+                    </div>
                 </section>
+                </Helmet>
+
             )
         } else {
             return (
+                <Helmet title='Addresses'>
                 <section className="account-page account-page-details">
                     <header className="account-page-masthead">
                         <h2 className="account-page-title">
@@ -79,6 +90,7 @@ export const MyAddresses = (props) => {
                         
                     </div>
                 </section>
+                </Helmet>
             
             )
         }

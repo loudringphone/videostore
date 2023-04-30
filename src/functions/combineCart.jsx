@@ -1,3 +1,6 @@
+
+
+
 const combineCart = (firebase, local) => {
     let combinedCartItems = []
     let combinedCart =   {

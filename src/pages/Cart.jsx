@@ -121,7 +121,7 @@ export const Cart = () => {
               cartItems?.map((item, i) => (
                 item.id? (
                   <li key={i}>
-                    <CartItemCard key={i} item={item}/>
+                    <CartItemCard item={item}/>
                   </li>
                 ):(
                   <></>

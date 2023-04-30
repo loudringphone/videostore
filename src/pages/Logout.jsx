@@ -51,15 +51,21 @@ const Logout = () => {
             })
       } catch(error) {
         console.log(error.message);
-        await signOut(auth).then(() => {
-          toast.dismiss()
-          toast.success("Successfully logged out.", {autoClose: 1500})
-          if (pathname==="/account/logout") {
-              navigate('/')
-          }
-          }).catch(error => {
-              console.log(error.message)
+        console.log(auth.currentUser)
+        if (auth.currentUser === null) {
+          navigate('/')
+        }else {
+          await signOut(auth).then(() => {
+            toast.dismiss()
+            toast.success("Successfully logged out.", {autoClose: 1500})
+            if (pathname==="/account/logout") {
+                navigate('/')
+            }
+            }).catch(error => {
+                console.log(error.message)
           })
+        }
+        
       }
     }
     

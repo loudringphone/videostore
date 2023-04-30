@@ -91,9 +91,7 @@ const Signup = (props) => {
           wishlist: wishlist,
           cart: cart,
           addresses: {
-            1:{firstName:"",lastName:"",company:"",address1:"",address2:"",city:"",country:"Australia",state:"",zip:"",phone:""},
-            2:{},
-            3:{},
+            1:{firstName:"",lastName:"",company:"",address1:"",address2:"",city:"",country:"",state:"",zip:"",phone:""},
             default: 1}
         })
       setLoading(false)
