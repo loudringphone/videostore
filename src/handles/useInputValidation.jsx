@@ -280,10 +280,14 @@ function useInputValidation() {
   }
 
   const handlePhoneChange = (event) => {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      setPhoneHasValue(event.target.value !== '');
-      defaultAddressInputRef.current.focus()
+    if (window.innerWidth >= 800) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        setPhoneHasValue(event.target.value !== '');
+        defaultAddressInputRef.current.focus()
+      } else {
+        setPhoneHasValue(event.target.value !== '');
+      }
     } else {
       setPhoneHasValue(event.target.value !== '');
     }
