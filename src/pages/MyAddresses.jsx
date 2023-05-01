@@ -11,7 +11,9 @@ export const MyAddresses = (props) => {
     const navigate = useNavigate()
     const [userInfo, setUserInfo] = useState({})
     const [defaultAddress, setDefaultAddress] = useState([])
+    const [otherAddresses, setOtherAddresses] = useState([])
     const [loading, setLoading] = useState(true)
+    const [addressAction, setAddressAction] = useState(0)
 
     useEffect(() => {
         if (currentUser != null) {       
@@ -29,11 +31,12 @@ export const MyAddresses = (props) => {
             }
             fetchUser()
         }
-    }, [currentUser])
+        console.log('action')
+    }, [currentUser, addressAction])
 
     useEffect(() => {
         if (Object.keys(userInfo)?.length > 0) {
-            if (userInfo.addresses?.default) {
+            if (userInfo.addresses?.default !== undefined) {
                 const defaultAddressObj = userInfo.addresses[userInfo.addresses.default]
                 let defaultAddressArr =
                     [
@@ -47,6 +50,9 @@ export const MyAddresses = (props) => {
                     ]
                     for (let i = 0; i < defaultAddressArr.length; i++) {
                         const element = defaultAddressArr[i];
+                        if (defaultAddressArr[i].startsWith(',')) {
+                            defaultAddressArr[i] = defaultAddressArr[i].slice(1);
+                        }
                         defaultAddressArr[i] = defaultAddressArr[i].trim()
                         if (defaultAddressArr[i].endsWith(',')) {
                             defaultAddressArr[i] = defaultAddressArr[i].slice(0, -1);
@@ -58,19 +64,63 @@ export const MyAddresses = (props) => {
                     }
                 defaultAddressArr = [userInfo.addresses.default, defaultAddressArr]
                 setDefaultAddress(defaultAddressArr)
+
+
             }
+                const defaultIndex = userInfo.addresses.default
+                let addressKeys = Object.keys(userInfo.addresses)
+                addressKeys = addressKeys.filter((key) => key != defaultIndex && key != 'default')
+                let otherAddressesArr = []
+                for (let key of addressKeys) {
+                    const addressObj = userInfo.addresses[key]
+                    let addressArr = 
+                    [
+                        `${addressObj.firstName} ${addressObj.lastName}`,
+                        addressObj.company,
+                        addressObj.address1,
+                        addressObj.address2,
+                        `${addressObj.city}, ${addressObj.state}`,
+                        `${addressObj.country} ${addressObj.zip}`,
+                        addressObj.phone
+                    ]
+                    for (let i = 0; i < addressArr.length; i++) {
+                        const element = addressArr[i];
+                        if (addressArr[i].startsWith(',')) {
+                            addressArr[i] = addressArr[i].slice(1);
+                        }
+                        addressArr[i] = addressArr[i].trim()
+                        if (addressArr[i].endsWith(',')) {
+                            addressArr[i] = addressArr[i].slice(0, -1);
+                        }
+                        if (element === " " || element === ", " || element.length === 0) {
+                            addressArr.splice(i, 1);
+                            i--;
+                        }
+                    }
+                    addressArr = [key, addressArr]
+                    otherAddressesArr.push(addressArr)
+                }
+                setOtherAddresses(otherAddressesArr)
+                console.log(otherAddresses)
+            
             setLoading(false)
         }
     },[userInfo])
 
+    function handleAddressAction(newState) {
+        setAddressAction(newState);
+      }
 
 
-
-
-
-
-
-
+    const [editId, setEditId] = useState(null);
+    
+    const handleEdit = (event) => {
+        const id = event.target.id;
+        setEditId(id);
+    };
+    const handleDelete = (event) => {
+        const id = event.target.id;
+    };
 
 
 
@@ -129,52 +179,69 @@ export const MyAddresses = (props) => {
                     </header>
 
                     <div className="account-page-content">
-                    <div class="account-page--two-column">
-                    {defaultAddress?.length > 0 ? (
-                    <div class="account-page--column-half account-addresses">
-                        <h5 class="account-page-subtitle">
+                    <div className="account-page--two-column">
+                    {defaultAddress?.length > 0 || otherAddresses?.length > 0 ? (
+                    <div className="account-page--column-half account-addresses">
+                        <h5 className="account-page-subtitle">
                         Addresses
                         </h5>
                         
 
 
                         
-                        <ul class="account-address-wrapper">
-                        
-                            <li class="account-address">
-                                <ul class="account-address-list">
-                                    {defaultAddress[1].map((e, i) => {
-                                        return <li key={i}>{e}</li>;
-                                    })}
+                        <ul className="account-address-wrapper">
+                            {defaultAddress.length > 0 && (
+                            <li className="account-address" id={`address${defaultAddress[0]}`}>
+                                <ul className="account-address-list">
+                                {defaultAddress[1]?.map((e, i) => {
+                                    return <li key={i}>{e}</li>;
+                                })}
                                 </ul>
-                                <p class="account-address-item account-address-item--default" style={{fontStyle: 'italic'}}>
+                                <p className="account-address-item account-address-item--default" style={{fontStyle: 'italic'}}>
                                 Default address
                                 </p>
-                                <div class="account-address-list-footer">
-                                    <button class="button-primary mdc-ripple-surface mdc-ripple-upgraded" type="button" data-edit-address="7713400127585">
+                                <div className="account-address-list-footer">
+                                <button id={`editAddress${defaultAddress[0]}`} onClick={handleEdit}>
+                                    Edit
+                                </button>
+
+                                <button id={`deleteAddress${defaultAddress[0]}`} onClick={handleDelete}>
+                                    Delete
+                                </button>
+                                </div>
+                            </li>
+                            )}
+
+                            {otherAddresses.map((address, index) => (
+                            <li className="account-address" key={index} id={`address${address[0]}`}>
+                                <ul className="account-address-list">
+                                {address[1].map((detail, i) => (
+                                    <li key={i}>{detail}</li>
+                                ))}
+                                </ul>
+                                <div className="account-address-list-footer">
+                                    <button id={`editAddress${address[0]}`} onClick={handleEdit}>
                                     Edit
                                     </button>
-
-                                    <button class="button-secondary mdc-ripple-surface mdc-ripple-upgraded" type="button" data-delete-address="7713400127585">
+                                    <button id={`deleteAddress${address[0]}`} onClick={handleDelete}>
                                     Delete
                                     </button>
                                 </div>
                             </li>
-                            
+                            ))}
                         </ul>
-                        
-
-            
-
-
 
                     </div>
                     ) : (
                         <></>
                     )
                     }
-                        <div class="account-page--column-half account-addresses">
-                            <AddressForm />
+                        <div className="account-page--column-half account-addresses">
+                            <AddressForm 
+                                userInfo={userInfo}
+                                addressAction={handleAddressAction}
+                                editId={editId}
+                            />
                         </div>
 
             

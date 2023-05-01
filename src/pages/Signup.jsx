@@ -91,8 +91,8 @@ const Signup = (props) => {
           wishlist: wishlist,
           cart: cart,
           addresses: {
-            1:{firstName:"",lastName:"",company:"",address1:"",address2:"",city:"",country:"",state:"",zip:"",phone:""},
-            default: 1}
+            0:{firstName:"",lastName:"",company:"",address1:"",address2:"",city:"",country:"",state:"",zip:"",phone:""},
+            default: 0}
         })
       setLoading(false)
       toast.success("Congratulations, your account has been successfully created.", {autoClose: 1500})

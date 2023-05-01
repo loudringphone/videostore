@@ -195,6 +195,11 @@ label.form-field-checkbox {
     place-content: flex-start;
     height: 100%;
 }
+
+.account-address-wrapper {
+    gap: 20px;
+}
+
 .account-address-list {
     flex-direction: column;
     text-align-last: left;
@@ -207,6 +212,9 @@ li.account-address {
     padding: 15px;
     border: 1px solid rgba(125,125,125,.16);
     box-shadow: 0 1px 4px #7d7d7d1c;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 .account-address-list-footer {
     display: flex;
@@ -217,6 +225,7 @@ li.account-address button{
     width: max-content;
     padding-left: 10px;
     padding-right: 10px;
+
 }
 
 

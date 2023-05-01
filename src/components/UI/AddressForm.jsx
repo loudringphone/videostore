@@ -1,5 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from 'react'
 import useInputValidation from "../../handles/useInputValidation";
+import {db} from '../../firebase_setup/firebase';
+import { doc, updateDoc } from "firebase/firestore";
+import { toast } from "react-toastify"
 
 
 const AddressForm = (props) => {
@@ -77,6 +80,8 @@ const AddressForm = (props) => {
     const [zip, setZip] = useState("")
     const [phone, setPhone] = useState("")
     const [defaultAddress, setDefaultAddress] = useState(false)
+    const [actionCount, setActionCount] = useState(0)
+
 
     
 
@@ -119,29 +124,101 @@ const AddressForm = (props) => {
   };
 
 
-
-  const editAddress = async(e) => {
+  const userInfo = props.userInfo
+  const addressAction = async(e) => {
     e.preventDefault();
-
+    let addresses = null
+    let index = null
+    if (userInfo.addresses !== undefined) {
+        addresses = userInfo.addresses
+        for (let i = 0; i <= Infinity; i++) {
+            if (addresses[i] === undefined) {
+                index = i
+                break
+            }
+        }
+    } else {
+        addresses = {1:{},default: 1};
+        index = 1;
+    }
+        addresses[index] = 
+            {
+                firstName: firstName,
+                lastName: lastName,
+                company: company,
+                address1: address1,
+                address2: address2,
+                city: city,
+                country: country,
+                state: state,
+                zip: zip,
+                phone: phone
+            }
+            // console.log(typeof userInfo.addresses["default"])
+        if (defaultAddress || typeof userInfo.addresses["default"] != 'number') {
+            addresses["default"] = index
+        }
+        
+        // console.log(addresses)
+    async function updateAddress() {
+        const userRef = doc(db, "users", userInfo.uid);
+        await updateDoc(userRef, {
+            addresses: addresses
+          });
+        console.log('updateAddress')
+      }
     try {
-      
-     
+        // updateAddress()
+        
+        // setFirstName("")
+        // setLastName("")
+        // setCompany("")
+        // setAddress1("")
+        // setAddress2("")
+        // setCity("")
+        // setCountry("Australia")
+        // setState("New South Wales")
+        // setZip("")
+        // setPhone("")
+        // setDefaultAddress(false)
+    
+        // setActionCount(actionCount + 1)
+        
+        // toast.success("Address added.", {autoClose: 1500})
     } catch (error) {
       console.log(error.code)
       
     }
   }
 
+  useEffect(() => {
+    props.addressAction(actionCount)
+  }, [actionCount])
+ 
+
+
+
+  const editId = props.editId
+  
+  useEffect(() => {
+    console.log(editId)
+
+
+
+  }, [editId])
+
+
   return (
      <div className="account-address-form" >
         <h5 className='account-page-subtitle'>Add a new address</h5>
-        <form  autoComplete='off' onSubmit={editAddress} action="account/addresses" id="address-form">
+        <form  autoComplete='off' onSubmit={addressAction} action="account/addresses" id="address-form">
             <div className="form-field-columns">
                 <div className="form-field form-field-half">
                     <input 
                     type="text" 
                     id="customer_first_name" 
                     className="form-field-input"
+                    value={firstName || ""}
                     autoCorrect='off' 
                     autoCapitalize='off' 
                     onFocus={handleFirstNameFocus}
@@ -163,6 +240,7 @@ const AddressForm = (props) => {
                     type="text" 
                     id="customer_last_name" 
                     className="form-field-input"
+                    value={lastName || ""}
                     autoCorrect='off' 
                     autoCapitalize='off' 
                     onFocus={handleLastNameFocus}
@@ -185,6 +263,7 @@ const AddressForm = (props) => {
                   type="text" 
                   id="customer_company" 
                   className="form-field-input"
+                  value={company || ""}
                   autoCorrect='off' 
                   autoCapitalize='off' 
                   onFocus={handleCompanyFocus}
@@ -206,6 +285,7 @@ const AddressForm = (props) => {
                   type="text" 
                   id="customer_address1" 
                   className="form-field-input"
+                  value={address1 || ""}
                   autoCorrect='off' 
                   autoCapitalize='off' 
                   onFocus={handleAddress1Focus}
@@ -227,6 +307,7 @@ const AddressForm = (props) => {
                   type="text" 
                   id="customer_address2" 
                   className="form-field-input"
+                  value={address2 || ""}
                   autoCorrect='off' 
                   autoCapitalize='off' 
                   onFocus={handleAddress2Focus}
@@ -249,6 +330,7 @@ const AddressForm = (props) => {
                     type="text" 
                     id="customer_city" 
                     className="form-field-input"
+                    value={city || ""}
                     autoCorrect='off' 
                     autoCapitalize='off' 
                     onFocus={handleCityFocus}
@@ -275,6 +357,7 @@ const AddressForm = (props) => {
                             id="customer_country"
                             className="form-field"
                             aria-label="Country"
+                            value={country || "Australia"}
                             onFocus={handleCountryFocus}
                             onBlur={handleCountryBlur}
                             onChange={handleCountryChange}
@@ -304,8 +387,8 @@ const AddressForm = (props) => {
                             <select 
                             id="customer_state"
                             className="form-field"
+                            value={state || "New South Wales"}
                             aria-label="state"
-                            defaultValue="New South Wales"
                             onFocus={handleStateFocus}
                             onBlur={handleStateBlur}
                             onChange={handleStateChange}
@@ -351,6 +434,7 @@ const AddressForm = (props) => {
                     type="text" 
                     id="customer_zip" 
                     className="form-field-input"
+                    value={zip || ""}
                     autoCorrect='off' 
                     autoCapitalize='off' 
                     onFocus={handleZipFocus}
@@ -374,6 +458,7 @@ const AddressForm = (props) => {
                     type="text" 
                     id="customer_phone" 
                     className="form-field-input"
+                    value={phone || ""}
                     autoCorrect='off' 
                     autoCapitalize='off' 
                     onFocus={handlePhoneFocus}
@@ -393,7 +478,7 @@ const AddressForm = (props) => {
                 <div className="form-field form-field-half">
                     <label className="form-field-checkbox" htmlFor="address_default_address">
                         <input type="checkbox" id="default_address" name="address[default]"
-                        checked={defaultAddress}
+                        checked={defaultAddress || false}
                         onChange={handleCheckboxChange}
                         ref={defaultAddressInputRef}/>
                         <span className="form-field-title--inline">
