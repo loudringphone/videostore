@@ -128,7 +128,6 @@ form#create_customer div.form-action-row {
     width: 90vw;
     gap: 35px;
     justify-content: space-around;
-    
 }
 .account-page--column-large.account-order-history {
     justify-self: left;
@@ -218,8 +217,6 @@ li.account-address button{
     width: max-content;
     padding-left: 10px;
     padding-right: 10px;
-
-
 }
 
 
@@ -234,8 +231,11 @@ li.account-address button{
 }
 
 
-
-
+@media (max-width: 900px) {
+    .account-page--two-column {
+        flex-direction: column;
+    }
+}
 
 @media (max-width: 650px) {
     form#customer_login {
@@ -253,6 +253,17 @@ li.account-address button{
         align-items: flex-start;
         flex-direction: column;
         gap: 10px;
+    }
+}
+
+@media (max-width: 620px) {
+    .account-address-form {
+        width: 90%;
+    }
+}
+@media (max-width: 450px) {
+    .form-field-columns {
+        flex-direction: column;
     }
 }
 
@@ -275,5 +286,13 @@ li.account-address button{
     .form-action-row button.sign-in {
         max-width: 80px;
         max-height: 55px;
+    }
+}
+
+@media (max-width: 400px) {
+    li.account-address {
+        width: 70%;
+        min-width: 162px;
+        
     }
 }
