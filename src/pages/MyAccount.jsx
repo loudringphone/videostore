@@ -141,7 +141,7 @@ export const MyAccount = (props) => {
                                 )
                                 }
                                 <ul className="account-address-list">
-                                {defaultAddress[1].map((e, i) => {
+                                {defaultAddress[1]?.map((e, i) => {
                                     return <li key={i}>{e}</li>;
                                 })}
                                 </ul>
