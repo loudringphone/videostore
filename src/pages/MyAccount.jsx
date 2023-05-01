@@ -13,6 +13,7 @@ export const MyAccount = (props) => {
     const navigate = useNavigate()
     const [userInfo, setUserInfo] = useState({})
     const [defaultAddress, setDefaultAddress] = useState([])
+    const [addressQuantity, setAddressQuantity] = useState(null)
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
@@ -35,7 +36,7 @@ export const MyAccount = (props) => {
 
     useEffect(() => {
         if (Object.keys(userInfo)?.length > 0) {
-            if (userInfo.addresses?.default) {
+            if (userInfo.addresses?.default !== undefined) {
                 const defaultAddressObj = userInfo.addresses[userInfo.addresses?.default]
                 let defaultAddressArr =
                     [
@@ -61,6 +62,20 @@ export const MyAccount = (props) => {
                     defaultAddressArr = [userInfo.addresses.default, defaultAddressArr]
                     setDefaultAddress(defaultAddressArr)
             }
+
+            let addressKeys = Object.keys(userInfo.addresses);
+            addressKeys = addressKeys.filter((key) => key !== "default");
+            setAddressQuantity(addressKeys.length)
+
+
+
+
+
+
+
+
+
+
             setLoading(false)
         }
     },[userInfo])
@@ -150,9 +165,9 @@ export const MyAccount = (props) => {
                                 
                                 
                             <p class="account-addresses">
-                                {defaultAddress?.length > 0 ? (
+                                {addressQuantity > 0 ? (
                                     <a href="/account/addresses">
-                                        View addresses ({userInfo.addresses[3] === undefined? userInfo.addresses[2] === undefined? 1 : 2 : 3})
+                                        View addresses ({addressQuantity})
                                     </a>
                                 ) : (
                                     <a href="/account/addresses">

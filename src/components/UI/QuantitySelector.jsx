@@ -2,8 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from 'react-redux';
 import { cartActions } from '../../redux/slices/cartSlice';
-import { toast } from "react-toastify";
-import { Zoom } from 'react-toastify';
+import { toast, Zoom } from "react-toastify";
 import { useLocation } from "react-router-dom";
 import accounting from 'accounting'
 import '../../styles/product-details.css'

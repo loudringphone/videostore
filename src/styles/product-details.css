@@ -143,7 +143,6 @@ select.form-field {
 .custom-toast-error {
     background: #F7DDDD !important;
     color: #F05D5D !important;
-    width: 100vw;
 }
 
 .custom-toast-error button {
@@ -173,5 +172,8 @@ select.form-field {
     }
     .product_info {
         width: 90vw; 
+    }
+    .custom-toast-error {
+        width: 100vw;
     }
 }

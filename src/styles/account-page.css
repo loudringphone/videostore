@@ -6,13 +6,14 @@
     margin: 0;
 }
 .account-page  {
-    margin-top: 50px !important;
-    margin-bottom: 50px !important;
+    margin-top: 35px !important;
+    margin-bottom: 35px !important;
     display: flex;
     margin: auto;
     flex-direction: column;
     align-items: center;
     min-height: 350px;
+    position: relative;
 }
 .account-page a {
     color: #E5342E !important;
@@ -70,7 +71,10 @@ form#customer_login {
     gap: 15px;
 }
 .form-action-row button {
-    width: 100px;
+    width: max-content;
+    padding-left: 10px;
+    padding-right: 10px;
+
 }
 
 .form-action-row  a {
@@ -125,8 +129,8 @@ form#create_customer div.form-action-row {
 
 .account-page--two-column {
     display: flex;
-    width: 90vw;
-    gap: 35px;
+    width: 80vw;
+    gap: 25px;
     justify-content: space-around;
 }
 .account-page--column-large.account-order-history {
@@ -197,6 +201,7 @@ label.form-field-checkbox {
 }
 
 .account-address-wrapper {
+    max-width: 550px;
     gap: 20px;
 }
 
@@ -228,21 +233,38 @@ li.account-address button{
 
 }
 
-
-
-
-
-
 .form-field-columns {
     width: 100%;
     display:flex;
     gap: 1.17rem;
 }
 
+.updating {
+    height: 100%;
+    position: absolute;
+    background-color: white;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+    opacity: 0.8;
+    display: flex;
+    align-items: center;
+}
+.account-page .updating {
+    z-index: 2;
+    background-color: white;
+    padding: 8px;
+    position: absolute;
+    border: 1px solid black;
+    border-radius: 3px;
+    box-shadow: 0 1px 4px #7d7d7d1c;
+}
+
 
 @media (max-width: 900px) {
     .account-page--two-column {
         flex-direction: column;
+        width: 90vw;
     }
 }
 

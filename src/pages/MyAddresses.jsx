@@ -3,7 +3,9 @@ import { useNavigate } from "react-router-dom"
 import { Helmet } from '../components/helmet/Helmet'
 import processing from '../assets/images/loading.gif'
 import AddressForm from '../components/UI/AddressForm'
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { toast, Zoom } from "react-toastify"
+
 import {db} from '../firebase_setup/firebase';
 
 export const MyAddresses = (props) => {
@@ -13,26 +15,31 @@ export const MyAddresses = (props) => {
     const [defaultAddress, setDefaultAddress] = useState([])
     const [otherAddresses, setOtherAddresses] = useState([])
     const [loading, setLoading] = useState(true)
-    const [addressAction, setAddressAction] = useState(0)
+    const [cancelEdit, setCancelEdit] = useState(false)
+    const [isLatest, setIsLatest] = useState(true)
+    const [isFirstLoaded, setIsFirstLoaded] = useState(true)
+
 
     useEffect(() => {
         if (currentUser != null) {       
-
-        const fetchUser = async () => {
-            const docRef = doc(db, "users", currentUser.uid);
-            const docSnap = await getDoc(docRef);
-            if (docSnap.exists()) {
-                setUserInfo(docSnap.data());
-                // console.log(docSnap.data())
-            } else {
-            // docSnap.data() will be undefined in this case
-            console.log("No such user!");
-            }
-            }
-            fetchUser()
+        if (!isLatest || isFirstLoaded) {
+            console.log('fetching user')
+            const fetchUser = async () => {
+                const docRef = doc(db, "users", currentUser.uid);
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    setUserInfo(docSnap.data());
+                    setIsFirstLoaded(false)
+                    // console.log(docSnap.data())
+                } else {
+                // docSnap.data() will be undefined in this case
+                console.log("No such user!");
+                }
+                }
+                fetchUser()
         }
-        console.log('action')
-    }, [currentUser, addressAction])
+        }
+    }, [currentUser, isLatest])
 
     useEffect(() => {
         if (Object.keys(userInfo)?.length > 0) {
@@ -101,29 +108,67 @@ export const MyAddresses = (props) => {
                     otherAddressesArr.push(addressArr)
                 }
                 setOtherAddresses(otherAddressesArr)
-                console.log(otherAddresses)
             
             setLoading(false)
+            setTimeout(() => {
+                setIsLatest(true)
+            }, 500);
         }
     },[userInfo])
 
-    function handleAddressAction(newState) {
-        setAddressAction(newState);
-      }
+    function handleUpdate(newState) {
+        setIsLatest(newState);
+    }
+    function handleCancelEdit(newState) {
+        setCancelEdit(newState);
+    }
 
 
-    const [editId, setEditId] = useState(null);
+    const [editAddress, setEditAddress] = useState(null);
     
     const handleEdit = (event) => {
         const id = event.target.id;
-        setEditId(id);
+        setEditAddress([Number(id.replace("editAddress", "")), userInfo.addresses[Number(id.replace("editAddress", ""))]]);
+        setCancelEdit(false)
     };
+    useEffect(() => {
+        if(cancelEdit) {
+            setEditAddress(null)
+        }
+
+    },[cancelEdit])
+
+
     const handleDelete = (event) => {
-        const id = event.target.id;
+        const deleteAddressId = event.target.id;
+        const id = Number(deleteAddressId.replace("deleteAddress",""))
+        const addresses = userInfo.addresses
+
+        if (userInfo.addresses.default === id) {
+            return (
+                toast.error("Default address can't be deleted.", {autoClose: 1500, className: "custom-toast-error", transition: Zoom })
+            )
+        }
+
+        delete addresses[id]
+        async function deleteAddress() {
+            const userRef = doc(db, "users", userInfo.uid);
+            await updateDoc(userRef, {
+                addresses: addresses
+              });
+            console.log('deleteAddress')
+          }
+        try {
+            deleteAddress()
+            setIsLatest(false)
+            toast.success("Address deleted.", {autoClose: 1500})
+        } catch (error) {
+          console.log(error.code)
+        }
     };
 
 
-
+    
 
 
     if (currentUser === null || currentUser === undefined) {
@@ -168,10 +213,34 @@ export const MyAddresses = (props) => {
                 )
 
 
+            // } else if (!isLatest){
+            //     return (
+            //         <Helmet title='Addresses'>
+            //         <section className="account-page account-page-addresses">
+                        // <div className="processing">
+                        //     <img src={processing} alt="processing" style={{height: '30px'}}/>
+                        //     Updating address information...
+                        // </div>
+            //         </section>
+            //         </Helmet>
+    
+            //     )
             } else {
+            
             return (
                 <Helmet title='Addresses'>
+                    
                 <section className="account-page account-page-details">
+                {!isLatest && (
+                        
+                        <div className="updating"> 
+                            
+                        </div>)}
+                        {!isLatest && (
+                        <div className="processing updating">
+                                <img src={processing} alt="processing" style={{height: '30px'}}/>
+                                Updating address information...
+                            </div>)}
                     <header className="account-page-masthead">
                         <h2 className="account-page-title">
                         My Addresses
@@ -239,8 +308,9 @@ export const MyAddresses = (props) => {
                         <div className="account-page--column-half account-addresses">
                             <AddressForm 
                                 userInfo={userInfo}
-                                addressAction={handleAddressAction}
-                                editId={editId}
+                                handleIsLatest={handleUpdate}
+                                editAddress={editAddress}
+                                cancelEdit={handleCancelEdit}
                             />
                         </div>
 

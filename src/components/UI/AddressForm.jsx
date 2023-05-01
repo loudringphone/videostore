@@ -68,6 +68,25 @@ const AddressForm = (props) => {
         handleStateBlur,
         handleStateChange,
         defaultAddressInputRef,
+        setFirstNameHasValue,
+        setLastNameHasValue,
+        setCompanyHasValue,
+        setAddress1HasValue,
+        setAddress2HasValue,
+        setCityHasValue,
+        setZipHasValue,
+        setPhoneHasValue,
+
+        setFirstNameFocused,
+        setLastNameFocused,
+        setCompanyFocused,
+        setAddress1Focused,
+        setAddress2Focused,
+        setCityFocused,
+        setZipFocused,
+        setPhoneFocused,
+
+
       } = useInputValidation();
     const [firstName, setFirstName] = useState("")
     const [lastName, setLastName] = useState("")
@@ -80,7 +99,6 @@ const AddressForm = (props) => {
     const [zip, setZip] = useState("")
     const [phone, setPhone] = useState("")
     const [defaultAddress, setDefaultAddress] = useState(false)
-    const [actionCount, setActionCount] = useState(0)
 
 
     
@@ -141,6 +159,14 @@ const AddressForm = (props) => {
         addresses = {1:{},default: 1};
         index = 1;
     }
+    if (editAddress != null) {
+        index = editAddress[0]
+    }
+
+
+
+
+
         addresses[index] = 
             {
                 firstName: firstName,
@@ -168,50 +194,162 @@ const AddressForm = (props) => {
         console.log('updateAddress')
       }
     try {
-        // updateAddress()
-        
-        // setFirstName("")
-        // setLastName("")
-        // setCompany("")
-        // setAddress1("")
-        // setAddress2("")
-        // setCity("")
-        // setCountry("Australia")
-        // setState("New South Wales")
-        // setZip("")
-        // setPhone("")
-        // setDefaultAddress(false)
+        updateAddress()
+       
+        setFirstName("")
+        setLastName("")
+        setCompany("")
+        setAddress1("")
+        setAddress2("")
+        setCity("")
+        setCountry("Australia")
+        setState("New South Wales")
+        setZip("")
+        setPhone("")
     
-        // setActionCount(actionCount + 1)
+        setDefaultAddress(false)
+        setFirstNameHasValue(false)
+        setLastNameHasValue(false)
+        setCompanyHasValue(false)
+        setAddress1HasValue(false)
+        setAddress2HasValue(false)
+        setCityHasValue(false)
+        setZipHasValue(false)
+        setPhoneHasValue(false)
+        setFirstNameFocused(false)
+        setLastNameFocused(false)
+        setCompanyFocused(false)
+        setAddress1Focused(false)
+        setAddress2Focused(false)
+        setCityFocused(false)
+        setZipFocused(false)
+        setPhoneFocused(false)
         
-        // toast.success("Address added.", {autoClose: 1500})
+        props.handleIsLatest(false)
+        props.cancelEdit(true)
+    if (editAddress != null) {
+        toast.success("Address updated.", {autoClose: 1500})
+    } else {
+        toast.success("Address added.", {autoClose: 1500})
+
+    }
     } catch (error) {
       console.log(error.code)
       
     }
   }
 
-  useEffect(() => {
-    props.addressAction(actionCount)
-  }, [actionCount])
  
 
 
 
-  const editId = props.editId
+  const editAddress = props.editAddress
   
   useEffect(() => {
-    console.log(editId)
+    if (editAddress != null) {
+        setFirstNameHasValue(false)
+        setLastNameHasValue(false)
+        setCompanyHasValue(false)
+        setAddress1HasValue(false)
+        setAddress2HasValue(false)
+        setCityHasValue(false)
+        setZipHasValue(false)
+        setPhoneHasValue(false)
+        if (editAddress[1].firstName === undefined || editAddress[1].firstName?.length === 0) {
+            setFirstName("")
+        } else {
+            setFirstName(editAddress[1].firstName)
+            setFirstNameHasValue(true)
+        }
+        if (editAddress[1].lastName === undefined || editAddress[1].lastName?.length === 0) {
+            setLastName("")
+        } else {
+            setLastName(editAddress[1].lastName)
+            setLastNameHasValue(true)
+        }
+        if (editAddress[1].company === undefined || editAddress[1].company?.length === 0) {
+            setCompany("")
+        } else {
+            setCompany(editAddress[1].company)
+            setCompanyHasValue(true)
+        }
+        if (editAddress[1].address1 === undefined || editAddress[1].address1?.length === 0) {
+            setAddress1("")
+        } else {
+            setAddress1(editAddress[1].address1)
+            setAddress1HasValue(true)
+        }
+        if (editAddress[1].address2 === undefined || editAddress[1].address2?.length === 0) {
+            setAddress2("")
+        } else {
+            setAddress2(editAddress[1].address2)
+            setAddress2HasValue(true)
+        }
+        if (editAddress[1].city === undefined || editAddress[1].city?.length === 0) {
+            setCity("")
+        } else {
+            setCity(editAddress[1].city)
+            setCityHasValue(true)
+        }
+        if (editAddress[1].country === undefined || editAddress[1].country?.length === 0) {
+            setCountry("")
+        } else {
+            setCountry(editAddress[1].country)
+        }
+        if (editAddress[1].state === undefined || editAddress[1].state?.length === 0) {
+            setState("")
+        } else {
+            setState(editAddress[1].state)
+        }
+        if (editAddress[1].zip === undefined || editAddress[1].zip?.length === 0) {
+            setZip("")
+        } else {
+            setZip(editAddress[1].zip)
+            setZipHasValue(true)
+        }
+        if (editAddress[1].phone === undefined || editAddress[1].phone?.length === 0) {
+            setPhone("")
+        } else {
+            setPhone(editAddress[1].phone)
+            setPhoneHasValue(true)
+        }
+        setDefaultAddress(editAddress[0] === userInfo.addresses.default)
+    }
+
+  }, [editAddress])
 
 
+  const cancelEdit = async(e) => {
+    e.preventDefault();
 
-  }, [editId])
+    setFirstName("")
+    setLastName("")
+    setCompany("")
+    setAddress1("")
+    setAddress2("")
+    setCity("")
+    setCountry("Australia")
+    setState("New South Wales")
+    setZip("")
+    setPhone("")
+    setDefaultAddress(false)
+    setFirstNameHasValue(false)
+    setLastNameHasValue(false)
+    setCompanyHasValue(false)
+    setAddress1HasValue(false)
+    setAddress2HasValue(false)
+    setCityHasValue(false)
+    setZipHasValue(false)
+    setPhoneHasValue(false)
+
+    props.cancelEdit(true)
+  }
 
 
   return (
      <div className="account-address-form" >
         <h5 className='account-page-subtitle'>Add a new address</h5>
-        <form  autoComplete='off' onSubmit={addressAction} action="account/addresses" id="address-form">
+        <form  autoComplete='off' id="address-form">
             <div className="form-field-columns">
                 <div className="form-field form-field-half">
                     <input 
@@ -487,7 +625,17 @@ const AddressForm = (props) => {
                     </label>
                 </div>
             </div>
-            <button className="add-address">Add address</button>
+            { editAddress === null? (
+                <div className="form-action-row">
+                    <button className="add-address" onClick={addressAction}>Add address</button>
+                </div>
+
+            ):(
+                <div className="form-action-row">
+                    <button className="update-address" onClick={addressAction}>Update address</button>
+                    <button className="cancel-address" onClick={cancelEdit}>Cancel</button>
+                </div>
+            )}
         </form>        
 
     </div>
