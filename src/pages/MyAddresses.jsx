@@ -11,7 +11,7 @@ export const MyAddresses = (props) => {
     const navigate = useNavigate()
     const [userInfo, setUserInfo] = useState({})
     const [defaultAddress, setDefaultAddress] = useState([])
-
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         if (currentUser != null) {       
@@ -59,6 +59,7 @@ export const MyAddresses = (props) => {
                 defaultAddressArr = [userInfo.addresses.default, defaultAddressArr]
                 setDefaultAddress(defaultAddressArr)
             }
+            setLoading(false)
         }
     },[userInfo])
 
@@ -103,6 +104,21 @@ export const MyAddresses = (props) => {
 
             )
         } else {
+            if (loading) {
+                return (
+                    <Helmet title='Addresses'>
+                    <section className="account-page account-page-addresses">
+                        <div className="processing">
+                            <img src={processing} alt="processing" style={{height: '30px'}}/>
+                            Loading address information...
+                        </div>
+                    </section>
+                    </Helmet>
+    
+                )
+
+
+            } else {
             return (
                 <Helmet title='Addresses'>
                 <section className="account-page account-page-details">
@@ -168,7 +184,7 @@ export const MyAddresses = (props) => {
                 </section>
                 </Helmet>
             
-            )
+            )}
         }
 
 

@@ -52,7 +52,7 @@ export const MyAccount = (props) => {
                         defaultAddressArr[i] = defaultAddressArr[i].trim()
                         if (defaultAddressArr[i].endsWith(',')) {
                             defaultAddressArr[i] = defaultAddressArr[i].slice(0, -1);
-                          }
+                        }
                         if (element === " " || element === ", " || element.length === 0) {
                             defaultAddressArr.splice(i, 1);
                             i--;
@@ -60,8 +60,8 @@ export const MyAccount = (props) => {
                     }
                     defaultAddressArr = [userInfo.addresses.default, defaultAddressArr]
                     setDefaultAddress(defaultAddressArr)
-                    setLoading(false)
             }
+            setLoading(false)
         }
     },[userInfo])
 
