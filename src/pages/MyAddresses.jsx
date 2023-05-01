@@ -1,12 +1,72 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from "react-router-dom"
 import { Helmet } from '../components/helmet/Helmet'
 import processing from '../assets/images/loading.gif'
 import AddressForm from '../components/UI/AddressForm'
+import { doc, getDoc } from "firebase/firestore";
+import {db} from '../firebase_setup/firebase';
 
 export const MyAddresses = (props) => {
     const currentUser = props.currentUser
     const navigate = useNavigate()
+    const [userInfo, setUserInfo] = useState({})
+    const [defaultAddress, setDefaultAddress] = useState([])
+
+
+    useEffect(() => {
+        if (currentUser != null) {       
+
+        const fetchUser = async () => {
+            const docRef = doc(db, "users", currentUser.uid);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                setUserInfo(docSnap.data());
+                // console.log(docSnap.data())
+            } else {
+            // docSnap.data() will be undefined in this case
+            console.log("No such user!");
+            }
+            }
+            fetchUser()
+        }
+    }, [currentUser])
+
+    useEffect(() => {
+        if (Object.keys(userInfo)?.length > 0) {
+            if (userInfo.addresses?.default) {
+                const defaultAddressObj = userInfo.addresses[userInfo.addresses.default]
+                let defaultAddressArr =
+                    [
+                        `${defaultAddressObj.firstName} ${defaultAddressObj.lastName}`,
+                        defaultAddressObj.company,
+                        defaultAddressObj.address1,
+                        defaultAddressObj.address2,
+                        `${defaultAddressObj.city}, ${defaultAddressObj.state}`,
+                        `${defaultAddressObj.country} ${defaultAddressObj.zip}`,
+                        defaultAddressObj.phone
+                    ]
+                    for (let i = 0; i < defaultAddressArr.length; i++) {
+                        const element = defaultAddressArr[i];
+                        defaultAddressArr[i] = defaultAddressArr[i].trim()
+                        if (element === " " || element === ", " || element.length === 0) {
+                            defaultAddressArr.splice(i, 1);
+                            i--;
+                        }
+                    }
+                defaultAddressArr = [userInfo.addresses.default, defaultAddressArr]
+                setDefaultAddress(defaultAddressArr)
+            }
+        }
+    },[userInfo])
+
+
+
+
+
+
+
+
+
 
 
 

@@ -55,6 +55,7 @@ export const MyAccount = (props) => {
                             i--;
                         }
                     }
+                    defaultAddressArr = [userInfo.addresses.default, defaultAddressArr]
                     setDefaultAddress(defaultAddressArr)
                     setLoading(false)
             }
@@ -137,7 +138,7 @@ export const MyAccount = (props) => {
                                 )
                                 }
                                 <ul className="default-address">
-                                {defaultAddress?.map((e, i) => {
+                                {defaultAddress?.slice(1).map((e, i) => {
                                     return <li key={i}>{e}</li>;
                                 })}
                                 </ul>

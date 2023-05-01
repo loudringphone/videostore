@@ -119,10 +119,23 @@ const AddressForm = (props) => {
   };
 
 
+
+  const editAddress = async(e) => {
+    e.preventDefault();
+
+    try {
+      
+     
+    } catch (error) {
+      console.log(error.code)
+      
+    }
+  }
+
   return (
      <div className="account-address-form" >
         <h5 className='account-page-subtitle'>Add a new address</h5>
-        <form action="account/addresses" id="address-form">
+        <form  autoComplete='off' onSubmit={editAddress} action="account/addresses" id="address-form">
             <div className="form-field-columns">
                 <div className="form-field form-field-half">
                     <input 
