@@ -27,17 +27,18 @@
     align-items: center;
 }
 form#customer_login {
+    display: flex;
+    flex-direction: column;
     gap: 1.17rem;
 }
 
 .form-field {
-    /* margin-bottom: 1.17rem; */
+    height: 45px;
     position: relative;
+    width: 100%;
 }
-form#customer_login .form-field {
-    margin-bottom: 1.17rem;  
-}
-form#customer_login label, form#create_customer label {
+
+.form-field-title {
     color: #909090 ;
     position: absolute;
     padding-left: 0.625rem;
@@ -47,13 +48,13 @@ form#customer_login label, form#create_customer label {
     height: max-content;
     
 }
-form#customer_login label.form-field-title--input, form#create_customer label.form-field-title--input {
+.form-field-title--input {
     font-size: smaller;
     top: 0.2rem
 }
-form#customer_login input, form#create_customer input {
+.form-field-input {
     text-align: left;
-    height: 50px;
+    height: 45px;
     font-style: normal;
     width: 100%;
     padding: 1.5rem 0.625rem 0.375rem;
@@ -65,7 +66,8 @@ form#customer_login input, form#create_customer input {
 
 .form-action-row {
     display: flex;
-    gap: 20px;
+    justify-content: left;
+    gap: 15px;
 }
 .form-action-row button {
     width: 100px;
@@ -79,20 +81,24 @@ form#customer_login input, form#create_customer input {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    line-height: 1.3;
 }
 .form-action-row--helper span {
     text-align: left;
 }
-
-
-
-
+button.create-account {
+    align-self: flex-start;
+    min-height: 40px;
+}
+button.add-address {
+    min-height: 40px;
+}
 
 form#create_customer {
     display: grid;
     grid-template-columns: 285px 285px;
-    grid-template-rows: auto 50px 50px;
-    gap: 20px;
+    grid-template-rows: auto 45px 45px 45px;
+    gap: 1.17rem;
 }
 form#create_customer div.form-action-row {
     grid-column: 1/3;
@@ -115,13 +121,12 @@ form#create_customer div.form-action-row {
 .account-message-error li {
     padding: 0;
     text-align: left;
-
 }
 
 .account-page--two-column {
     display: grid;
     gap: 35px;
-    grid-template-columns: 50vw auto;
+    grid-template-columns: 35vw 35vw;
 }
 .account-page--column-large.account-order-history {
     justify-self: left;
@@ -135,6 +140,9 @@ form#create_customer div.form-action-row {
 }
 .account-page-subtitle {
     text-align: left;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 0.7rem;
     
 }
 
@@ -148,17 +156,68 @@ form#create_customer div.form-action-row {
 }
 
 
+.account-address-form {
+    width: 550px;
+    padding: 0;
+}
+form#address-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.17rem;
+}
+form#address-form .form-field-select-wrapper label {
+    padding-top: 0.3rem;
+}
+form#address-form .form-field-select-wrapper .form-field {
+    padding-top: 1rem;
+}
+form#address-form .form-field-select-wrapper {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+    width: 100%;
+    height: 45px;
+    color: #1d1d1d;
+    background-color: #fff;
+    border: 1px solid #dddddd;
+    border-radius: 3px;
+    box-shadow: none;
+}
+
+#default_address {
+    margin-right: 0.3rem;
+}
+label.form-field-checkbox {
+    display: flex;
+    align-items: center;
+    place-content: flex-start;
+    height: 100%;
+}
+
+
+
+
+
+
+.form-field-columns {
+    width: 100%;
+    display:flex;
+    gap: 1.17rem;
+}
+
+
 
 
 
 @media (max-width: 650px) {
+    form#customer_login {
+        width: 90vw;
+    }
     form#create_customer {
-        grid-template-columns: 90vw;
-        grid-template-rows: 0.5fr 0.5fr 0.5fr 0.5fr 1fr;
-        gap: 15px;
+        display: flex;
+        flex-direction: column;
+        width: 90vw;
     }
     form#create_customer div.form-action-row {
-        margin-top: 15px;
         grid-column: 1;
         margin-right: auto;
         display: flex;
@@ -166,10 +225,6 @@ form#create_customer div.form-action-row {
         flex-direction: column;
         gap: 10px;
     }
-    
-
-   
-
 }
 
 
@@ -178,16 +233,18 @@ form#create_customer div.form-action-row {
 
 
 @media (max-width: 400px) {
-    section.account-page-login {
-        width: 80%;
-    }
+    /* section.account-page-login {
+        width: 90vw;
+    } */
     .account-page-content {
         width: 100%
     }
-    .form-action-row--helper {
+    form#customer_login .form-action-row--helper {
         font-size: small;
+        gap: 0.5rem;
     }
     .form-action-row button.sign-in {
         max-width: 80px;
+        max-height: 55px;
     }
 }

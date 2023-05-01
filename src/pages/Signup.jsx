@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import { Link } from 'react-router-dom';
 import '../styles/account-page.css'
 import useInputValidation from "../handles/useInputValidation";

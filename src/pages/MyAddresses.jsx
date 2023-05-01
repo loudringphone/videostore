@@ -2,6 +2,7 @@ import React from 'react'
 import { useNavigate } from "react-router-dom"
 import { Helmet } from '../components/helmet/Helmet'
 import processing from '../assets/images/loading.gif'
+import AddressForm from '../components/UI/AddressForm'
 
 export const MyAddresses = (props) => {
     const currentUser = props.currentUser
@@ -82,10 +83,11 @@ export const MyAddresses = (props) => {
 
 
                     </div>
-                    <div class="account-page--column-half account-addresses">
-                    </div>
+                        <div class="account-page--column-half account-addresses">
+                            <AddressForm />
+                        </div>
 
-          
+            
                         </div>
                         
                     </div>
