@@ -48,6 +48,9 @@ export const MyAddresses = (props) => {
                     for (let i = 0; i < defaultAddressArr.length; i++) {
                         const element = defaultAddressArr[i];
                         defaultAddressArr[i] = defaultAddressArr[i].trim()
+                        if (defaultAddressArr[i].endsWith(',')) {
+                            defaultAddressArr[i] = defaultAddressArr[i].slice(0, -1);
+                        }
                         if (element === " " || element === ", " || element.length === 0) {
                             defaultAddressArr.splice(i, 1);
                             i--;
@@ -111,18 +114,24 @@ export const MyAddresses = (props) => {
 
                     <div className="account-page-content">
                     <div class="account-page--two-column">
+                    {defaultAddress?.length > 0 ? (
                     <div class="account-page--column-half account-addresses">
                         <h5 class="account-page-subtitle">
                         Addresses
                         </h5>
+                        
 
+
+                        
                         <ul class="account-address-wrapper">
                         
                             <li class="account-address">
                                 <ul class="account-address-list">
-                                    <li>Australia </li>
+                                    {defaultAddress[1].map((e, i) => {
+                                        return <li key={i}>{e}</li>;
+                                    })}
                                 </ul>
-                                <p class="account-address-item account-address-item--default">
+                                <p class="account-address-item account-address-item--default" style={{fontStyle: 'italic'}}>
                                 Default address
                                 </p>
                                 <div class="account-address-list-footer">
@@ -135,14 +144,19 @@ export const MyAddresses = (props) => {
                                     </button>
                                 </div>
                             </li>
-                        
+                            
                         </ul>
+                        
 
             
 
 
 
                     </div>
+                    ) : (
+                        <></>
+                    )
+                    }
                         <div class="account-page--column-half account-addresses">
                             <AddressForm />
                         </div>

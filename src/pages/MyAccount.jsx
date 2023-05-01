@@ -50,6 +50,9 @@ export const MyAccount = (props) => {
                     for (let i = 0; i < defaultAddressArr.length; i++) {
                         const element = defaultAddressArr[i];
                         defaultAddressArr[i] = defaultAddressArr[i].trim()
+                        if (defaultAddressArr[i].endsWith(',')) {
+                            defaultAddressArr[i] = defaultAddressArr[i].slice(0, -1);
+                          }
                         if (element === " " || element === ", " || element.length === 0) {
                             defaultAddressArr.splice(i, 1);
                             i--;
@@ -137,8 +140,8 @@ export const MyAccount = (props) => {
                                     <></>
                                 )
                                 }
-                                <ul className="default-address">
-                                {defaultAddress?.slice(1).map((e, i) => {
+                                <ul className="account-address-list">
+                                {defaultAddress[1].map((e, i) => {
                                     return <li key={i}>{e}</li>;
                                 })}
                                 </ul>
@@ -146,7 +149,7 @@ export const MyAccount = (props) => {
                                 
                                 
                                 
-                            <p class="account-address-list">
+                            <p class="account-addresses">
                                 {defaultAddress?.length > 0 ? (
                                     <a href="/account/addresses">
                                         View addresses ({userInfo.addresses[3] === undefined? userInfo.addresses[2] === undefined? 1 : 2 : 3})
