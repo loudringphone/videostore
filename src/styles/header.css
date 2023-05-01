@@ -258,13 +258,18 @@ header a {
     .mobile_nav ul.menu {
         width: 200px;
     }
-    div.nav_icons {
+    div.nav_wrapper .navigation {
+    width: max-content;
+    margin: 0;
+   }
+    .mobile_nav div.nav_icons {
         width: 150px;
         text-align: right;
         flex-direction: column;
         gap: 10px;
         margin-bottom: 35px;
         align-items: flex-start;
+
     }
     span.fav_icon {
         margin-left: 0 !important;
