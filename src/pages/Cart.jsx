@@ -28,7 +28,7 @@ export const Cart = () => {
     for (let item of items) {
       dispatch(cartActions.addItem({
         id: item.id,
-        title: item.title,
+        name: item.name,
         price: item.price,
         quantity: 0,
       }))
@@ -82,7 +82,7 @@ export const Cart = () => {
   
 
   const fetchItems = async () => {
-    const newData = await firebaseQuery(cartItemIds, 'items');
+    const newData = await firebaseQuery(cartItemIds, "products");
     setItems(newData);
   }
   

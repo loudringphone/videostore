@@ -52,7 +52,7 @@ const QuantitySelector = (props) => {
                     setQuantity(10);
                     if (item.stock < 10) {
                         toast.dismiss()
-                        toast.error(`You can't add more ${item.title} to the cart.`, { className: "custom-toast-error", transition: Zoom })
+                        toast.error(`You can't add more ${item.name} to the cart.`, { className: "custom-toast-error", transition: Zoom })
                     setQuantity(oldQuantity);
                     } else {
                         setQuantity(10);
@@ -67,7 +67,7 @@ const QuantitySelector = (props) => {
             } else {
                 if (value > (item.stock)) {
                     toast.dismiss()
-                    toast.error(`You can't add more ${item.title} to the cart.`, { className: "custom-toast-error", transition: Zoom })
+                    toast.error(`You can't add more ${item.name} to the cart.`, { className: "custom-toast-error", transition: Zoom })
                 setQuantity(oldQuantity);
                 } else {
                     setQuantity(Number(value));
@@ -100,7 +100,7 @@ const QuantitySelector = (props) => {
             if (quantity > item.stock - oldQuantity) {
                 if (overordering === false) {
                     toast.dismiss()
-                    toast.error(`You can't add more ${item.title} to the cart.`, { autoClose: false, className: "custom-toast-error", transition: Zoom })
+                    toast.error(`You can't add more ${item.name} to the cart.`, { autoClose: false, className: "custom-toast-error", transition: Zoom })
                     setOverordering(true)
                 }
                 
@@ -113,18 +113,18 @@ const QuantitySelector = (props) => {
                 toast(
                     <div className='toast-message'>
                       <div className="product_img">
-                        <img src={item.image[0].downloadURL} alt={item.title}></img>
+                        <img src={item.image[0].downloadURL} alt={item.name}></img>
                       </div>
             
                       <div className='toast-text'><span>Item added to your cart: </span><br />
-                      {item.title} <br />
+                      {item.name} <br />
                       {quantity} × {accounting.formatMoney(item.price)}</div>
                     </div>
                     )
                 setTimeout(() => {
                 dispatch(cartActions.addItem({
                     id: item.id,
-                    title: item.title,
+                    name: item.name,
                     price: item.price,
                     quantity: quantity,
                 }))

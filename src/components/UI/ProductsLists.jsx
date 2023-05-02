@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Container, Row, Col } from "reactstrap";
-
-import { collection, getDocs } from "firebase/firestore";
-import { Timestamp } from 'firebase/firestore';
+import { collection, query, getDocs, Timestamp } from "firebase/firestore";
 import {db} from '../../firebase_setup/firebase';
 import "../../styles/product-card.css"
 import ProductCard from './ProductCard';
@@ -15,32 +13,50 @@ const ProductsLists = () => {
     const [items, setItems] = useState([]);
 
     const fetchItem = async () => {
-        await getDocs(collection(db, "items"))
-            .then((querySnapshot) => {
-                const newData = querySnapshot.docs
+        const q = query(collection(db, "products"))
+        await getDocs(q)
+        .then((querySnapshot) => {
+            const newData = querySnapshot.docs
                     .map((doc) => ({ ...doc.data(), id: doc.id }))
                     .sort((a, b) => {
-                        const aTime = new Timestamp(a.createdAt.seconds, a.createdAt.nanoseconds).toDate();
-                        const bTime = new Timestamp(b.createdAt.seconds, b.createdAt.nanoseconds).toDate();
-                        return bTime - aTime;
-                    }); // Sort by createdAt field
-    
-                setItems(newData);
-                // console.log(items, newData);
+                        const aTime = a.createdAt ? new Timestamp(a.createdAt.seconds, a.createdAt.nanoseconds).toDate() : null;
+                        const bTime = b.createdAt ? new Timestamp(b.createdAt.seconds, b.createdAt.nanoseconds).toDate() : null;
 
-                
-            });
+                        if (!aTime && !bTime) {
+                        return 0; // both documents have no createdAt property
+                        } else if (!aTime) {
+                        return 1; // a has no createdAt property, move it to the end
+                        } else if (!bTime) {
+                        return -1; // b has no createdAt property, move it to the end
+                        } else {
+                        return bTime - aTime; // sort by createdAt field
+                        }
+                    });
+            
+            setItems(newData);})
     }
 
-   
+   console.log(items)
     
     
 
-    const uniqueFormats = [...new Set(items.map(item => item.format))].sort();
-    // console.log(uniqueFormats);
+   const uniqueFormats = [...new Set(items.map(item => item.format ?? null))] // use null if format is undefined
+   .sort((a, b) => {
+     if (a === null && b === null) {
+       return 0; // both are null, keep the order unchanged
+     } else if (a === null) {
+       return 1; // a is null, move it to the end
+     } else if (b === null) {
+       return -1; // b is null, move it to the end
+     } else {
+       return a.localeCompare(b); // sort alphabetically
+     }
+   });
 
-    const uniqueBoutiqueLabels = [...new Set(items.filter(item => item.format !== "CD").map(item => item.label))].sort();
-// console.log(uniqueBoutiqueLabels);
+    const uniqueBoutiqueLabels = [...new Set(items
+        .filter(item => item.format && item.format !== "CD" && item.label)
+        .map(item => item.label))
+      ].sort();
     
    
     useEffect(()=>{

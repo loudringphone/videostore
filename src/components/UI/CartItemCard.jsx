@@ -10,8 +10,8 @@ import { cartActions } from '../../redux/slices/cartSlice';
 const CartItemCard = (props) => {
   const item = props.item;
   let itemURL = item.id
-  if (item.title) {
-    itemURL = item.id + '-' + item.title.toLowerCase().replace(/[^a-z0-9'""]/g, "-").replace(/['"]/g, "");
+  if (item.name) {
+    itemURL = item.id + '-' + item.name.toLowerCase().replace(/[^a-z0-9'""]/g, "-").replace(/['"]/g, "");
   }
   if (itemURL.endsWith("-")) {
     itemURL = itemURL.slice(0, -1);
@@ -32,7 +32,7 @@ const CartItemCard = (props) => {
                         <div className="product_img">
                             <Link to={{ pathname: `/products/${itemURL}` }}>
                                 {item.image[0].downloadURL !== "" ? (
-                                    <img src={item.image[0].downloadURL} alt={item.title}></img>
+                                    <img src={item.image[0].downloadURL} alt={item.name}></img>
                                 ):(
                                     <></>
                                 )}
@@ -40,7 +40,7 @@ const CartItemCard = (props) => {
                         </div>
                         <div className="cart-item--inner">
                             <div className="card-item--content">
-                                <Link to={{ pathname: `/products/${itemURL}` }}>{item.title}</Link>
+                                <Link to={{ pathname: `/products/${itemURL}` }}>{item.name}</Link>
                                 <p className="price"><span>Price </span>{accounting.formatMoney(item.price)}</p>
                                 
                                 <p className='product-stock-level'>

@@ -21,7 +21,7 @@ export const ProductDetails = () => {
     const fetchItem = async () => {
       setLoading(true);
       try {
-        const docRef = doc(db, "items", itemId);
+        const docRef = doc(db, "products", itemId);
         const docSnap = await getDoc(docRef);
         const data = docSnap.data();
         const id = docSnap.id; // <-- retrieve the document ID
@@ -59,13 +59,13 @@ export const ProductDetails = () => {
     }
 
     return (
-      <Helmet title={item.title}>
+      <Helmet title={item.name}>
       <div className="productDetails">
         <div className="product_img">
-          <img src={item.image[0].downloadURL} alt={item.title}></img>
+          <img src={item.image[0].downloadURL} alt={item.name}></img>
         </div>
         <div className="product_info">
-          <h1 className='product-title'>{item.title}</h1>
+          <h1 className='product-title'>{item.name}</h1>
           <p style={{fontWeight: "700"}}>{item.format}</p>
           <p className='product-price'>{accounting.formatMoney(item.price)}</p>
           <p className='product-stock-level'>

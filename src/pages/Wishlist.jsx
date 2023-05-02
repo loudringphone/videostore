@@ -25,7 +25,7 @@ export const Wishlist = () => {
 
     const fetchItems = async () => {
       setLoading(true);
-      const newData = await firebaseQuery(wishlist, 'items');
+      const newData = await firebaseQuery(wishlist, "products");
       setItems(newData);
       setLoading(false);
     }
@@ -82,24 +82,24 @@ export const Wishlist = () => {
       let num = -1
       if (order === 'descending') {num = 1}
       setFilteredItems(arr.sort((a, b) => {
-        let titleA = a.title.toLowerCase();
-        let titleB = b.title.toLowerCase();
+        let nameA = a.name.toLowerCase();
+        let nameB = b.name.toLowerCase();
       
         // Ignore 'the' at the beginning of the title
-        const wordsA = titleA.split(' ');
-        const wordsB = titleB.split(' ');
+        const wordsA = nameA.split(' ');
+        const wordsB = nameB.split(' ');
         if (wordsA[0] === 'the') {
-          titleA = wordsA.slice(1).join(' ');
+          nameA = wordsA.slice(1).join(' ');
         }
         if (wordsB[0] === 'the') {
-          titleB = wordsB.slice(1).join(' ');
+          nameB = wordsB.slice(1).join(' ');
         }
       
         // Compare the modified titles
-        if (titleA < titleB) {
+        if (nameA < nameB) {
           return num;
         }
-        if (titleA > titleB) {
+        if (nameA > nameB) {
           return -num;
         }
         return 0;

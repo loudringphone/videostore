@@ -35,15 +35,15 @@ export const Shop = () => {
   let q
 
   if (id === undefined && searchQuery === null) {
-    q = query(collection(db, "items"))
+    q = query(collection(db, "products"))
   }
   else if (id === undefined && searchQuery === '') {
     if (items.length === 1) {
       title = "1 Result found"
-      q = query(collection(db, "items"))
+      q = query(collection(db, "products"))
     } else {
       title = `${items.length} Results found`
-      q = query(collection(db, "items"))
+      q = query(collection(db, "products"))
     }
   }
   else if (id === undefined && searchQuery != null) {
@@ -52,34 +52,34 @@ export const Shop = () => {
     } else {
       title = `${items.length} Results found for '${searchQuery}'`
     }
-    q = query(collection(db, "items"), where("searchArray", "array-contains", searchArray[0]))
+    q = query(collection(db, "products"), where("searchArray", "array-contains", searchArray[0]))
   }
   else if (id === 'all') {
     title = 'All products'
-    q = query(collection(db, "items"))
+    q = query(collection(db, "products"))
   }
   else if (id === '4kuhd') {
     title = '4K Ultra HDs'
-    q = query(collection(db, "items"), where("format", "==", "4K Ultra HD"))
+    q = query(collection(db, "products"), where("format", "==", "4K Ultra HD"))
   } 
   else if (id === 'bluray') {
     title = 'Blu-rays'
-    q = query(collection(db, "items"), where("format", "==", "Blu-ray"))
+    q = query(collection(db, "products"), where("format", "==", "Blu-ray"))
 
   }
   else if (id === 'cd') {
     title = 'CDs'
-    q = query(collection(db, "items"), where("format", "==", "CD"))
+    q = query(collection(db, "products"), where("format", "==", "CD"))
 
   }
   else if (id === 'bfi') {
     title = 'BFI collections'
-    q = query(collection(db, "items"), where("label", "==", "BFI"))
+    q = query(collection(db, "products"), where("label", "==", "BFI"))
 
   }
   else {
     title = id.charAt(0).toUpperCase() + id.slice(1)
-    q = query(collection(db, "items"), where("label", "==", title))
+    q = query(collection(db, "products"), where("label", "==", title))
     title = title + ' collections'
   }
 
@@ -89,12 +89,21 @@ export const Shop = () => {
     await getDocs(q)
         .then((querySnapshot) => {
             const newData = querySnapshot.docs
-                .map((doc) => ({ ...doc.data(), id: doc.id }))
-                .sort((a, b) => {
-                    const aTime = new Timestamp(a.createdAt.seconds, a.createdAt.nanoseconds).toDate();
-                    const bTime = new Timestamp(b.createdAt.seconds, b.createdAt.nanoseconds).toDate();
-                    return bTime - aTime;
-                }); // Sort by createdAt field
+                    .map((doc) => ({ ...doc.data(), id: doc.id }))
+                    .sort((a, b) => {
+                        const aTime = a.createdAt ? new Timestamp(a.createdAt.seconds, a.createdAt.nanoseconds).toDate() : null;
+                        const bTime = b.createdAt ? new Timestamp(b.createdAt.seconds, b.createdAt.nanoseconds).toDate() : null;
+
+                        if (!aTime && !bTime) {
+                        return 0; // both documents have no createdAt property
+                        } else if (!aTime) {
+                        return 1; // a has no createdAt property, move it to the end
+                        } else if (!bTime) {
+                        return -1; // b has no createdAt property, move it to the end
+                        } else {
+                        return bTime - aTime; // sort by createdAt field
+                        }
+                    });
             
             setItems(newData);
             // console.log(items, newData);
@@ -139,17 +148,26 @@ export const Shop = () => {
   const sortFilteredItems = function(arr, order) {
     if (order === 'featured') {
       setFilteredItems(arr.sort((a, b) => {
-        const aTime = new Timestamp(a.createdAt.seconds, a.createdAt.nanoseconds).toDate();
-        const bTime = new Timestamp(b.createdAt.seconds, b.createdAt.nanoseconds).toDate();
-        return bTime - aTime;
+        const aTime = a.createdAt ? new Timestamp(a.createdAt.seconds, a.createdAt.nanoseconds).toDate() : null;
+        const bTime = b.createdAt ? new Timestamp(b.createdAt.seconds, b.createdAt.nanoseconds).toDate() : null;
+
+        if (!aTime && !bTime) {
+        return 0; // both documents have no createdAt property
+        } else if (!aTime) {
+        return 1; // a has no createdAt property, move it to the end
+        } else if (!bTime) {
+        return -1; // b has no createdAt property, move it to the end
+        } else {
+        return bTime - aTime; // sort by createdAt field
+        }
       }))
     }
     else {
       let num = -1
       if (order === 'descending') {num = 1}
       setFilteredItems(arr.sort((a, b) => {
-        let titleA = a.title.toLowerCase();
-        let titleB = b.title.toLowerCase();
+        let titleA = a.name.toLowerCase();
+        let titleB = b.name.toLowerCase();
       
         // Ignore 'the' at the beginning of the title
         const wordsA = titleA.split(' ');
@@ -181,13 +199,13 @@ export const Shop = () => {
         sortFilteredItems(items, sortValue)
     }
     else if (e.target.value === '4K Ultra HD') {
-      setFilteredItems(items.filter(item => item.format === '4K Ultra HD'))
+      setFilteredItems(items.filter(item => item.format && item.format === '4K Ultra HD'))
     }
     else if (e.target.value === 'Blu-ray') {
-      setFilteredItems(items.filter(item => item.format === 'Blu-ray'))
+      setFilteredItems(items.filter(item => item.format && item.format === 'Blu-ray'))
     }
     else if (e.target.value === 'CD') {
-        setFilteredItems(items.filter(item => item.format === 'CD'))
+        setFilteredItems(items.filter(item => item.format && item.format === 'CD'))
     }
   }
 

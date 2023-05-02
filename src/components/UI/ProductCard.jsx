@@ -25,18 +25,18 @@ const ProductCard = (props) => {
     toast(
         <div className='toast-message'>
           <div className="product_img">
-            <img src={item.image[0].downloadURL} alt={item.title}></img>
+            <img src={item.image && item.image[0].downloadURL} alt={item.name}></img>
           </div>
 
           <div className='toast-text'><span>Item added to your cart: </span><br />
-          {item.title} <br />
+          {item.name} <br />
           1 × {accounting.formatMoney(item.price)}</div>
         </div>
         )
     setTimeout(() => {
       dispatch(cartActions.addItem({
         id: item.id,
-        title: item.title,
+        name: item.name,
         price: item.price,
       }))
     }, 500); 
@@ -82,7 +82,7 @@ const ProductCard = (props) => {
   }, []);
 
 
-  let itemURL = item.id + '-' + item.title.toLowerCase().replace(/[^a-z0-9'""]/g, "-").replace(/['"]/g, "");
+  let itemURL = item.id + '-' + item.name.toLowerCase().replace(/[^a-z0-9'""]/g, "-").replace(/['"]/g, "");
   if (itemURL.endsWith("-")) {
     itemURL = itemURL.slice(0, -1);
   };
@@ -96,9 +96,9 @@ const ProductCard = (props) => {
                             <AddFavourite itemId={item.id} />
                             <Link to={{ pathname: `${pathname}/${itemURL}` }}>
                               { pathname !== "/apps/wishlist" ? (
-                                <motion.img whileHover={{scale:0.9}} src={item.image[0].downloadURL} alt={item.title}></motion.img>
+                                <motion.img whileHover={{scale:0.9}} src={item.image[0].downloadURL} alt={item.name}></motion.img>
                               ) : (
-                                <motion.img whileHover={{scale:1.2}} style={{width: "70%" }} src={item.image[0].downloadURL} alt={item.title}></motion.img>
+                                <motion.img whileHover={{scale:1.2}} style={{width: "70%" }} src={item.image[0].downloadURL} alt={item.name}></motion.img>
                               )}
                             </Link>
                         </div>
@@ -110,9 +110,9 @@ const ProductCard = (props) => {
                             </div>
                             <div className="product_name">
                             {pathname === "/apps/wishlist" ? (
-                              <Link to={{ pathname: `/products/${itemURL}`}}>{item.title}</Link>
+                              <Link to={{ pathname: `/products/${itemURL}`}}>{item.name}</Link>
                             ):(
-                              <Link to={{ pathname: `${pathname}/${itemURL}`}}>{item.title}</Link>
+                              <Link to={{ pathname: `${pathname}/${itemURL}`}}>{item.name}</Link>
                             )}
                               
                             </div>

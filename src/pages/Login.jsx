@@ -100,7 +100,7 @@ const Login = (props) => {
                 if (localIndex < 0) {
                     dispatch(cartActions.addItem({
                         id: cartItem.id,
-                        title: cartItem.title,
+                        name: cartItem.name,
                         price: cartItem.price,
                         quantity: cartItem.quantity,
                     }))
