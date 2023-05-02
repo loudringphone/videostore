@@ -36,7 +36,7 @@ const cartSlice = createSlice({
         }
 
         else {
-            existingItem.title = newItem.title
+            existingItem.name = newItem.name
             // existingItem.image = newItem.image
             existingItem.price = newItem.price
             // existingItem.stock = newItem.stock
