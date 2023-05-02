@@ -36,7 +36,6 @@ const ProductsLists = () => {
             setItems(newData);})
     }
 
-   console.log(items)
     
     
 

@@ -39,6 +39,7 @@ const combineCart = (firebase, local) => {
       totalAmount: totalAmount,
       totalQuantity: totalQuantity
     }
+    console.log(combinedCart)
     return combinedCart
   }
   
