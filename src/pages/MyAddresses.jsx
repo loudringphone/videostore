@@ -18,6 +18,7 @@ export const MyAddresses = (props) => {
     const [cancelEdit, setCancelEdit] = useState(false)
     const [isLatest, setIsLatest] = useState(true)
     const [isFirstLoaded, setIsFirstLoaded] = useState(true)
+    const [isDeleted, setIsDeleted] = useState(false)
 
 
     useEffect(() => {
@@ -153,15 +154,21 @@ export const MyAddresses = (props) => {
         delete addresses[id]
         async function deleteAddress() {
             const userRef = doc(db, "users", userInfo.uid);
+            setCancelEdit(true);
             await updateDoc(userRef, {
                 addresses: addresses
               });
+            setIsLatest(false)
+            setIsDeleted(true)
+            setTimeout(() => {
+                toast.success("Address deleted.", {autoClose: 1500})
+                setIsDeleted(false)
+            }, 500);
             console.log('deleteAddress')
           }
         try {
             deleteAddress()
-            setIsLatest(false)
-            toast.success("Address deleted.", {autoClose: 1500})
+            
         } catch (error) {
           console.log(error.code)
         }
@@ -311,6 +318,7 @@ export const MyAddresses = (props) => {
                                 handleIsLatest={handleUpdate}
                                 editAddress={editAddress}
                                 cancelEdit={handleCancelEdit}
+                                isDeleted={isDeleted}
                             />
                         </div>
 

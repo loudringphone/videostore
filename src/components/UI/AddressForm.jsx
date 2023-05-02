@@ -142,6 +142,49 @@ const AddressForm = (props) => {
   };
 
 
+  const reset = function () {
+    setFirstName("")
+    setLastName("")
+    setCompany("")
+    setAddress1("")
+    setAddress2("")
+    setCity("")
+    setCountry("Australia")
+    setState("New South Wales")
+    setZip("")
+    setPhone("")
+    setDefaultAddress(false)
+    setFirstNameHasValue(false)
+    setLastNameHasValue(false)
+    setCompanyHasValue(false)
+    setAddress1HasValue(false)
+    setAddress2HasValue(false)
+    setCityHasValue(false)
+    setZipHasValue(false)
+    setPhoneHasValue(false)
+    setFirstNameFocused(false)
+    setLastNameFocused(false)
+    setCompanyFocused(false)
+    setAddress1Focused(false)
+    setAddress2Focused(false)
+    setCityFocused(false)
+    setZipFocused(false)
+    setPhoneFocused(false)
+    props.handleIsLatest(false)
+    props.cancelEdit(true)
+    console.log('reset')
+  }
+
+  const isDeleted = props.isDeleted
+
+  useEffect(() => {
+    reset()
+  },[isDeleted])
+
+
+
+
+
   const userInfo = props.userInfo
   const addressAction = async(e) => {
     e.preventDefault();
@@ -185,54 +228,28 @@ const AddressForm = (props) => {
             addresses["default"] = index
         }
         
-        // console.log(addresses)
+    
     async function updateAddress() {
         const userRef = doc(db, "users", userInfo.uid);
         await updateDoc(userRef, {
             addresses: addresses
           });
+        reset()
+        setTimeout(() => {
+            if (editAddress != null) {
+                toast.success("Address updated.", {autoClose: 1500})
+            } else {
+                toast.success("Address added.", {autoClose: 1500})
+            }
+        }, 500);
+        
         console.log('updateAddress')
       }
     try {
         updateAddress()
        
-        setFirstName("")
-        setLastName("")
-        setCompany("")
-        setAddress1("")
-        setAddress2("")
-        setCity("")
-        setCountry("Australia")
-        setState("New South Wales")
-        setZip("")
-        setPhone("")
-    
-        setDefaultAddress(false)
-        setFirstNameHasValue(false)
-        setLastNameHasValue(false)
-        setCompanyHasValue(false)
-        setAddress1HasValue(false)
-        setAddress2HasValue(false)
-        setCityHasValue(false)
-        setZipHasValue(false)
-        setPhoneHasValue(false)
-        setFirstNameFocused(false)
-        setLastNameFocused(false)
-        setCompanyFocused(false)
-        setAddress1Focused(false)
-        setAddress2Focused(false)
-        setCityFocused(false)
-        setZipFocused(false)
-        setPhoneFocused(false)
         
-        props.handleIsLatest(false)
-        props.cancelEdit(true)
-    if (editAddress != null) {
-        toast.success("Address updated.", {autoClose: 1500})
-    } else {
-        toast.success("Address added.", {autoClose: 1500})
-
-    }
+    
     } catch (error) {
       console.log(error.code)
       
