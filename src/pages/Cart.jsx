@@ -6,9 +6,13 @@ import { cartActions } from '../redux/slices/cartSlice';
 import CartItemCard from '../components/UI/CartItemCard';
 import accounting from 'accounting'
 import { firebaseQuery } from '../functions/firebaseQuery';
+import {db} from '../firebase_setup/firebase';
+import useAuth from '../custom-hook/useAuth'
 
 import processing from '../assets/images/loading.gif'
 import '../styles/cart.css'
+
+import App from '../stripe';
 
 export const Cart = () => {
   const cart = useSelector(state => state.cart)
@@ -17,6 +21,8 @@ export const Cart = () => {
   const [isFetched, setIsFetched] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
+  const currentUser = useAuth()
+
   
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cart));
@@ -97,6 +103,20 @@ export const Cart = () => {
     setShowArrow(false);
   }
 
+
+
+  const [payNow, setPayNow] = useState(false)
+  const checkout = async function(e) {
+    e.preventDefault()
+    setPayNow(true)
+    
+  };
+
+
+  
+  
+
+
   if (loading) {
     return (
       <Helmet title='Your Basket'>
@@ -149,7 +169,7 @@ export const Cart = () => {
             <p>Subtotal</p>
             {accounting.formatMoney(cart.totalAmount)}
           </div>
-          <Link to='/'><button className='cart-title-button'><i className="ri-shopping-cart-line"></i>&nbsp;Check out</button></Link>
+          <Link to='/'><button onClick={checkout} className='cart-title-button'><i className="ri-shopping-cart-line"></i>&nbsp;Check out</button></Link>
         </div>
       </header>
         <section className='cartitems--container'>
@@ -186,12 +206,7 @@ export const Cart = () => {
 </Link>
         </div>
         </>
-
-
-
-
-
-      ):(
+    ):(
         <>
         <header className='cart-title'>
         <div className='cart-title-left'>
@@ -217,6 +232,7 @@ export const Cart = () => {
   </Link>
           </div>
         </section>
+        <App />
         </>
       )}
       
