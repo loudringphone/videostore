@@ -10,10 +10,11 @@ import { firebaseQuery } from '../functions/firebaseQuery';
 import useAuth from '../custom-hook/useAuth'
 import processing from '../assets/images/loading.gif'
 import '../styles/cart.css'
-
 import { getApp } from "@firebase/app";
 import { getStripePayments } from "@stripe/firestore-stripe-payments";
-
+import { loadStripe } from '@stripe/stripe-js';
+import {db} from '../firebase_setup/firebase';
+import PaypalCheckoutButton from '../PaypalCheckoutButton';
 
 export const Cart = () => {
   const cart = useSelector(state => state.cart)
@@ -110,12 +111,35 @@ export const Cart = () => {
     productsCollection: "products",
     customersCollection: "customers",
   });
-  
   const checkout = async function(e) {
     e.preventDefault()
     try {
-      
-     ;
+      let stripePromise
+
+      const getStripe = () => {
+        if (!stripePromise) {
+          stripePromise = loadStripe(`${process.env.REACT_APP_STRIPE_KEY}`);
+        }
+
+        return stripePromise;
+      };
+      const item = {
+        price: "price_1N3HVYHlpGuoLlemlGizGEoG",
+        quantity: 1
+      };
+      const checkoutOptions = {
+        lineItems: [item],
+        mode: "payment",
+        successUrl: `${window.location.origin}/success`,
+        cancelUrl: `${window.location.origin}/cancel`
+        };
+          console.log("redirectToCheckout");
+        
+          const stripe = await getStripe();
+          const { error } = await stripe.redirectToCheckout(checkoutOptions);
+          console.log("Stripe checkout error", error);
+       
+
       
     
     } catch(error) {
@@ -183,6 +207,7 @@ export const Cart = () => {
             {accounting.formatMoney(cart.totalAmount)}
           </div>
           <Link to='/'><button onClick={checkout} className='cart-title-button'><i className="ri-shopping-cart-line"></i>&nbsp;Check out</button></Link>
+          {/* <PaypalCheckoutButton products={items} /> */}
         </div>
       </header>
         <section className='cartitems--container'>

@@ -8,6 +8,9 @@ import { loadStripe } from '@stripe/stripe-js';
 
 import {useStripe, Elements, useElements, PaymentElement, ElementsConsumer} from '@stripe/react-stripe-js';
 import InjectedCheckoutForm from './stripe/CheckoutForm';
+
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+
 const stripePromise = loadStripe('pk_test_51N2Y2GHlpGuoLlemWw29wAtlRTeZuPnUkGMrKaE0g4nv2KiPXEKlawXX66VMqkUtkrXfSL9OjwLcnjowTf6MR2Fc00XotxTwKe');
 
 
@@ -19,13 +22,14 @@ function App() {
       };
 
       return (
-
+        // <PayPalScriptProvider options={{"client-id": process.env.REACT_APP_PAYPAL_CLIENT_ID, "currency": "AUD"}}>
         <div className="App">
             <Elements stripe={stripePromise} options={{options}}>
             <ScrollToTop />
             <Layout />
             </Elements>
         </div>
+        // </PayPalScriptProvider>
 
       );
 }
