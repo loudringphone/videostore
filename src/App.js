@@ -11,14 +11,14 @@ import InjectedCheckoutForm from './stripe/CheckoutForm';
 
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
-const stripePromise = loadStripe('pk_test_51N2Y2GHlpGuoLlemWw29wAtlRTeZuPnUkGMrKaE0g4nv2KiPXEKlawXX66VMqkUtkrXfSL9OjwLcnjowTf6MR2Fc00XotxTwKe');
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 
 
     
 function App() {
     const options = {
         // passing the client secret obtained from the server
-        clientSecret: 'sk_test_51N2Y2GHlpGuoLlemyeCSMgWKDq0QSLy9BBiI38NUyTtArHhIzkHmTMlEmIIBh6oEcx2XxNkeM6BpNDMvmgNdno6500vYZMxenV',
+        clientSecret: '',
       };
 
       return (

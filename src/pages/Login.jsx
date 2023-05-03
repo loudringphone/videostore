@@ -63,7 +63,7 @@ const Login = (props) => {
       console.log(user.uid)
       let userInfo = null
       
-        const docRef = doc(db, "users", user.uid);
+        const docRef = doc(db, "customers", user.uid);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
           userInfo = docSnap.data()
@@ -86,7 +86,7 @@ const Login = (props) => {
                 }
             }
             async function updateUserWishlist() {
-                const userRef = doc(db, "users", userInfo.uid);
+                const userRef = doc(db, "customers", userInfo.uid);
                 await updateDoc(userRef, {
                     wishlist: userInfo.wishlist.concat(NotOnList)
                 });
@@ -112,7 +112,7 @@ const Login = (props) => {
                 }
             }
             async function updateUserCart() {
-                const userRef = doc(db, "users", userInfo.uid);
+                const userRef = doc(db, "customers", userInfo.uid);
                 await updateDoc(userRef, {
                     cart: combineCart(userInfo.cart, cart)
                 });

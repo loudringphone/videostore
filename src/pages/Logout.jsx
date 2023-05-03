@@ -23,14 +23,14 @@ const Logout = () => {
     const logout = async () => {
 
       async function updateUserWishlist() {
-        const userRef = doc(db, "users", currentUser.uid);
+        const userRef = doc(db, "customers", currentUser.uid);
         await updateDoc(userRef, {
             wishlist: wishlist
           });
         console.log('updateUserWishlist')
       }
       async function updateUserCart() {
-        const userRef = doc(db, "users", currentUser.uid);
+        const userRef = doc(db, "customers", currentUser.uid);
         await updateDoc(userRef, {
             cart: cart
           });

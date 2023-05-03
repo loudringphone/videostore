@@ -26,7 +26,7 @@ export const MyAddresses = (props) => {
         if (!isLatest || isFirstLoaded) {
             console.log('fetching user')
             const fetchUser = async () => {
-                const docRef = doc(db, "users", currentUser.uid);
+                const docRef = doc(db, "customers", currentUser.uid);
                 const docSnap = await getDoc(docRef);
                 if (docSnap.exists()) {
                     setUserInfo(docSnap.data());
@@ -153,7 +153,7 @@ export const MyAddresses = (props) => {
 
         delete addresses[id]
         async function deleteAddress() {
-            const userRef = doc(db, "users", userInfo.uid);
+            const userRef = doc(db, "customers", userInfo.uid);
             setCancelEdit(true);
             await updateDoc(userRef, {
                 addresses: addresses

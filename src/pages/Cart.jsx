@@ -23,12 +23,15 @@ export const Cart = () => {
   const [isFetched, setIsFetched] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
-  const currentUser = useAuth()
+
 
   
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cart));
-    setLoading(false);
+    
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
 
   }, [cart]);
   const dispatch = useDispatch();
@@ -41,7 +44,6 @@ export const Cart = () => {
         quantity: 0,
       }))
     }
-    // console.log(cart.cartItems)
 
   }, [items])
   useEffect(()=>{
@@ -85,7 +87,6 @@ export const Cart = () => {
     // setLoading(false);
   }, [cart.cartItems, items]);
 
-
   let title = "Your Basket";
   
 
@@ -106,32 +107,37 @@ export const Cart = () => {
   }
 
 
-  const app = getApp();
-  const payments = getStripePayments(app, {
-    productsCollection: "products",
-    customersCollection: "customers",
-  });
+ 
   const checkout = async function(e) {
     e.preventDefault()
     try {
       let stripePromise
-
       const getStripe = () => {
         if (!stripePromise) {
-          stripePromise = loadStripe(`${process.env.REACT_APP_STRIPE_KEY}`);
+          stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
         }
 
         return stripePromise;
       };
-      const item = {
-        price: "price_1N3HVYHlpGuoLlemlGizGEoG",
-        quantity: 1
-      };
+      
+      let lineItems = []
+      items.forEach((item)=>{
+      const purchase = {}
+      purchase.price = item.prices[0]
+      cart.cartItems.forEach((ci)=>{
+        if (ci.id === item.id) {
+          purchase.quantity = ci.quantity
+        }
+      })
+      lineItems.push(purchase)})
+    
+
       const checkoutOptions = {
-        lineItems: [item],
+        lineItems: lineItems,
         mode: "payment",
-        successUrl: `${window.location.origin}/success`,
-        cancelUrl: `${window.location.origin}/cancel`
+        customerEmail: "craigsy@ga.co",
+        successUrl: `${window.location.origin}/account`,
+        cancelUrl: `${window.location.origin}/cart`
         };
           console.log("redirectToCheckout");
         
@@ -233,7 +239,7 @@ export const Cart = () => {
           <div className="cart-shipping">
             <p className='cart-message'>Tax included and shipping calculated at checkout</p>
           </div>
-          <Link to='/'><button className='primary-checkout'><i className="ri-shopping-cart-line"></i>&nbsp;Check out</button></Link>
+          <Link to='/'><button onClick={checkout} className='primary-checkout'><i className="ri-shopping-cart-line"></i>&nbsp;Check out</button></Link>
           <Link to='/' className='cart-continue' onMouseLeave={handleMouseLeave} onMouseOver={handleMouseOver}>
   Continue shopping&nbsp;
   {showArrow ? (

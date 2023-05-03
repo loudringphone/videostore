@@ -20,7 +20,7 @@ export const MyAccount = (props) => {
         if (currentUser != null) {       
 
         const fetchUser = async () => {
-            const docRef = doc(db, "users", currentUser.uid);
+            const docRef = doc(db, "customers", currentUser.uid);
             const docSnap = await getDoc(docRef);
             if (docSnap.exists()) {
                 setUserInfo(docSnap.data());
