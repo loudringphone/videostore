@@ -6,19 +6,14 @@ import { cartActions } from '../redux/slices/cartSlice';
 import CartItemCard from '../components/UI/CartItemCard';
 import accounting from 'accounting'
 import { firebaseQuery } from '../functions/firebaseQuery';
-import {db} from '../firebase_setup/firebase';
-import { doc, getDoc, updateDoc } from "firebase/firestore";
 
 import useAuth from '../custom-hook/useAuth'
-import {loadStripe} from '@stripe/stripe-js';
 import processing from '../assets/images/loading.gif'
 import '../styles/cart.css'
 
 import { getApp } from "@firebase/app";
 import { getStripePayments } from "@stripe/firestore-stripe-payments";
-import { createCheckoutSession } from "@stripe/firestore-stripe-payments";
 
-import App from '../stripe';
 
 export const Cart = () => {
   const cart = useSelector(state => state.cart)
@@ -120,10 +115,7 @@ export const Cart = () => {
     e.preventDefault()
     try {
       
-      const session = await createCheckoutSession(payments, {
-        price: '100',
-      });
-      window.location.assign(session.url);
+     ;
       
     
     } catch(error) {

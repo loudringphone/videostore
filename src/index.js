@@ -13,6 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Slide } from 'react-toastify';
 
 
+
 const toastContainerStyle = {
   width: window.innerWidth > 600 ? "auto" : "100%",
 };
@@ -23,10 +24,17 @@ window.addEventListener("resize", () => {
 });
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+
+
+
 root.render(
   <React.StrictMode>
+
     <BrowserRouter>
     <Provider store={store}>
+    
+
       <ToastContainer
         style={toastContainerStyle}
         bodyClassName="toastBody" 
@@ -40,8 +48,10 @@ root.render(
         transition={Slide}
         />
       <App />
+
     </Provider>
     </BrowserRouter>
+
   </React.StrictMode>
 );
 

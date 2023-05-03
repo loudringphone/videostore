@@ -15,6 +15,7 @@ import Signup from '../pages/Signup'
 import ProtectedRoute from "./ProtectedRoute";
 import useAuth from '../custom-hook/useAuth'
 
+import PaymentForm from "../stripe/PaymentForm";
 
 const Routers = () => {
     
@@ -52,6 +53,10 @@ const Routers = () => {
             <Route path='account/logout' element={<Logout/>} />
 
             <Route path='account/register' element={<Signup prevLocation={prevLocation} />} />
+        
+            <Route path='payment' element={<PaymentForm/>} />
+
+        
         </Routes>
     )
 };
