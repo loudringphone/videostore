@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.4",
+    "@stripe/firestore-stripe-payments": "^0.0.6",
     "@stripe/react-stripe-js": "^2.1.0",
     "@stripe/stripe-js": "^1.52.1",
     "@testing-library/jest-dom": "^5.16.5",
