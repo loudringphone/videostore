@@ -154,14 +154,14 @@ const Header = () => {
     const logout = async (event) => {
         event.preventDefault()
         async function updateUserWishlist() {
-            const userRef = doc(db, "users", currentUser.uid);
+            const userRef = doc(db, "customers", currentUser.uid);
             await updateDoc(userRef, {
                 wishlist: wishlist
               });
         }
 
         async function updateUserCart() {
-            const userRef = doc(db, "users", currentUser.uid);
+            const userRef = doc(db, "customers", currentUser.uid);
             await updateDoc(userRef, {
                 cart: cart
               });

@@ -111,34 +111,34 @@ export const MyAccount = (props) => {
             return (
                 <Helmet title='Account'>
 
-                <section class="account-page account-page-details">
-                    <header class="account-page-masthead">
-                        <h2 class="account-page-title">
+                <section className="account-page account-page-details">
+                    <header className="account-page-masthead">
+                        <h2 className="account-page-title">
                         My Account
                         </h2>
                     </header>
 
-                    <div class="account-page-content">
-                        <div class="account-page--two-column">
+                    <div className="account-page-content">
+                        <div className="account-page--two-column">
                         
-                        <div class="account-page--column-large account-order-history">
-                            <h4 class="account-page-subtitle">
+                        <div className="account-page--column-large account-order-history">
+                            <h4 className="account-page-subtitle">
                             Order history
                             </h4>
 
                             
-                            <p class="empty">You have no orders</p>
+                            <p className="empty">You have no orders</p>
                             
                         </div>
 
                         
-                        <div class="account-page--column-small account-info">
-                            <div class="account-info-block">
-                            <h2 class="account-page-subtitle">
+                        <div className="account-page--column-small account-info">
+                            <div className="account-info-block">
+                            <h2 className="account-page-subtitle">
                                 
                             </h2>
 
-                            <p class="account-info-item">
+                            <p className="account-info-item">
                                 <a href={'mailto:' + currentUser.email}>
                                     {currentUser.email}
                                 </a>
@@ -164,7 +164,7 @@ export const MyAccount = (props) => {
                                 
                                 
                                 
-                            <p class="account-addresses">
+                            <p className="account-addresses">
                                 {addressQuantity > 0 ? (
                                     <a href="/account/addresses">
                                         View addresses ({addressQuantity})

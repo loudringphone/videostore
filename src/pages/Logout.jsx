@@ -34,7 +34,7 @@ const Logout = () => {
         await updateDoc(userRef, {
             cart: cart
           });
-        console.log('updateUserCart')
+        console.log('updateUserCart',cart)
 
       }
       try {

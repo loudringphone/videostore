@@ -135,7 +135,7 @@ export const Cart = () => {
       const checkoutOptions = {
         lineItems: lineItems,
         mode: "payment",
-        customerEmail: "craigsy@ga.co",
+        customerEmail: "loudringphone@gmail.com",
         successUrl: `${window.location.origin}/account`,
         cancelUrl: `${window.location.origin}/cart`
         };
