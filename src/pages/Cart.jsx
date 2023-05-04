@@ -13,25 +13,24 @@ import '../styles/cart.css'
 import { getApp } from "@firebase/app";
 import { getStripePayments } from "@stripe/firestore-stripe-payments";
 import { loadStripe } from '@stripe/stripe-js';
+import {useStripe, useElements, PaymentElement} from '@stripe/react-stripe-js';
 import {db} from '../firebase_setup/firebase';
 import PaypalCheckoutButton from '../PaypalCheckoutButton';
 
-export const Cart = () => {
+export const Cart = (props) => {
   const cart = useSelector(state => state.cart)
   const [cartItemIds, setCartItemIds] = useState([])
   const [items, setItems] = useState([]);
   const [isFetched, setIsFetched] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
-
-
   
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cart));
     
     setTimeout(() => {
       setLoading(false);
-    }, 1000);
+    }, 1500);
 
   }, [cart]);
   const dispatch = useDispatch();
@@ -106,7 +105,9 @@ export const Cart = () => {
     setShowArrow(false);
   }
 
-
+  
+ 
+  const stripe = useStripe()
  
   const checkout = async function(e) {
     e.preventDefault()
@@ -131,14 +132,20 @@ export const Cart = () => {
       })
       lineItems.push(purchase)})
     
-
+      let userEmail = undefined
+      if (props.currentUser != null) {
+        userEmail = props.currentUser.email
+      }
       const checkoutOptions = {
         lineItems: lineItems,
         mode: "payment",
-        customerEmail: "loudringphone@gmail.com",
+        customerEmail: userEmail,
         successUrl: `${window.location.origin}/account`,
-        cancelUrl: `${window.location.origin}/cart`
-        };
+        cancelUrl: `${window.location.origin}/cart`,
+        shippingAddressCollection: {
+          allowedCountries: ['US', 'CA', 'AU'],
+        },
+      };
           console.log("redirectToCheckout");
         
           const stripe = await getStripe();

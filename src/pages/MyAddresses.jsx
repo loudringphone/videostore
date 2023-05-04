@@ -8,6 +8,7 @@ import { toast, Zoom } from "react-toastify"
 
 import {db} from '../firebase_setup/firebase';
 
+
 export const MyAddresses = (props) => {
     const currentUser = props.currentUser
     const navigate = useNavigate()

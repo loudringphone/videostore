@@ -130,6 +130,7 @@ form#create_customer div.form-action-row {
 .account-page--two-column {
     display: flex;
     width: 80vw;
+    min-height: 500px;
     gap: 25px;
     justify-content: space-around;
 }
