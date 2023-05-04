@@ -12,7 +12,7 @@ import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { Slide } from 'react-toastify';
 
-
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 const toastContainerStyle = {
   width: window.innerWidth > 600 ? "auto" : "100%",
@@ -25,12 +25,12 @@ window.addEventListener("resize", () => {
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-
+const queryClient = new QueryClient();
 
 
 root.render(
   <React.StrictMode>
-
+    <QueryClientProvider client={queryClient}>
     <BrowserRouter>
     <Provider store={store}>
     
@@ -51,7 +51,7 @@ root.render(
 
     </Provider>
     </BrowserRouter>
-
+    </QueryClientProvider>
   </React.StrictMode>
 );
 

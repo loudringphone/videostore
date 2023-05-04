@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@paypal/react-paypal-js": "^7.8.3",
+    "@react-query-firebase/functions": "^1.0.0-dev.1",
     "@reduxjs/toolkit": "^1.9.4",
     "@stripe/firestore-stripe-payments": "^0.0.6",
     "@stripe/react-stripe-js": "^2.1.0",
@@ -18,6 +19,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",
+    "react-query": "^3.39.3",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.10.0",
     "react-scripts": "5.0.1",

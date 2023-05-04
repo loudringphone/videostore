@@ -9,6 +9,7 @@ import { Checkout } from '../pages/Checkout'
 import { MyAccount } from '../pages/MyAccount'
 import { MyAddresses } from '../pages/MyAddresses'
 import { Order } from '../pages/Order'
+import { Payment } from '../pages/Payment'
 
 
 import Login from '../pages/Login'
@@ -56,7 +57,8 @@ const Routers = () => {
 
             <Route path='account/orders/:orderId' element={<Order currentUser={currentUser} />} />
 
-        
+            <Route path='payment' element={<Payment />} />
+                
 
         
         </Routes>
