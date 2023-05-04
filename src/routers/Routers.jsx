@@ -8,6 +8,8 @@ import { ProductDetails } from '../pages/ProductDetails'
 import { Checkout } from '../pages/Checkout'
 import { MyAccount } from '../pages/MyAccount'
 import { MyAddresses } from '../pages/MyAddresses'
+import { Order } from '../pages/Order'
+
 
 import Login from '../pages/Login'
 import Logout from '../pages/Logout'
@@ -50,8 +52,10 @@ const Routers = () => {
             <Route path='account/addresses' element={<MyAddresses currentUser={currentUser} />} />
             <Route path='account/login' element={<Login prevLocation={prevLocation} />} />
             <Route path='account/logout' element={<Logout/>} />
-
             <Route path='account/register' element={<Signup prevLocation={prevLocation} />} />
+
+            <Route path='account/orders/:orderId' element={<Order currentUser={currentUser} />} />
+
         
 
         

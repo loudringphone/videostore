@@ -6,16 +6,12 @@ import { cartActions } from '../redux/slices/cartSlice';
 import CartItemCard from '../components/UI/CartItemCard';
 import accounting from 'accounting'
 import { firebaseQuery } from '../functions/firebaseQuery';
-
-import useAuth from '../custom-hook/useAuth'
 import processing from '../assets/images/loading.gif'
 import '../styles/cart.css'
-import { getApp } from "@firebase/app";
-import { getStripePayments } from "@stripe/firestore-stripe-payments";
 import { loadStripe } from '@stripe/stripe-js';
-import {useStripe, useElements, PaymentElement} from '@stripe/react-stripe-js';
 import {db} from '../firebase_setup/firebase';
-import PaypalCheckoutButton from '../PaypalCheckoutButton';
+import { doc, updateDoc } from "firebase/firestore";
+
 
 export const Cart = (props) => {
   const cart = useSelector(state => state.cart)
@@ -105,9 +101,16 @@ export const Cart = (props) => {
     setShowArrow(false);
   }
 
-  
+  async function preliminaryOrderForCheckout(randomCode) {
+    const userRef = doc(db, "customers", props.currentUser.uid);
+    await updateDoc(userRef, {
+      preliminaryOrder: {
+                        orderId: randomCode,
+                        address: {firstName:"testF",lastName:"testL",company:"",address1:"",address2:"",city:"",country:"",state:"Australia",zip:"",phone:""}
+                      }
+      });
+  }
  
-  const stripe = useStripe()
  
   const checkout = async function(e) {
     e.preventDefault()
@@ -131,35 +134,56 @@ export const Cart = (props) => {
         }
       })
       lineItems.push(purchase)})
+
+      async function updateUserCart() {
+        const userRef = doc(db, "customers", props.currentUser.uid);
+        await updateDoc(userRef, {
+            cart: cart
+          });
+        console.log('updateUserCart',cart)
+      }
     
       let userEmail = undefined
       if (props.currentUser != null) {
         userEmail = props.currentUser.email
+        updateUserCart()
       }
+      
+      function generateTemporaryCode(length) {
+        let result = '';
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        const charactersLength = characters.length;
+        for (let i = 0; i < length; i++) {
+          result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+      }
+
+      const temporaryCode = generateTemporaryCode(15)
+      
+      preliminaryOrderForCheckout(temporaryCode)
+
       const checkoutOptions = {
         lineItems: lineItems,
         mode: "payment",
         customerEmail: userEmail,
-        successUrl: `${window.location.origin}/account`,
+        successUrl: `${window.location.origin}/account/orders/${temporaryCode}`,
         cancelUrl: `${window.location.origin}/cart`,
-        shippingAddressCollection: {
-          allowedCountries: ['US', 'CA', 'AU'],
-        },
+        // shippingAddressCollection: {
+        //   allowedCountries: ['US', 'CA', 'AU'],
+        // },
       };
           console.log("redirectToCheckout");
         
           const stripe = await getStripe();
           const { error } = await stripe.redirectToCheckout(checkoutOptions);
-          console.log("Stripe checkout error", error);
-       
-
-      
-    
+          if (error) {
+            console.log("Stripe checkout error", error);
+            preliminaryOrderForCheckout(null)
+          }
     } catch(error) {
       console.log(error)
     }
-    
-    
   };
 
 
