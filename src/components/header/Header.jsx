@@ -285,7 +285,7 @@ const Header = () => {
                                         <ul className="menu">
                                             <div className="nav_icons">
                                             { currentUser ? (
-                                                <div className="account-links"><span><NavLink to='account'>My Account</NavLink></span> <NavLink to='account/logout' onClick={logout}>Logout</NavLink></div>
+                                                <div className="account-links"><span><NavLink to='account' onClick={handleClose}>My Account</NavLink></span> <NavLink to='account/logout' onClick={logout}>Logout</NavLink></div>
                                             ):(
                                                 <span className="user_icon" onClick={handleClose}><NavLink to='account/login'><UserLineIcon size={30} />Login</NavLink></span>
                                             )}

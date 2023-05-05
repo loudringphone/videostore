@@ -10,12 +10,11 @@ import { cartActions } from '../redux/slices/cartSlice';
 import processing from '../assets/images/loading.gif'
 
 export const Order = (props) => {
-const [preliminaryOrder, setPreliminaryOrder] = useState(null)
 const [userInfo, setUserInfo] = useState(null)
 const [orderInfo, setOrderInfo] = useState(null)
 const [orderTime, setOrderTime] = useState(null)
 const [loading, setLoading] = useState(true)
-const [createOrder, setCreateOrder] = useState(false)
+const [updateOrder, setUpdateOrder] = useState(false)
 const [orderOwner, setOrderOwner] = useState(false)
 const [shippingAddress, setShippingAddress] = useState([])
 
@@ -46,37 +45,12 @@ const [shippingAddress, setShippingAddress] = useState([])
 
     useEffect(()=>{
         if (userInfo) {
-                const preliminaryOrder = userInfo.preliminaryOrder
-                const createOrder = async function() {
-                    if (preliminaryOrder != null) {
-                            if (preliminaryOrder.orderId === orderId) {
-                                console.log('create order')
-                            await setDoc(doc(db, "orders", preliminaryOrder.orderId), {
-                                id: preliminaryOrder.orderId,
-                                uid: currentUser.uid,
-                                createdAt: serverTimestamp(),
-                                items: userInfo.cart.cartItems,
-                                address: preliminaryOrder.address,
-                            })
-                            setCreateOrder(true)
-                            dispatch(cartActions.removeAllItems())
-                            await removePreliminaryOrder()
-                            await fetchOrder()
-                        } else {
-                            setLoading(false)
-                        }
-                    } else {
-                        setLoading(false)
-                    }
-                }
-                const removePreliminaryOrder = async () => {
+                const removeCheckoutSessionId = async () => {
                     const userRef = doc(db, "customers", currentUser.uid);
                     await updateDoc(userRef, {
-                        cart: null,
-                        preliminaryOrder: null,
+                        checkoutSessionId: null,
                     });
-                    console.log('removePreliminaryOrder')
-
+                    console.log('removeCheckoutSessionId')
                 }
                 const fetchOrder = async () => {
                     const docRef = doc(db, "orders", orderId);
@@ -84,9 +58,11 @@ const [shippingAddress, setShippingAddress] = useState([])
                     if (docSnap.exists()) {
                         console.log('fetch order')
                         setOrderInfo(docSnap.data());
+                        if (docSnap.data().checkoutSessionId === userInfo.checkoutSessionId) {
+                            dispatch(cartActions.removeAllItems())
+                            removeCheckoutSessionId()
+                        }
                         setLoading(false)
-                    } else {
-                        createOrder()
                     }
                 }
                 fetchOrder()
@@ -97,28 +73,31 @@ const [shippingAddress, setShippingAddress] = useState([])
     useEffect(()=>{
         if (orderInfo){
             const shippingAddressObj = orderInfo.address
-            let shippingAddressArr =
+            let shippingAddressArr = null;
+            if (shippingAddressObj) {
+                shippingAddressArr =
                 [
-                    `${shippingAddressObj.firstName} ${shippingAddressObj.lastName}`,
-                    shippingAddressObj.company,
-                    shippingAddressObj.address1,
-                    shippingAddressObj.address2,
-                    `${shippingAddressObj.city}, ${shippingAddressObj.state}`,
-                    `${shippingAddressObj.country} ${shippingAddressObj.zip}`,
-                    shippingAddressObj.phone
+                    `${shippingAddressObj?.firstName} ${shippingAddressObj?.lastName}`,
+                    shippingAddressObj?.company,
+                    shippingAddressObj?.address1,
+                    shippingAddressObj?.address2,
+                    `${shippingAddressObj?.city}, ${shippingAddressObj?.state}`,
+                    `${shippingAddressObj?.country} ${shippingAddressObj?.zip}`,
+                    shippingAddressObj?.phone
                 ]
-            for (let i = 0; i < shippingAddressArr.length; i++) {
-                const element = shippingAddressArr[i];
-                if (shippingAddressArr[i].startsWith(',')) {
-                    shippingAddressArr[i] = shippingAddressArr[i].slice(1);
-                }
-                shippingAddressArr[i] = shippingAddressArr[i].trim()
-                if (shippingAddressArr[i].endsWith(',')) {
-                    shippingAddressArr[i] = shippingAddressArr[i].slice(0, -1);
-                }
-                if (element === " " || element === ", " || element.length === 0) {
-                    shippingAddressArr.splice(i, 1);
-                    i--;
+                for (let i = 0; i < shippingAddressArr.length; i++) {
+                    const element = shippingAddressArr[i];
+                    if (shippingAddressArr[i]?.startsWith(',')) {
+                        shippingAddressArr[i] = shippingAddressArr[i].slice(1);
+                    }
+                    shippingAddressArr[i] = shippingAddressArr[i]?.trim()
+                    if (shippingAddressArr[i]?.endsWith(',')) {
+                        shippingAddressArr[i] = shippingAddressArr[i].slice(0, -1);
+                    }
+                    if (element === " " || element === ", " || element?.length === 0) {
+                        shippingAddressArr.splice(i, 1);
+                        i--;
+                    }
                 }
             }
             setShippingAddress(shippingAddressArr)
@@ -151,7 +130,7 @@ const [shippingAddress, setShippingAddress] = useState([])
 
 
 
- if (loading && createOrder) {
+ if (loading && updateOrder) {
     return (
         <Helmet title={`Order #${orderId}`}>
             <section className="account-page">
@@ -164,7 +143,7 @@ const [shippingAddress, setShippingAddress] = useState([])
     )
  }  
 
- else if (loading && !createOrder) {
+ else if (loading && !updateOrder) {
     return (
         <Helmet title={`Order #${orderId}`}>
             <section className="account-page">
@@ -209,7 +188,7 @@ const [shippingAddress, setShippingAddress] = useState([])
                         <h6>Shipping Address</h6>
                         <ul className='shipping-address'>
                             {
-                            shippingAddress.map((i, k)=>{
+                            shippingAddress?.map((i, k)=>{
                                 return <p key={k}>{i}</p>
                             })
                             }
@@ -219,7 +198,7 @@ const [shippingAddress, setShippingAddress] = useState([])
                     <div className="price-details">
                             <div className="tax">
                             <div>Tax</div>
-                            <div>{accounting.formatMoney(orderInfo.items.reduce((acc, item) => acc + item.totalPrice, 0)/1.1)}</div>
+                            <div>{accounting.formatMoney(orderInfo.items.reduce((acc, item) => acc + item.totalPrice, 0)/1.1*0.1)}</div>
                             </div>
                         <div className="total-amount">
                             <div>Total</div>

@@ -10,7 +10,9 @@ import processing from '../assets/images/loading.gif'
 import '../styles/cart.css'
 import { loadStripe } from '@stripe/stripe-js';
 import {db} from '../firebase_setup/firebase';
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc, getDoc } from "firebase/firestore";
+import { getFunctions, httpsCallable } from "firebase/functions";
+
 
 
 export const Cart = (props) => {
@@ -20,6 +22,7 @@ export const Cart = (props) => {
   const [isFetched, setIsFetched] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
+  const functions = getFunctions();
   
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cart));
@@ -106,7 +109,7 @@ export const Cart = (props) => {
     await updateDoc(userRef, {
       preliminaryOrder: {
                         orderId: randomCode,
-                        address: {firstName:"testF",lastName:"testL",company:"",address1:"",address2:"",city:"",country:"",state:"Australia",zip:"",phone:""}
+                        address: {firstName:"Craig",lastName:"Sy",company:"",address1:"Unit 1, 3 George St",address2:"",city:"West Ryde",country:"Australia",state:"New South Wales",zip:"2114",phone:""}
                       }
       });
   }
@@ -115,26 +118,22 @@ export const Cart = (props) => {
   const checkout = async function(e) {
     e.preventDefault()
     try {
-      let stripePromise
-      const getStripe = () => {
-        if (!stripePromise) {
-          stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
-        }
-
-        return stripePromise;
-      };
-      
       let lineItems = []
       items.forEach((item)=>{
       const purchase = {}
-      purchase.price = item.prices[0]
+      // purchase.price = item.prices[0] //prices from stripe client-only integration
+      purchase.price_data = {}
+      purchase.price_data.currency = "aud"
+      purchase.price_data.unit_amount = item.price * 100 //prices from firebase using cloud functions server-and-client integration
+      purchase.price_data.product_data = {}
+      purchase.price_data.product_data.name = item.name //server-and-client integration
       cart.cartItems.forEach((ci)=>{
         if (ci.id === item.id) {
           purchase.quantity = ci.quantity
         }
       })
       lineItems.push(purchase)})
-
+      console.log(lineItems)
       async function updateUserCart() {
         const userRef = doc(db, "customers", props.currentUser.uid);
         await updateDoc(userRef, {
@@ -142,10 +141,24 @@ export const Cart = (props) => {
           });
         console.log('updateUserCart',cart)
       }
-    
-      let userEmail = undefined
-      if (props.currentUser != null) {
-        userEmail = props.currentUser.email
+      async function getUserData() {
+        const userRef = doc(db, "customers", props.currentUser.uid);
+        const docSnap = await getDoc(userRef);
+        if (docSnap.exists()) {
+          const userData = docSnap.data();
+          return userData;
+        } else {
+          return null;
+        }
+      }
+      const userInfo = await getUserData()
+     
+      let stripeId = null
+      let userEmail = null
+
+      if (userInfo != null) {
+        stripeId = userInfo.stripeId
+        userEmail = userInfo.email
         updateUserCart()
       }
       
@@ -158,31 +171,46 @@ export const Cart = (props) => {
         }
         return result;
       }
-
-      const temporaryCode = generateTemporaryCode(15)
-      
+      let temporaryCode = generateTemporaryCode(15)
+      const fetchOrder = async () => {
+        const docRef = doc(db, "orders", temporaryCode);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          temporaryCode = generateTemporaryCode(15)
+          console.log(temporaryCode)
+          fetchOrder()
+        } else {
+        }
+      }
+      fetchOrder()
       preliminaryOrderForCheckout(temporaryCode)
-
-      const checkoutOptions = {
+      const createStripeCheckout = httpsCallable(functions, 'createStripeCheckout');
+    createStripeCheckout({
+        cartItems: cart.cartItems,
         lineItems: lineItems,
         mode: "payment",
         customerEmail: userEmail,
+        customer: stripeId,
         successUrl: `${window.location.origin}/account/orders/${temporaryCode}`,
         cancelUrl: `${window.location.origin}/cart`,
-        // shippingAddressCollection: {
-        //   allowedCountries: ['US', 'CA', 'AU'],
-        // },
-      };
-          console.log("redirectToCheckout");
-        
-          const stripe = await getStripe();
-          const { error } = await stripe.redirectToCheckout(checkoutOptions);
-          if (error) {
-            console.log("Stripe checkout error", error);
-            preliminaryOrderForCheckout(null)
+        uid: props.currentUser.uid,
+      })
+        .then(result => {
+          if (result.data.url) {
+            console.log(result.data.id)
+            window.location.assign(result.data.url)
           }
+          // const sessionId = result.data.id
+        
+        })
+        .catch(error => {
+          // Handle any errors from the Cloud Function here
+          console.error(error);
+          preliminaryOrderForCheckout(null)
+        });
     } catch(error) {
-      console.log(error)
+      console.error(error)
+      preliminaryOrderForCheckout(null)
     }
   };
 
