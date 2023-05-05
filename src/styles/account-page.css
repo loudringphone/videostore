@@ -270,14 +270,6 @@ table {
     margin-bottom: 25px;
     display: block;
 }
-th, td {
-    padding-left: 25px;
-    TEXT-ALIGN: -WEBKIT-RIGHT;
-  }
-.product-name, .order-no {
-    text-align-last: left;
-    padding-left: 0px;
-}
 
 .order-info-footer {
     display: flex;
@@ -304,8 +296,34 @@ th, td {
 .order-info table {
     min-height: 100px;
 }
-td {
+thead {
+    vertical-align: bottom;
+}
+th.cell-left {
+    text-align: left;
+    text-align-last: left;
+    padding: 0;
+    max-width: 200px;
+}
+th.cell-right {
+    text-align: right;
+    padding-left: 25px;
+
+}
+td.cell-left {
+    overflow-wrap: anywhere;
+    text-align: left;
+    text-align-last: left;
+    padding-left: 0px;
+    max-width: 200px;
+}
+
+td.cell-right {
+    text-align: -webkit-right;
     vertical-align: text-top;
+    padding-left: 25px;
+
+
 }
 .order-info .price-details {
     display: flex;
@@ -321,6 +339,7 @@ td {
 }
 .shipping-details h6 {
     font-weight: bold;
+    text-align: left;
 }
 
 
@@ -369,6 +388,9 @@ td {
     table.order-table {
         width: 80%;
     }
+    td {
+        word-wrap: normal;
+    }
     
 }
 
@@ -392,12 +414,34 @@ td {
         max-width: 80px;
         max-height: 55px;
     }
-}
 
-@media (max-width: 400px) {
     li.account-address {
         width: 70%;
         min-width: 162px;
-        
+    }
+    th.cell-right, td.cell-right {
+        padding-left: 5px;
+    }
+ 
+    li.account-address {
+        width: 70%;
+        min-width: 162px;
+    }
+    .order-info {
+        font-size: smaller;
+        width: 85%;
+    }
+    .order-info p {
+        margin-bottom: 0.3rem;
+    }
+    .order-info table{
+        gap: 0px;
+    }
+    .order-info-footer {
+        flex-direction: column-reverse;
+        gap: 10px;
+    }
+    .order-info table {
+        min-height: 0px;
     }
 }

@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { useDispatch, useSelector } from "react-redux"
+import { useParams, Link } from 'react-router-dom'
 import { setDoc, getDoc, updateDoc, doc, serverTimestamp, Timestamp } from "firebase/firestore"
 import accounting from 'accounting'
 import { db } from "../firebase_setup/firebase"
 import { Helmet } from '../components/helmet/Helmet'
-import { cartActions } from '../redux/slices/cartSlice';
 
 import processing from '../assets/images/loading.gif'
 
@@ -27,20 +25,22 @@ const [shippingAddress, setShippingAddress] = useState([])
                 
         const fetchOrder = async () => {
             try {
-                const docRef = doc(db, "orders", orderId);
-                const docSnap = await getDoc(docRef);
-                if (docSnap.exists()) {
-                    console.log('fetch order')
-                    setOrderInfo(docSnap.data());
-                    setLoading(false)
-                }
+              const docRef = doc(db, "orders", orderId);
+              const docSnap = await getDoc(docRef);
+              if (docSnap.exists()) {
+                console.log('fetch order')
+                const orderData = docSnap.data();
+                orderData.id = docSnap.id; // add the document id to the orderData object
+                setOrderInfo(orderData);
+                setLoading(false)
+              }
             } catch (error) {
-                console.error('Error fetching order:', error);
-                setLoading(false);
-                // handle the error as appropriate (e.g. show a notification to the user)
+              console.error('Error fetching order:', error);
+              setLoading(false);
+              // handle the error as appropriate (e.g. show a notification to the user)
             }
-        }
-        fetchOrder();
+          }
+          fetchOrder();
         
             
     },[])
@@ -131,21 +131,25 @@ if (loading) {
                 <table>
                     <thead>
                         <tr>
-                            <th className='product-name'>PRODUCT</th>
-                            <th>PRICE</th>
-                            <th>QTY</th>
-                            <th>TOTAL</th>
+                            <th className='cell-left'>PRODUCT</th>
+                            <th className='cell-right'>PRICE</th>
+                            <th className='cell-right'>QTY</th>
+                            <th className='cell-right'>TOTAL</th>
                         </tr>
                     </thead>
                     <tbody>
                     {
                         orderInfo?.items.map((item, key)=>{
+                            let itemURL = item.id + '-' + item.name.toLowerCase().replace(/[^a-z0-9'""]/g, "-").replace(/['"]/g, "");
+                            if (itemURL.endsWith("-")) {
+                                itemURL = itemURL.slice(0, -1);
+                            };
                             return(
                                 <tr className="item-details" key={key}>
-                                    <td className='product-name'>{item.name}</td>
-                                    <td>{accounting.formatMoney(item.price)}</td>
-                                    <td>{item.quantity}</td>
-                                    <td>{accounting.formatMoney(item.totalPrice)}</td>
+                                    <td className='cell-left'><Link to={{ pathname: `/products/${itemURL}` }}>{item.name}</Link></td>
+                                    <td className='cell-right'>{accounting.formatMoney(item.price)}</td>
+                                    <td className='cell-right'>{item.quantity}</td>
+                                    <td className='cell-right'>{accounting.formatMoney(item.totalPrice)}</td>
                                 </tr>
                             )
                         })
@@ -165,10 +169,18 @@ if (loading) {
                     </div>
 
                     <div className="price-details">
-                            <div className="tax">
+                        {orderInfo?.discount ? (
+                            <div className="discounts">
+                                <div>Discount</div>
+                                <div>({accounting.formatMoney(orderInfo?.discount)})</div>
+                            </div>
+                        ):(
+                            <></>
+                        )}
+                        <div className="tax">
                             <div>Tax</div>
                             <div>{accounting.formatMoney(orderInfo?.amountTotal/1.1*0.1)}</div>
-                            </div>
+                        </div>
                         <div className="total-amount">
                             <div>Total</div>
                             <div>{accounting.formatMoney(orderInfo?.amountTotal)}</div>

@@ -148,25 +148,26 @@ export const Shop = () => {
       setFilteredItems(arr.sort((a, b) => {
         const aTime = a.createdAt ? new Timestamp(a.createdAt.seconds, a.createdAt.nanoseconds).toDate() : null;
         const bTime = b.createdAt ? new Timestamp(b.createdAt.seconds, b.createdAt.nanoseconds).toDate() : null;
-
+  
         if (!aTime && !bTime) {
-        return 0; // both documents have no createdAt property
+          return 0; // both documents have no createdAt property
         } else if (!aTime) {
-        return 1; // a has no createdAt property, move it to the end
+          return 1; // a has no createdAt property, move it to the end
         } else if (!bTime) {
-        return -1; // b has no createdAt property, move it to the end
+          return -1; // b has no createdAt property, move it to the end
         } else {
-        return bTime - aTime; // sort by createdAt field
+          return bTime - aTime; // sort by createdAt field
         }
       }))
-    }
-    else {
+    } else {
       let num = -1
-      if (order === 'title-descending') {num = 1}
+      if (order === 'title-descending' || order === 'price-descending') {num = 1}
       setFilteredItems(arr.sort((a, b) => {
         let titleA = a.name.toLowerCase();
         let titleB = b.name.toLowerCase();
-      
+        let priceA = a.price;
+        let priceB = b.price;
+  
         // Ignore 'the' at the beginning of the title
         const wordsA = titleA.split(' ');
         const wordsB = titleB.split(' ');
@@ -176,15 +177,25 @@ export const Shop = () => {
         if (wordsB[0] === 'the') {
           titleB = wordsB.slice(1).join(' ');
         }
-      
-        // Compare the modified titles
-        if (titleA < titleB) {
-          return num;
+  
+        // Compare the modified titles or prices
+        if (order === 'price-ascending' || order === 'price-descending') {
+          if (priceA < priceB) {
+            return num;
+          }
+          if (priceA > priceB) {
+            return -num;
+          }
+          return 0;
+        } else {
+          if (titleA < titleB) {
+            return num;
+          }
+          if (titleA > titleB) {
+            return -num;
+          }
+          return 0;
         }
-        if (titleA > titleB) {
-          return -num;
-        }
-        return 0;
       }));
     }
   }

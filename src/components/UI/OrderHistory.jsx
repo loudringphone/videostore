@@ -70,9 +70,9 @@ const OrderHistory = (props) => {
                 <table className="order-table">
                     <thead>
                         <tr>
-                            <th className='order-no'>ORDER #</th>
-                            <th>ORDER PLACED</th>
-                            <th>TOTAL</th>
+                            <th className='cell-left'>ORDER #</th>
+                            <th className='cell-right'>ORDER PLACED</th>
+                            <th className='cell-right'>TOTAL</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -80,9 +80,9 @@ const OrderHistory = (props) => {
                         orders.map((order, key)=>{
                             return(
                                 <tr className="order-details" key={key}>
-                                    <td className='order-no'><Link to={{ pathname: `orders/${order.id}` }}>{order.id}</Link></td>
-                                    <td>{order.createdAt ? new Timestamp(order.createdAt.seconds, order.createdAt.nanoseconds).toDate().toLocaleString('en-AU', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Australia/Sydney' }) : null}</td>
-                                    <td>{accounting.formatMoney(order.amountTotal)}</td>
+                                    <td className='cell-left'><Link to={{ pathname: `orders/${order.id}` }}>{order.id}</Link></td>
+                                    <td className='cell-right'>{order.createdAt ? new Timestamp(order.createdAt.seconds, order.createdAt.nanoseconds).toDate().toLocaleString('en-AU', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Australia/Sydney' }) : null}</td>
+                                    <td className='cell-right'>{accounting.formatMoney(order.amountTotal)}</td>
                                 </tr>
                             )
                         })

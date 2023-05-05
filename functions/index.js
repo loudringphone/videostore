@@ -14,6 +14,7 @@ functions.https.onCall(async (data, context) => {
   try {
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
+      allow_promotion_codes: true,
       success_url: successUrl,
       cancel_url: cancelUrl,
       line_items: lineItems,
@@ -40,38 +41,41 @@ exports.stripeWebhook = functions.https.onRequest(async (req, res) => {
     return res.sendStatus(400);
   }
   const dataObject = event.data.object;
-  let uid = dataObject.client_reference_id;
-  const docRef = admin.firestore().collection("customers").doc(uid);
-  const doc = await docRef.get();
-  let cartItems = null;
-  let address = null;
-  if (doc.exists) {
-    const data = doc.data();
-    cartItems = data.cart.cartItems;
-    address = data.addresses[data.addresses.selected];
-  } else {
-    uid = null;
-  }
-  await admin.firestore().collection("orders").doc().set({
-    uid: uid,
-    checkoutSessionId: dataObject.id,
-    paymentStatus: dataObject.payment_status,
-    amountTotal: dataObject.amount_total/100,
-    items: cartItems,
-    address: address,
-    createdAt: admin.firestore.FieldValue.serverTimestamp(),
-  });
-  const result = await docRef.update({
-    checkoutSessionId: dataObject.id,
-    cart: {
-      cartItems: [],
-      totalAmount: 0,
-      totalQuantity: 0,
-    },
-  });
-  if (result.writeTime) {
-    console.log("Customer updated successfully.");
-  } else {
-    console.log("Failed to update Customer.");
+  if (dataObject.payment_status === "paid") {
+    let uid = dataObject.client_reference_id;
+    const docRef = admin.firestore().collection("customers").doc(uid);
+    const doc = await docRef.get();
+    let cartItems = null;
+    let address = null;
+    if (doc.exists) {
+      const data = doc.data();
+      cartItems = data.cart.cartItems;
+      address = data.addresses[data.addresses.selected];
+    } else {
+      uid = null;
+    }
+    await admin.firestore().collection("orders").doc().set({
+      uid: uid,
+      checkoutSessionId: dataObject.id,
+      paymentStatus: dataObject.payment_status,
+      amountTotal: dataObject.amount_total/100,
+      discount: dataObject.total_details.amount_discount/100,
+      items: cartItems,
+      address: address,
+      createdAt: admin.firestore.FieldValue.serverTimestamp(),
+    });
+    const result = await docRef.update({
+      checkoutSessionId: dataObject.id,
+      cart: {
+        cartItems: [],
+        totalAmount: 0,
+        totalQuantity: 0,
+      },
+    });
+    if (result.writeTime) {
+      console.log("Customer updated successfully.");
+    } else {
+      console.log("Failed to update Customer.");
+    }
   }
 });

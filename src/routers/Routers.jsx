@@ -45,7 +45,7 @@ const Routers = () => {
             <Route path='shop/all/:itemId' element={<ProductDetails />} />
             <Route path='collections/:id/:itemId' element={<ProductDetails />} />
             <Route path='cart' element={<Cart currentUser={currentUser} />} />
-            <Route path='checkout' element={
+            <Route path='checkouts' element={
                 <ProtectedRoute>
                     <Checkout />
                 </ProtectedRoute>} />
@@ -58,6 +58,7 @@ const Routers = () => {
             <Route path='account/orders/:orderId' element={<Order currentUser={currentUser} />} />
 
             <Route path='payment' element={<Payment />} />
+
                 
 
         

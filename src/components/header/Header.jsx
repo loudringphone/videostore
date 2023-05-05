@@ -100,11 +100,12 @@ const Header = () => {
             const currentScrollY = window.scrollY;
             
             if (window.innerWidth > 1020) {
-                setIsNavVisible(currentScrollY < 150);
+                setIsNavVisible(headerStyle.height === '105px');
                 if(currentScrollY <= 150) {
                     setHeaderStyle({height: '105px'})
                 }
-                else {setHeaderStyle({height: '80px'})}
+                else if (currentScrollY >= 175)
+                {setHeaderStyle({height: '80px'})}
                 setPrevScrollY(currentScrollY);
             }
         };

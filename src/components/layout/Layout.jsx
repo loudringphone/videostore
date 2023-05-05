@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom';
 import Header from '../header/Header'
 import { Footer } from '../footer/Footer'
 import Routers from '../../routers/Routers'
@@ -21,7 +22,7 @@ export const Layout = () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
-  
+  const {pathname} = useLocation()
   return (
     <>  
       {isDesktop ? (
@@ -29,11 +30,19 @@ export const Layout = () => {
       ) : (
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       )}
-      <Header />
+      {pathname === '/checkouts' ? (
+        <></>
+      ):(
+        <Header />
+      )}
       <main>
           <Routers />
       </main>
-      <Footer />
+      {pathname === '/checkouts' ? (
+        <></>
+      ):(
+        <Footer />
+      )}
     </>
   )
 }
