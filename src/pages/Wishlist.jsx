@@ -7,7 +7,7 @@ import { useSelector } from "react-redux"
 import { Timestamp } from "firebase/firestore";
 import '../styles/shop.css'
 
-import ProductsList from '../components/UI/ProductsList';
+import ProductList from '../components/UI/ProductList';
 
 import { firebaseQuery } from '../functions/firebaseQuery';
 
@@ -35,7 +35,6 @@ export const Wishlist = () => {
 
 
   useEffect(()=>{
-    setItems([])
     fetchItems();
     setFilteredItems(null);
     setFilterValue('');
@@ -175,14 +174,14 @@ export const Wishlist = () => {
                     items && items.length === 0 ? (
                         <p className='notFound'>Your wishlist is empty.</p>
                     ) : (
-                        <ProductsList items={items} />
+                        <ProductList items={items} />
                     )
                 ) : (
                     
                     filteredItems.length === 0 ? (
                         <p className='notFound'>Your wishlist is empty.</p>
                     ) : (
-                        <ProductsList items={filteredItems} />
+                        <ProductList items={filteredItems} />
                     )
                 )
                 }

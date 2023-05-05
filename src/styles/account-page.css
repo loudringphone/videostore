@@ -261,6 +261,69 @@ li.account-address button{
     box-shadow: 0 1px 4px #7d7d7d1c;
 }
 
+table {
+    text-align-last: right;
+    gap: 20px;
+    width: 100%;
+}
+.order-info table {
+    margin-bottom: 25px;
+    display: block;
+}
+th, td {
+    padding-left: 25px;
+  }
+.product-name, .order-no {
+    text-align-last: left;
+    padding-left: 0px;
+}
+
+.order-info-footer {
+    display: flex;
+    justify-content: space-between;
+}
+.shipping-details {
+    display: flex;
+    flex-direction: column;
+    align-items: self-start;
+}
+.shipping-details ul {
+    padding: 0;
+    margin: 0;
+    flex-direction: column;
+}
+.shipping-details ul p {
+    margin: 0;
+}
+
+.order-info h4 {
+    text-align: left;
+}
+
+.order-info table {
+    min-height: 100px;
+}
+td {
+    vertical-align: text-top;
+}
+.order-info .price-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.price-details div {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    font-weight: 600;
+    font-size: large;
+}
+.shipping-details h6 {
+    font-weight: bold;
+}
+
+
+
 
 @media (max-width: 900px) {
     .account-page--two-column {

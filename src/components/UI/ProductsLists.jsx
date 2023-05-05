@@ -12,7 +12,7 @@ import ProductCard from './ProductCard';
 const ProductsLists = () => {
     const [items, setItems] = useState([]);
 
-    const fetchItem = async () => {
+    const fetchItems = async () => {
         const q = query(collection(db, "products"))
         await getDocs(q)
         .then((querySnapshot) => {
@@ -59,7 +59,7 @@ const ProductsLists = () => {
     
    
     useEffect(()=>{
-        fetchItem();
+        fetchItems();
     }, [])
    
 return (

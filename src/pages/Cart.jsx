@@ -104,15 +104,15 @@ export const Cart = (props) => {
     setShowArrow(false);
   }
 
-  async function preliminaryOrderForCheckout(randomCode) {
-    const userRef = doc(db, "customers", props.currentUser.uid);
-    await updateDoc(userRef, {
-      preliminaryOrder: {
-                        orderId: randomCode,
-                        address: {firstName:"Craig",lastName:"Sy",company:"",address1:"Unit 1, 3 George St",address2:"",city:"West Ryde",country:"Australia",state:"New South Wales",zip:"2114",phone:""}
-                      }
-      });
-  }
+  // async function preliminaryOrderForCheckout(randomCode) {
+  //   const userRef = doc(db, "customers", props.currentUser.uid);
+  //   await updateDoc(userRef, {
+  //     preliminaryOrder: {
+  //                       orderId: randomCode,
+  //                       address: {firstName:"Craig",lastName:"Sy",company:"",address1:"Unit 1, 3 George St",address2:"",city:"West Ryde",country:"Australia",state:"New South Wales",zip:"2114",phone:""}
+  //                     }
+  //     });
+  // }
  
  
   const checkout = async function(e) {
@@ -161,7 +161,7 @@ export const Cart = (props) => {
         userEmail = userInfo.email
         updateUserCart()
       }
-      
+      // console.log(userInfo.addresses[userInfo.addresses.selected])
       function generateTemporaryCode(length) {
         let result = '';
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -183,7 +183,7 @@ export const Cart = (props) => {
         }
       }
       fetchOrder()
-      preliminaryOrderForCheckout(temporaryCode)
+      // preliminaryOrderForCheckout(temporaryCode)
       const createStripeCheckout = httpsCallable(functions, 'createStripeCheckout');
     createStripeCheckout({
         cartItems: cart.cartItems,
@@ -206,11 +206,11 @@ export const Cart = (props) => {
         .catch(error => {
           // Handle any errors from the Cloud Function here
           console.error(error);
-          preliminaryOrderForCheckout(null)
+          // preliminaryOrderForCheckout(null)
         });
     } catch(error) {
       console.error(error)
-      preliminaryOrderForCheckout(null)
+      // preliminaryOrderForCheckout(null)
     }
   };
 

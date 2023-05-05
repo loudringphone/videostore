@@ -59,11 +59,11 @@ export const MyAddresses = (props) => {
                     ]
                     for (let i = 0; i < defaultAddressArr.length; i++) {
                         const element = defaultAddressArr[i];
-                        if (defaultAddressArr[i].startsWith(',')) {
+                        if (defaultAddressArr[i]?.startsWith(',')) {
                             defaultAddressArr[i] = defaultAddressArr[i].slice(1);
                         }
-                        defaultAddressArr[i] = defaultAddressArr[i].trim()
-                        if (defaultAddressArr[i].endsWith(',')) {
+                        defaultAddressArr[i] = defaultAddressArr[i]?.trim()
+                        if (defaultAddressArr[i]?.endsWith(',')) {
                             defaultAddressArr[i] = defaultAddressArr[i].slice(0, -1);
                         }
                         if (element === " " || element === ", " || element.length === 0) {
@@ -78,7 +78,7 @@ export const MyAddresses = (props) => {
             }
                 const defaultIndex = userInfo.addresses.default
                 let addressKeys = Object.keys(userInfo.addresses)
-                addressKeys = addressKeys.filter((key) => key != defaultIndex && key != 'default')
+                addressKeys = addressKeys.filter((key) => key != defaultIndex && key != 'default' && key != 'selected')
                 let otherAddressesArr = []
                 for (let key of addressKeys) {
                     const addressObj = userInfo.addresses[key]
@@ -94,14 +94,14 @@ export const MyAddresses = (props) => {
                     ]
                     for (let i = 0; i < addressArr.length; i++) {
                         const element = addressArr[i];
-                        if (addressArr[i].startsWith(',')) {
+                        if (addressArr[i]?.startsWith(',')) {
                             addressArr[i] = addressArr[i].slice(1);
                         }
-                        addressArr[i] = addressArr[i].trim()
-                        if (addressArr[i].endsWith(',')) {
+                        addressArr[i] = addressArr[i]?.trim()
+                        if (addressArr[i]?.endsWith(',')) {
                             addressArr[i] = addressArr[i].slice(0, -1);
                         }
-                        if (element === " " || element === ", " || element.length === 0) {
+                        if (element === " " || element === ", " || element?.length === 0) {
                             addressArr.splice(i, 1);
                             i--;
                         }

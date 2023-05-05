@@ -4,7 +4,7 @@ import { Container, Row, Col } from "reactstrap";
 import "../../styles/product-card.css"
 import ProductCard from './ProductCard';
 
-const ProductsList = (props) => {
+const ProductList = (props) => {
    
     return (
         
@@ -33,4 +33,4 @@ const ProductsList = (props) => {
     )
 }
 
-export default ProductsList
+export default ProductList

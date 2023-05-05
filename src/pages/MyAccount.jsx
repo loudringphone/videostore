@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom"
 import { doc, getDoc } from "firebase/firestore";
 import {db} from '../firebase_setup/firebase';
 import { Helmet } from '../components/helmet/Helmet'
+import OrderHistory from '../components/UI/OrderHistory';
 import processing from '../assets/images/loading.gif'
 
 
@@ -64,7 +65,7 @@ export const MyAccount = (props) => {
             }
 
             let addressKeys = Object.keys(userInfo.addresses);
-            addressKeys = addressKeys.filter((key) => key !== "default");
+            addressKeys = addressKeys.filter((key) => key !== "default" && key !== "selected");
             setAddressQuantity(addressKeys.length)
 
 
@@ -121,15 +122,7 @@ export const MyAccount = (props) => {
                     <div className="account-page-content">
                         <div className="account-page--two-column">
                         
-                        <div className="account-page--column-large account-order-history">
-                            <h4 className="account-page-subtitle">
-                            Order history
-                            </h4>
-
-                            
-                            <p className="empty">You have no orders</p>
-                            
-                        </div>
+                        <OrderHistory uid={currentUser.uid} />
 
                         
                         <div className="account-page--column-small account-info">

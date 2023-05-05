@@ -9,7 +9,7 @@ import {db} from '../firebase_setup/firebase';
 
 import '../styles/shop.css'
 
-import ProductsList from '../components/UI/ProductsList';
+import ProductList from '../components/UI/ProductList';
 
 
 export const Shop = () => {
@@ -130,14 +130,12 @@ export const Shop = () => {
 
 
   useEffect(()=>{
-    setItems([])
     fetchItems();
     setFilteredItems(null);
     setFilterValue('');
     setSortValue('featured')
   }, [id])
   useEffect(()=>{
-    setItems([])
     fetchItems();
     setFilteredItems(null);
     setFilterValue('');
@@ -164,7 +162,7 @@ export const Shop = () => {
     }
     else {
       let num = -1
-      if (order === 'descending') {num = 1}
+      if (order === 'title-descending') {num = 1}
       setFilteredItems(arr.sort((a, b) => {
         let titleA = a.name.toLowerCase();
         let titleB = b.name.toLowerCase();
@@ -262,8 +260,10 @@ export const Shop = () => {
                 <h6>Sort by</h6>
                 <select onChange={handleSort} value={sortValue}>
                   <option value="featured">Featured</option>
-                  <option value="ascending">Alphabetically, A-Z</option>
-                  <option value="descending">Alphabetically, Z-A</option>
+                  <option value="title-ascending">Alphabetically, A-Z</option>
+                  <option value="title-descending">Alphabetically, Z-A</option>
+                  <option value="price-ascending">Price, low to high</option>
+                  <option value="price-descending">Price, high to low</option>
                 </select>
               </div>
             
@@ -283,7 +283,7 @@ export const Shop = () => {
                     <p className='notFound'>Sorry, we can't find any results for that keyword. Please check your spelling or try another search term.</p>
                   )
                 ) : (
-                  <ProductsList items={items} />
+                  <ProductList items={items} />
                 )
               ) : (
                 
@@ -294,7 +294,7 @@ export const Shop = () => {
                     <p className='notFound'>Sorry, we can't find any results for that keyword. Please check your spelling or try another search term.</p>
                   )
                 ) : (
-                  <ProductsList items={filteredItems} />
+                  <ProductList items={filteredItems} />
                 )
               )
               

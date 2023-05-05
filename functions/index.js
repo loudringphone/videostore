@@ -50,7 +50,7 @@ exports.stripeWebhook = functions.https.onRequest(async (req, res) => {
   if (doc.exists) {
     const data = doc.data();
     cartItems = data.cart.cartItems;
-    address = data.preliminaryOrder.address;
+    address = data.addresses[data.addresses.selected];
   } else {
     uid = null;
   }
@@ -65,7 +65,6 @@ exports.stripeWebhook = functions.https.onRequest(async (req, res) => {
     createdAt: admin.firestore.FieldValue.serverTimestamp(),
   });
   const result = await docRef.update({
-    preliminaryOrder: null,
     checkoutSessionId: dataObject.id,
     cart: {
       cartItems: [],

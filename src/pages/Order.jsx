@@ -14,7 +14,6 @@ const [userInfo, setUserInfo] = useState(null)
 const [orderInfo, setOrderInfo] = useState(null)
 const [orderTime, setOrderTime] = useState(null)
 const [loading, setLoading] = useState(true)
-const [updateOrder, setUpdateOrder] = useState(false)
 const [orderOwner, setOrderOwner] = useState(false)
 const [shippingAddress, setShippingAddress] = useState([])
 
@@ -101,7 +100,7 @@ const [shippingAddress, setShippingAddress] = useState([])
                 }
             }
             setShippingAddress(shippingAddressArr)
-            console.log(shippingAddress)
+            // console.log(shippingAddress)
         }
 
     },[orderInfo])
@@ -120,7 +119,7 @@ const [shippingAddress, setShippingAddress] = useState([])
             setOrderOwner(true)
         }        
     }
-    console.log(orderInfo)
+    // console.log(orderInfo)
  },[orderInfo])
  
 
@@ -130,20 +129,9 @@ const [shippingAddress, setShippingAddress] = useState([])
 
 
 
- if (loading && updateOrder) {
-    return (
-        <Helmet title={`Order #${orderId}`}>
-            <section className="account-page">
-                <div className="processing">
-                    <img src={processing} alt="processing" style={{height: '30px'}}/>
-                    Payment has been processed. Please don't close the browser while the order is being created...
-                </div>
-            </section>
-        </Helmet>
-    )
- }  
+ 
 
- else if (loading && !updateOrder) {
+if (loading) {
     return (
         <Helmet title={`Order #${orderId}`}>
             <section className="account-page">
@@ -161,27 +149,31 @@ const [shippingAddress, setShippingAddress] = useState([])
         <Helmet title={`Order #${orderId}`}>
         <section className="account-page account-page-order">
             <div className="order-info">
-                <h4>Order number: #{orderInfo.id}</h4>
+                <h4>Order #{orderInfo.id}</h4>
                 <p>Order date: {orderTime}</p>
                 <table>
-                <thead>
-                    <th>PRODUCT</th>
-                    <th>PRICE</th>
-                    <th>QUANTITY</th>
-                    <th>TOTAL</th>
-                </thead>
-                {
-                    orderInfo.items.map((item, key)=>{
-                        return(
-                            <tr className="item-details" key={key}>
-                                <td>{item.name}</td>
-                                <td>{accounting.formatMoney(item.price)}</td>
-                                <td>{item.quantity}</td>
-                                <td>{accounting.formatMoney(item.totalPrice)}</td>
-                            </tr>
-                        )
-                    })
-                }
+                    <thead>
+                        <tr>
+                            <th className='product-name'>PRODUCT</th>
+                            <th>PRICE</th>
+                            <th>QTY</th>
+                            <th>TOTAL</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {
+                        orderInfo.items.map((item, key)=>{
+                            return(
+                                <tr className="item-details" key={key}>
+                                    <td className='product-name'>{item.name}</td>
+                                    <td>{accounting.formatMoney(item.price)}</td>
+                                    <td>{item.quantity}</td>
+                                    <td>{accounting.formatMoney(item.totalPrice)}</td>
+                                </tr>
+                            )
+                        })
+                    }
+                    </tbody>
                 </table>
                 <div className='order-info-footer'>
                     <div className="shipping-details">
@@ -198,11 +190,11 @@ const [shippingAddress, setShippingAddress] = useState([])
                     <div className="price-details">
                             <div className="tax">
                             <div>Tax</div>
-                            <div>{accounting.formatMoney(orderInfo.items.reduce((acc, item) => acc + item.totalPrice, 0)/1.1*0.1)}</div>
+                            <div>{accounting.formatMoney(orderInfo.amountTotal/1.1*0.1)}</div>
                             </div>
                         <div className="total-amount">
                             <div>Total</div>
-                            <div>{accounting.formatMoney(orderInfo.items.reduce((acc, item) => acc + item.totalPrice, 0))}</div>
+                            <div>{accounting.formatMoney(orderInfo.amountTotal)}</div>
                         </div>
                     </div>
                 </div>
