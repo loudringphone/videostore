@@ -40,8 +40,6 @@ exports.stripeWebhook = functions.https.onRequest(async (req, res) => {
     return res.sendStatus(400);
   }
   const dataObject = event.data.object;
-  const successUrl = dataObject.success_url;
-  const orderId = successUrl.split("/").pop();
   let uid = dataObject.client_reference_id;
   const docRef = admin.firestore().collection("customers").doc(uid);
   const doc = await docRef.get();
@@ -54,8 +52,7 @@ exports.stripeWebhook = functions.https.onRequest(async (req, res) => {
   } else {
     uid = null;
   }
-  await admin.firestore().collection("orders").doc(orderId).set({
-    id: orderId,
+  await admin.firestore().collection("orders").doc().set({
     uid: uid,
     checkoutSessionId: dataObject.id,
     paymentStatus: dataObject.payment_status,

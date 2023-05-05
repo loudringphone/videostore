@@ -272,6 +272,7 @@ table {
 }
 th, td {
     padding-left: 25px;
+    TEXT-ALIGN: -WEBKIT-RIGHT;
   }
 .product-name, .order-no {
     text-align-last: left;
@@ -324,11 +325,13 @@ td {
 
 
 
-
 @media (max-width: 900px) {
     .account-page--two-column {
         flex-direction: column;
         width: 90vw;
+    }
+    table.order-table {
+        width: 500px;
     }
 }
 
@@ -355,11 +358,18 @@ td {
     .account-address-form {
         width: 90%;
     }
+    table.order-table {
+        width: 95%;
+    }
 }
 @media (max-width: 450px) {
     .form-field-columns {
         flex-direction: column;
     }
+    table.order-table {
+        width: 80%;
+    }
+    
 }
 
 

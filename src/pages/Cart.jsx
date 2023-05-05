@@ -162,27 +162,27 @@ export const Cart = (props) => {
         updateUserCart()
       }
       // console.log(userInfo.addresses[userInfo.addresses.selected])
-      function generateTemporaryCode(length) {
-        let result = '';
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        const charactersLength = characters.length;
-        for (let i = 0; i < length; i++) {
-          result += characters.charAt(Math.floor(Math.random() * charactersLength));
-        }
-        return result;
-      }
-      let temporaryCode = generateTemporaryCode(15)
-      const fetchOrder = async () => {
-        const docRef = doc(db, "orders", temporaryCode);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          temporaryCode = generateTemporaryCode(15)
-          console.log(temporaryCode)
-          fetchOrder()
-        } else {
-        }
-      }
-      fetchOrder()
+      // function generateTemporaryCode(length) {
+      //   let result = '';
+      //   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      //   const charactersLength = characters.length;
+      //   for (let i = 0; i < length; i++) {
+      //     result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      //   }
+      //   return result;
+      // }
+      // let temporaryCode = generateTemporaryCode(15)
+      // const fetchOrder = async () => {
+      //   const docRef = doc(db, "orders", temporaryCode);
+      //   const docSnap = await getDoc(docRef);
+      //   if (docSnap.exists()) {
+      //     temporaryCode = generateTemporaryCode(15)
+      //     console.log(temporaryCode)
+      //     fetchOrder()
+      //   } else {
+      //   }
+      // }
+      // fetchOrder()
       // preliminaryOrderForCheckout(temporaryCode)
       const createStripeCheckout = httpsCallable(functions, 'createStripeCheckout');
     createStripeCheckout({
@@ -191,7 +191,7 @@ export const Cart = (props) => {
         mode: "payment",
         customerEmail: userEmail,
         customer: stripeId,
-        successUrl: `${window.location.origin}/account/orders/${temporaryCode}`,
+        successUrl: `${window.location.origin}/account`,
         cancelUrl: `${window.location.origin}/cart`,
         uid: props.currentUser.uid,
       })

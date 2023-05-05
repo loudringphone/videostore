@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from 'react'
+import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import {db} from '../firebase_setup/firebase';
+import { cartActions } from '../redux/slices/cartSlice';
 import { Helmet } from '../components/helmet/Helmet'
 import OrderHistory from '../components/UI/OrderHistory';
 import processing from '../assets/images/loading.gif'
+import { toast } from "react-toastify";
+
 
 
 
 
 export const MyAccount = (props) => {
+    const dispatch = useDispatch();
     const currentUser = props.currentUser
     const navigate = useNavigate()
     const [userInfo, setUserInfo] = useState({})
@@ -34,6 +39,21 @@ export const MyAccount = (props) => {
             fetchUser()
         }
     }, [currentUser])
+
+    useEffect(()=>{
+        if (userInfo && userInfo.checkoutSessionId != null) {
+                const removeCheckoutSessionId = async () => {
+                    const userRef = doc(db, "customers", currentUser.uid);
+                    await updateDoc(userRef, {
+                        checkoutSessionId: null,
+                    });
+                    console.log('removeCheckoutSessionId')
+                    dispatch(cartActions.removeAllItems())
+                    toast.success("Thank you for the order. A confirmation email will be sent to you shortly", {autoClose: 1500})
+                }
+                removeCheckoutSessionId()
+            }
+    },[userInfo])
 
     useEffect(() => {
         if (Object.keys(userInfo)?.length > 0) {

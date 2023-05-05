@@ -10,7 +10,6 @@ import { cartActions } from '../redux/slices/cartSlice';
 import processing from '../assets/images/loading.gif'
 
 export const Order = (props) => {
-const [userInfo, setUserInfo] = useState(null)
 const [orderInfo, setOrderInfo] = useState(null)
 const [orderTime, setOrderTime] = useState(null)
 const [loading, setLoading] = useState(true)
@@ -18,55 +17,33 @@ const [orderOwner, setOrderOwner] = useState(false)
 const [shippingAddress, setShippingAddress] = useState([])
 
     const {orderId} = useParams()
-    const dispatch = useDispatch();
     const currentUser = props.currentUser
 
    
-    useEffect(()=>{
-        if (currentUser != null) {
-            const fetchUser = async () => {
-            const docRef = doc(db, "customers", currentUser.uid);
-            const docSnap = await getDoc(docRef);
-            if (docSnap.exists()) {
-                setUserInfo(docSnap.data());
-                // console.log(docSnap.data())
-            } else {
-            // docSnap.data() will be undefined in this case
-            console.log("No such user!");
-            setLoading(false)
-            }
-            }
-            fetchUser()
+    
 
-            
+    useEffect(()=>{
+       
+                
+        const fetchOrder = async () => {
+            try {
+                const docRef = doc(db, "orders", orderId);
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    console.log('fetch order')
+                    setOrderInfo(docSnap.data());
+                    setLoading(false)
+                }
+            } catch (error) {
+                console.error('Error fetching order:', error);
+                setLoading(false);
+                // handle the error as appropriate (e.g. show a notification to the user)
+            }
         }
-    },[currentUser])
-
-    useEffect(()=>{
-        if (userInfo) {
-                const removeCheckoutSessionId = async () => {
-                    const userRef = doc(db, "customers", currentUser.uid);
-                    await updateDoc(userRef, {
-                        checkoutSessionId: null,
-                    });
-                    console.log('removeCheckoutSessionId')
-                }
-                const fetchOrder = async () => {
-                    const docRef = doc(db, "orders", orderId);
-                    const docSnap = await getDoc(docRef);
-                    if (docSnap.exists()) {
-                        console.log('fetch order')
-                        setOrderInfo(docSnap.data());
-                        if (docSnap.data().checkoutSessionId === userInfo.checkoutSessionId) {
-                            dispatch(cartActions.removeAllItems())
-                            removeCheckoutSessionId()
-                        }
-                        setLoading(false)
-                    }
-                }
-                fetchOrder()
-            }
-    },[userInfo])
+        fetchOrder();
+        
+            
+    },[])
 
 
     useEffect(()=>{
@@ -115,7 +92,7 @@ const [shippingAddress, setShippingAddress] = useState([])
         orderCreatedAt = String(orderCreatedAt)
         order.createdAt = orderCreatedAt
         setOrderTime(orderCreatedAt)
-        if (orderInfo.uid === currentUser.uid) {
+        if (orderInfo.uid === currentUser?.uid) {
             setOrderOwner(true)
         }        
     }
@@ -149,7 +126,7 @@ if (loading) {
         <Helmet title={`Order #${orderId}`}>
         <section className="account-page account-page-order">
             <div className="order-info">
-                <h4>Order #{orderInfo.id}</h4>
+                <h4>Order #{orderInfo?.id}</h4>
                 <p>Order date: {orderTime}</p>
                 <table>
                     <thead>
@@ -162,7 +139,7 @@ if (loading) {
                     </thead>
                     <tbody>
                     {
-                        orderInfo.items.map((item, key)=>{
+                        orderInfo?.items.map((item, key)=>{
                             return(
                                 <tr className="item-details" key={key}>
                                     <td className='product-name'>{item.name}</td>
@@ -190,11 +167,11 @@ if (loading) {
                     <div className="price-details">
                             <div className="tax">
                             <div>Tax</div>
-                            <div>{accounting.formatMoney(orderInfo.amountTotal/1.1*0.1)}</div>
+                            <div>{accounting.formatMoney(orderInfo?.amountTotal/1.1*0.1)}</div>
                             </div>
                         <div className="total-amount">
                             <div>Total</div>
-                            <div>{accounting.formatMoney(orderInfo.amountTotal)}</div>
+                            <div>{accounting.formatMoney(orderInfo?.amountTotal)}</div>
                         </div>
                     </div>
                 </div>
