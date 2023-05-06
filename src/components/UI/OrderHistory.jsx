@@ -16,35 +16,34 @@ const OrderHistory = (props) => {
     const [loading, setLoading] = useState(true)
     const uid = props.uid
     const fetchOrders = async () => {
-    const q = query(collection(db, "orders"), where("uid", "==", uid));
-    await getDocs(q)
-        .then((querySnapshot) => {
-            const newData = querySnapshot.docs
-                    .map((doc) => ({ ...doc.data(), id: doc.id }))
-                    .sort((a, b) => {
-                        const aTime = a.createdAt ? new Timestamp(a.createdAt.seconds, a.createdAt.nanoseconds).toDate() : null;
-                        const bTime = b.createdAt ? new Timestamp(b.createdAt.seconds, b.createdAt.nanoseconds).toDate() : null;
+        const q = query(collection(db, "orders"), where("uid", "==", uid));
+        await getDocs(q)
+            .then((querySnapshot) => {
+                const newData = querySnapshot.docs
+                        .map((doc) => ({ ...doc.data(), id: doc.id }))
+                        .sort((a, b) => {
+                            const aTime = a.createdAt ? new Timestamp(a.createdAt.seconds, a.createdAt.nanoseconds).toDate() : null;
+                            const bTime = b.createdAt ? new Timestamp(b.createdAt.seconds, b.createdAt.nanoseconds).toDate() : null;
 
-                        if (!aTime && !bTime) {
-                        return 0; // both documents have no createdAt property
-                        } else if (!aTime) {
-                        return 1; // a has no createdAt property, move it to the end
-                        } else if (!bTime) {
-                        return -1; // b has no createdAt property, move it to the end
-                        } else {
-                        return bTime - aTime; // sort by createdAt field
-                        }
-                    });
+                            if (!aTime && !bTime) {
+                            return 0; // both documents have no createdAt property
+                            } else if (!aTime) {
+                            return 1; // a has no createdAt property, move it to the end
+                            } else if (!bTime) {
+                            return -1; // b has no createdAt property, move it to the end
+                            } else {
+                            return bTime - aTime; // sort by createdAt field
+                            }
+                        });
+                
+                setOrders(newData);
+                setLoading(false)
+
             
-            setOrders(newData);
-           
-        });
+            });
     }
     useEffect(()=>{
         fetchOrders();
-        setTimeout(() => {
-            setLoading(false)
-        }, 750);
       }, [])
       console.log(orders)
 

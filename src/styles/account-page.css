@@ -136,6 +136,7 @@ form#create_customer div.form-action-row {
 }
 .account-page--column-large.account-order-history {
     justify-self: left;
+    min-width: 410px;
 }
 .account-page--column-small.account-info {
     justify-self: left;
@@ -351,6 +352,9 @@ td.cell-right {
     }
     table.order-table {
         width: 500px;
+    }
+    .account-page--column-large.account-order-history {
+        min-width: 0px;
     }
 }
 
