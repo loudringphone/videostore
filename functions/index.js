@@ -36,12 +36,17 @@ exports.stripeWebhook = functions.https.onRequest(async (req, res) => {
         req.headers["stripe-signature"],
         whSec,
     );
+    console.log("headers", req.headers);
   } catch (error) {
-    console.error("Webhook signature verification failed.");
+    console.error(error, "Webhook signature verification failed.",
+        req.rawBody, req.headers["stripe-signature"]);
     return res.sendStatus(400);
   }
   const dataObject = event.data.object;
-  if (dataObject.payment_status === "paid") {
+  const currentTime = Math.floor(Date.now() / 1000);
+  if (dataObject.payment_status === "paid" &&
+   currentTime >= dataObject.created &&
+   currentTime <= dataObject.created + 5 * 60) {
     let uid = dataObject.client_reference_id;
     const docRef = admin.firestore().collection("customers").doc(uid);
     const doc = await docRef.get();
@@ -78,4 +83,5 @@ exports.stripeWebhook = functions.https.onRequest(async (req, res) => {
       console.log("Failed to update Customer.");
     }
   }
+  res.sendStatus(200);
 });
