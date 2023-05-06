@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux"
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Helmet } from '../components/helmet/Helmet'
 import { cartActions } from '../redux/slices/cartSlice';
 import CartItemCard from '../components/UI/CartItemCard';
@@ -8,12 +8,10 @@ import accounting from 'accounting'
 import { firebaseQuery } from '../functions/firebaseQuery';
 import processing from '../assets/images/loading.gif'
 import '../styles/cart.css'
-import { loadStripe } from '@stripe/stripe-js';
 import {db} from '../firebase_setup/firebase';
 import { doc, updateDoc, getDoc } from "firebase/firestore";
 import { getFunctions, httpsCallable } from "firebase/functions";
-
-
+import { toast, Zoom } from "react-toastify";
 
 export const Cart = (props) => {
   const cart = useSelector(state => state.cart)
@@ -104,51 +102,61 @@ export const Cart = (props) => {
     setShowArrow(false);
   }
 
-  // async function preliminaryOrderForCheckout(randomCode) {
-  //   const userRef = doc(db, "customers", props.currentUser.uid);
-  //   await updateDoc(userRef, {
-  //     preliminaryOrder: {
-  //                       orderId: randomCode,
-  //                       address: {firstName:"Craig",lastName:"Sy",company:"",address1:"Unit 1, 3 George St",address2:"",city:"West Ryde",country:"Australia",state:"New South Wales",zip:"2114",phone:""}
-  //                     }
-  //     });
-  // }
- 
- 
+  const navigate = useNavigate()
   const checkout = async function(e) {
     e.preventDefault()
+    if (!props.currentUser) {
+      toast.error("Please login/signup before checkout.", { className: "custom-toast-error", transition: Zoom })
+      return navigate('/account/login')
+    }
     try {
-      let lineItems = []
+      let lineItems = [];
+      let checkoutCartItems = [];
       items.forEach((item)=>{
-      const purchase = {}
-      // purchase.price = item.prices[0] //prices from stripe client-only integration
-      purchase.price_data = {}
-      purchase.price_data.currency = "aud"
-      purchase.price_data.unit_amount = item.price * 100 //prices from firebase using cloud functions server-and-client integration
-      purchase.price_data.product_data = {}
-      purchase.price_data.product_data.name = item.name //server-and-client integration
-      cart.cartItems.forEach((ci)=>{
-        if (ci.id === item.id) {
-          purchase.quantity = ci.quantity
-        }
+        cart.cartItems.forEach((ci)=>{
+          if (ci.id === item.id) {
+            const purchase = {};
+            const checkoutCartitem = {};
+            // purchase.price = item.prices[0] //prices from stripe client-only integration
+            checkoutCartitem.id = item.id;
+            checkoutCartitem.name = item.name;
+            checkoutCartitem.price = item.price;
+            checkoutCartitem.quantity = ci.quantity;
+            checkoutCartitem.totalPrice = ci.quantity * item.price;
+            purchase.price_data = {};
+            purchase.price_data.currency = "aud";
+            purchase.price_data.unit_amount = item.price * 100; //prices from firebase using cloud functions server-and-client integration
+            purchase.price_data.product_data = {};
+            purchase.price_data.product_data.name = item.name; //server-and-client integration
+            purchase.quantity = ci.quantity;
+            checkoutCartItems.push(checkoutCartitem);
+            lineItems.push(purchase);
+          }
+        })
       })
-      lineItems.push(purchase)})
       console.log(lineItems)
       async function updateUserCart() {
         const userRef = doc(db, "customers", props.currentUser.uid);
         await updateDoc(userRef, {
-            cart: cart
+            checkoutCartItems: checkoutCartItems
           });
         console.log('updateUserCart',cart)
       }
+
+
       async function getUserData() {
-        const userRef = doc(db, "customers", props.currentUser.uid);
-        const docSnap = await getDoc(userRef);
-        if (docSnap.exists()) {
-          const userData = docSnap.data();
-          return userData;
-        } else {
-          return null;
+        try {
+          const userRef = doc(db, "customers", props.currentUser?.uid);
+          const docSnap = await getDoc(userRef);
+          if (docSnap.exists()) {
+            const userData = docSnap.data();
+            return userData;
+          } else {
+            return null;
+          }
+        }
+        catch(error){
+          console.error(error)
         }
       }
       const userInfo = await getUserData()
@@ -161,39 +169,18 @@ export const Cart = (props) => {
         userEmail = userInfo.email
         updateUserCart()
       }
-      // console.log(userInfo.addresses[userInfo.addresses.selected])
-      // function generateTemporaryCode(length) {
-      //   let result = '';
-      //   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-      //   const charactersLength = characters.length;
-      //   for (let i = 0; i < length; i++) {
-      //     result += characters.charAt(Math.floor(Math.random() * charactersLength));
-      //   }
-      //   return result;
-      // }
-      // let temporaryCode = generateTemporaryCode(15)
-      // const fetchOrder = async () => {
-      //   const docRef = doc(db, "orders", temporaryCode);
-      //   const docSnap = await getDoc(docRef);
-      //   if (docSnap.exists()) {
-      //     temporaryCode = generateTemporaryCode(15)
-      //     console.log(temporaryCode)
-      //     fetchOrder()
-      //   } else {
-      //   }
-      // }
-      // fetchOrder()
-      // preliminaryOrderForCheckout(temporaryCode)
+      console.log(props.currentUser?.uid)
+
       const createStripeCheckout = httpsCallable(functions, 'createStripeCheckout');
-    createStripeCheckout({
-        cartItems: cart.cartItems,
+      createStripeCheckout({
+        // cartItems: cart.cartItems,
         lineItems: lineItems,
         mode: "payment",
-        customerEmail: userEmail,
+        // customerEmail: userEmail,
         customer: stripeId,
         successUrl: `${window.location.origin}/account`,
         cancelUrl: `${window.location.origin}/cart`,
-        uid: props.currentUser.uid,
+        uid: props.currentUser?.uid,
       })
         .then(result => {
           if (result.data.url) {

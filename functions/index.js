@@ -12,15 +12,27 @@ functions.https.onCall(async (data, context) => {
   const customer = data.customer;
   const uid = data.uid;
   try {
-    const session = await stripe.checkout.sessions.create({
-      mode: "payment",
-      allow_promotion_codes: true,
-      success_url: successUrl,
-      cancel_url: cancelUrl,
-      line_items: lineItems,
-      customer: customer,
-      client_reference_id: uid,
-    });
+    let session;
+    if (customer === null || uid === null) {
+      session = await stripe.checkout.sessions.create({
+        mode: "payment",
+        allow_promotion_codes: true,
+        success_url: successUrl,
+        cancel_url: cancelUrl,
+        line_items: lineItems,
+        client_reference_id: "anonymous customer",
+      });
+    } else {
+      session = await stripe.checkout.sessions.create({
+        mode: "payment",
+        allow_promotion_codes: true,
+        success_url: successUrl,
+        cancel_url: cancelUrl,
+        line_items: lineItems,
+        customer: customer,
+        client_reference_id: uid,
+      });
+    }
     return {id: session.id, url: session.url};
   } catch (error) {
     return {error: error.message};
@@ -45,19 +57,18 @@ exports.stripeWebhook = functions.https.onRequest(async (req, res) => {
   const dataObject = event.data.object;
   const currentTime = Math.floor(Date.now() / 1000);
   if (dataObject.payment_status === "paid" &&
-   currentTime >= dataObject.created &&
    currentTime <= dataObject.created + 5 * 60) {
-    let uid = dataObject.client_reference_id;
+    const uid = dataObject.client_reference_id;
     const docRef = admin.firestore().collection("customers").doc(uid);
     const doc = await docRef.get();
-    let cartItems = null;
-    let address = null;
+    let checkoutCartItems;
+    let address;
     if (doc.exists) {
       const data = doc.data();
-      cartItems = data.cart.cartItems;
+      checkoutCartItems = data.checkoutCartItems;
       address = data.addresses[data.addresses.selected];
     } else {
-      uid = null;
+      console.error("Customer does not exist for uid: ", uid);
     }
     await admin.firestore().collection("orders").doc().set({
       uid: uid,
@@ -65,12 +76,13 @@ exports.stripeWebhook = functions.https.onRequest(async (req, res) => {
       paymentStatus: dataObject.payment_status,
       amountTotal: dataObject.amount_total/100,
       discount: dataObject.total_details.amount_discount/100,
-      items: cartItems,
+      items: checkoutCartItems,
       address: address,
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
     });
     const result = await docRef.update({
       checkoutSessionId: dataObject.id,
+      checkoutCartItems: null,
       cart: {
         cartItems: [],
         totalAmount: 0,
