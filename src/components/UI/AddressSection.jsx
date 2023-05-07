@@ -770,7 +770,7 @@ const AddressSection = (props) => {
     <div className="contact-info">
       <h5>Contact</h5>
       <p>{currentUser.email}</p>
-      <Link to='/logout' className='logout'>Log out
+      <Link to='/account/logout' className='logout'>Log out
     </Link>
     </div>
     <div className="shipping-info">
