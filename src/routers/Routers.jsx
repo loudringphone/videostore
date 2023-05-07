@@ -47,7 +47,7 @@ const Routers = () => {
             <Route path='cart' element={<Cart currentUser={currentUser} />} />
             <Route path='checkouts' element={
                 <ProtectedRoute>
-                    <Checkout />
+                    <Checkout currentUser={currentUser} />
                 </ProtectedRoute>} />
             <Route path='account' element={<MyAccount currentUser={currentUser} />} />
             <Route path='account/addresses' element={<MyAddresses currentUser={currentUser} />} />

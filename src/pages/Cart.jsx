@@ -169,7 +169,6 @@ export const Cart = (props) => {
         userEmail = userInfo.email
         updateUserCart()
       }
-      console.log(props.currentUser?.uid)
 
       const createStripeCheckout = httpsCallable(functions, 'createStripeCheckout');
       createStripeCheckout({

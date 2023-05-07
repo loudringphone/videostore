@@ -95,7 +95,7 @@ const AddressForm = (props) => {
     const [address1, setAddress1] = useState("")
     const [address2, setAddress2] = useState("")
     const [city, setCity] = useState("")
-    const [country, setCountry] = useState("")
+    const [country, setCountry] = useState("Australia")
     const [state, setState] = useState("")
     const [zip, setZip] = useState("")
     const [phone, setPhone] = useState("")
@@ -171,6 +171,9 @@ const AddressForm = (props) => {
     setCityFocused(false)
     setZipFocused(false)
     setPhoneFocused(false)
+  }
+  const resetAfterAction = function() {
+    reset()
     props.handleIsLatest(false)
     props.cancelEdit(true)
     console.log('reset')
@@ -179,7 +182,7 @@ const AddressForm = (props) => {
   const isDeleted = props.isDeleted
 
   useEffect(() => {
-    reset()
+    resetAfterAction()
   },[isDeleted])
 
 
@@ -200,8 +203,8 @@ const AddressForm = (props) => {
             }
         }
     } else {
-        addresses = {1:{},default: 1};
-        index = 1;
+        addresses = {0:{},default: 0,selected: 0};
+        index = 0;
     }
     if (editAddress != null) {
         index = editAddress[0]
@@ -223,6 +226,7 @@ const AddressForm = (props) => {
             // console.log(typeof userInfo.addresses["default"])
         if (defaultAddress || typeof userInfo.addresses["default"] != 'number') {
             addresses["default"] = index
+            addresses["selected"] = index
         }
         
     console.log(index)
@@ -231,7 +235,7 @@ const AddressForm = (props) => {
         await updateDoc(userRef, {
             addresses: addresses
           });
-        reset()
+        resetAfterAction()
         setTimeout(() => {
             if (editAddress != null) {
                 toast.success("Address updated.", {autoClose: 1500})
@@ -261,14 +265,7 @@ const AddressForm = (props) => {
   
   useEffect(() => {
     if (editAddress != null) {
-        setFirstNameHasValue(false)
-        setLastNameHasValue(false)
-        setCompanyHasValue(false)
-        setAddress1HasValue(false)
-        setAddress2HasValue(false)
-        setCityHasValue(false)
-        setZipHasValue(false)
-        setPhoneHasValue(false)
+        reset()
         if (editAddress[1].firstName === undefined || editAddress[1].firstName?.length === 0) {
             setFirstName("")
         } else {
@@ -509,7 +506,7 @@ const AddressForm = (props) => {
                             id="customer_country"
                             className="form-field"
                             aria-label="Country"
-                            value={country || ""}
+                            value={country || "Australia"}
                             onFocus={handleCountryFocus}
                             onBlur={handleCountryBlur}
                             onChange={handleCountryChange}
@@ -519,7 +516,7 @@ const AddressForm = (props) => {
                             // value={quantity || ""}
                             // onChange={handleQuantityChange}
                             >
-                                <option value="">
+                                <option value="" disabled>
                                     Please Select
                                 </option>
                                 <option value="Australia">
