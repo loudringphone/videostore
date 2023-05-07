@@ -24,11 +24,7 @@ export const Cart = (props) => {
   
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cart));
-    
-    setTimeout(() => {
-      setLoading(false);
-    }, 1500);
-
+    setLoading(false);
   }, [cart]);
   const dispatch = useDispatch();
   useEffect(()=>{
@@ -105,6 +101,7 @@ export const Cart = (props) => {
   const navigate = useNavigate()
   const checkout = async function(e) {
     e.preventDefault()
+
     if (!props.currentUser) {
       toast.error("Please login/signup before checkout.", { className: "custom-toast-error", transition: Zoom })
       return navigate('/account/login')

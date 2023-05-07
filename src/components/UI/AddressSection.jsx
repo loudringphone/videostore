@@ -1,66 +1,22 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 import {db} from '../../firebase_setup/firebase';
 import { doc, updateDoc, getDoc } from "firebase/firestore";
 import useInputValidation from "../../handles/useInputValidation";
 import { getFunctions, httpsCallable } from "firebase/functions";
 import { firebaseQuery } from '../../functions/firebaseQuery';
-import { cartActions } from '../../redux/slices/cartSlice';
 
 import processing from '../../assets/images/loading.gif'
 import '../../styles/checkout.css';
 
 const AddressSection = (props) => {
-  const currentUser = props.currentUser;
+  const userData = props.userData;
+  const addresses = userData.addresses;
+  const cartItemIds = props.cartItemIds
   const functions = getFunctions();
-  const dispatch = useDispatch();
   const cart = useSelector(state => state.cart)
-  const [items, setItems] = useState([]);
-  const [cartItemIds, setCartItemIds] = useState([])
-  const [isFetched, setIsFetched] = useState(false);
-  const [connectinStripe, setConnectinStripe] = useState(false);
-
-
-
-  const fetchItems = async () => {
-    const newData = await firebaseQuery(cartItemIds, "products");
-    setItems(newData);
-  }
-  useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(cart));
-    
-    setTimeout(() => {
-      setLoading(false);
-    }, 1500);
-
-  }, [cart]);
-  useEffect(()=>{
-    if (cart.cartItems.length > 0) {
-      let arr = []
-      for (let item of cart.cartItems) {
-        if (item.id) {
-          arr.push(item.id)
-        } else {
-          dispatch(cartActions.removeAllItems())
-        }
-      }
-      setCartItemIds(arr)
-    }
-  }, [cart])
-  useEffect(()=>{
-    if (cartItemIds.length > 0 && !isFetched) {
-      fetchItems();
-      setIsFetched(true);
-    }
-  }, [cartItemIds, isFetched])
-
-
-
-
-
-
-
+  const [connectingStripe, setConnectingStripe] = useState(false);
 
   const {
     firstNameFocused,
@@ -320,9 +276,6 @@ const AddressSection = (props) => {
   }
 
 
-  const [userInfo, setUserInfo] = useState({})
-  const [addresses, setAddresses] = useState({})
-  const [loading, setLoading] = useState(true);
   const [selectedAddress, setSelectedAddress] = useState([])
   const [otherAddresses, setOtherAddresses] = useState([])
   const [shippingAddressIndex, setShippingAddressIndex] = useState(addresses["selected"])
@@ -340,7 +293,6 @@ const AddressSection = (props) => {
 
   const shippingAddressSelectRef = useRef(null);
 
-  const navigate = useNavigate()
   
   const reset = function () {
     setFirstName("")
@@ -371,36 +323,14 @@ const AddressSection = (props) => {
     setPhoneFocused(false)
   }
 
-  useEffect(() => {
-    if (currentUser != null) {       
-        console.log('fetching user')
-        const fetchUser = async () => {
-            const docRef = doc(db, "customers", currentUser.uid);
-            const docSnap = await getDoc(docRef);
-            if (docSnap.exists()) {
-                setUserInfo(docSnap.data());
-                if (docSnap.data().addresses) {
-                  setAddresses(docSnap.data().addresses);
-                }
-            } else {
-            // docSnap.data() will be undefined in this case
-            console.log("No such user!");
-            }
-            }
-            fetchUser()
-    
-    } else {
-      return navigate('/account/login')
-
-    }
-  }, [currentUser])
+  
 
 
 
   useEffect(() => {
     
     if (Object.keys(addresses)?.length > 0) {
-        const selectedAddressObj = userInfo.addresses[userInfo.addresses.selected]
+        const selectedAddressObj = userData.addresses[userData.addresses?.selected]
         let selectedAddressArr =
             [
                 selectedAddressObj?.address1,
@@ -611,7 +541,7 @@ const AddressSection = (props) => {
 
   const stripePayment = async function(e) {
     e.preventDefault()
-    setConnectinStripe(true)
+    setConnectingStripe(true)
     console.log(shippingAddressIndex)
     let updatedAddresses
     if (shippingAddressIndex === 'new') {
@@ -651,6 +581,12 @@ const AddressSection = (props) => {
     try {
       let lineItems = [];
       let checkoutCartItems = [];
+      const fetchItems = async () => {
+        const newData = await firebaseQuery(cartItemIds, "products");
+        console.log('fetch items for payment')
+        return newData
+      }
+      const items = await fetchItems()
       items.forEach((item)=>{
         cart.cartItems.forEach((ci)=>{
           if (ci.id === item.id) {
@@ -675,51 +611,27 @@ const AddressSection = (props) => {
       })
       console.log(lineItems)
       async function updateUserData() {
-        const userRef = doc(db, "customers", props.currentUser.uid);
+        const userRef = doc(db, "customers", userData.uid);
         await updateDoc(userRef, {
             checkoutCartItems: checkoutCartItems,
             addresses: updatedAddresses
           });
-        console.log('updateUserCart',cart)
       }
 
+      const stripeId = userData.stripeId
 
-      async function getUserData() {
-        try {
-          const userRef = doc(db, "customers", props.currentUser?.uid);
-          const docSnap = await getDoc(userRef);
-          if (docSnap.exists()) {
-            const userData = docSnap.data();
-            return userData;
-          } else {
-            return null;
-          }
-        }
-        catch(error){
-          console.error(error)
-        }
-      }
-      const userInfo = await getUserData()
+      updateUserData()
      
-      let stripeId = null
-      let userEmail = null
-
-      if (userInfo != null) {
-        stripeId = userInfo.stripeId
-        userEmail = userInfo.email
-        updateUserData()
-      }
 
       const createStripeCheckout = httpsCallable(functions, 'createStripeCheckout');
       createStripeCheckout({
-        // cartItems: cart.cartItems,
         lineItems: lineItems,
         mode: "payment",
         // customerEmail: userEmail,
         customer: stripeId,
         successUrl: `${window.location.origin}/account`,
-        cancelUrl: `${window.location.origin}/cart`,
-        uid: props.currentUser?.uid,
+        cancelUrl: `${window.location.origin}/checkouts`,
+        uid: userData.uid,
       })
         .then(result => {
           if (result.data.url) {
@@ -727,31 +639,28 @@ const AddressSection = (props) => {
             window.location.assign(result.data.url)
           }
           // const sessionId = result.data.id
-        
         })
         .catch(error => {
           // Handle any errors from the Cloud Function here
           console.error(error);
-          // preliminaryOrderForCheckout(null)
         });
     } catch(error) {
       console.error(error)
-      // preliminaryOrderForCheckout(null)
     }
   }
 
-  if (loading) {
-    return (
-      <div className='checkout-right' style={{placeContent: 'center'}}>
-        <div className='loading-shipping'>
-          <img src={processing} alt="processing" style={{height: '20px'}}/>
-          &nbsp;Loading shipping informaiton...
-        </div>
-      </div>
+  // if (loading) {
+  //   return (
+  //     <div className='checkout-right' style={{placeContent: 'center'}}>
+  //       <div className='loading-shipping'>
+  //         <img src={processing} alt="processing" style={{height: '20px'}}/>
+  //         &nbsp;Loading shipping informaiton...
+  //       </div>
+  //     </div>
 
-    )
-  }
-  if (connectinStripe) {
+  //   )
+  // }
+  if (connectingStripe) {
     return (
       <div className='checkout-right' style={{placeContent: 'center'}}>
         <div className='loading-shipping'>
@@ -769,7 +678,7 @@ const AddressSection = (props) => {
     
     <div className="contact-info">
       <h5>Contact</h5>
-      <p>{currentUser.email}</p>
+      <p>{userData.email}</p>
       <Link to='/account/logout' className='logout'>Log out
     </Link>
     </div>
@@ -1084,7 +993,7 @@ const AddressSection = (props) => {
           </div>
       </div>
       <div className="form-action-row">
-      <Link to='/cart' className='return-to-basket'><i class="ri-arrow-left-s-line"></i>&nbsp;Return to basket
+      <Link to='/cart' className='return-to-basket'><i className="ri-arrow-left-s-line"></i>&nbsp;Return to basket
     </Link>
           <button className="continue-to-payment" onClick={stripePayment}>Continue to payment</button>
       </div>

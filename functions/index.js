@@ -71,7 +71,7 @@ exports.stripeWebhook = functions.https.onRequest(async (req, res) => {
       addresses = data.addresses;
       addresses["selected"] = addresses["default"];
     } else {
-      console.error("Customer does not exist for uid: ", uid);
+      console.error("Customer does not exist for uid:", uid);
     }
     await admin.firestore().collection("orders").doc().set({
       uid: uid,
