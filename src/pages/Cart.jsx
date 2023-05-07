@@ -109,6 +109,8 @@ export const Cart = (props) => {
       toast.error("Please login/signup before checkout.", { className: "custom-toast-error", transition: Zoom })
       return navigate('/account/login')
     }
+    return navigate('/checkouts')
+ 
     try {
       let lineItems = [];
       let checkoutCartItems = [];

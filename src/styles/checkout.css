@@ -1,18 +1,21 @@
 section.checkout {
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     background-color: #f5f5f5;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
 }
 .checkout-left {
     width: 50vw;
-    height: 100vh;
+    min-height: 100vh;
     box-shadow: 15px 0 30px 0 rgba(0,0,0,.18);
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
 }
 .checkout-right {
-    height: 100%;
-    width: 100%;
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+    min-height: 100vh;
+    width: 50vw;
     background-color: white;
     box-shadow: 15px 0 30px 0 rgba(0,0,0,.18);
     display: flex;
@@ -21,17 +24,32 @@ section.checkout {
     justify-content: flex-start;
 }
 
+
+.checkout-right .contact-info {
+    width: 70%;
+    margin-bottom: 2rem;
+}
+.contact-info p {
+    margin: 0;
+}
+.contact-info a {
+    color: #E5342E !important;
+    text-decoration: #E5342E underline !important;
+}
+.checkout-right .shipping-info {
+    width: 70%;
+}
 .checkout-right h5 {
     text-align: left;
-    width: 70%;
+    width: 100%;
     margin-bottom: 0.8rem;
 }
 .checkout-right .form-field-select-wrapper {
-    width: 70%;
+    width: 100%;
     margin-bottom: 1.17rem;
 }
 .checkout-right form#address-form {
-    width: 70%;
+    width: 100%;
 }
 
 .checkout-right .form-action-row {
@@ -50,4 +68,18 @@ section.checkout {
 }
 .checkout-right .form-action-row {
     align-items: center;
+}
+
+@media (max-width: 950px) {
+    section.checkout {
+        flex-direction: column;
+        flex-direction: column-reverse;
+    }
+    .checkout-left {
+        width: 100vw;
+    }
+    .checkout-right {
+        width: 100vw;
+    }
+
 }

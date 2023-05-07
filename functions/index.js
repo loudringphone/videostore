@@ -62,11 +62,14 @@ exports.stripeWebhook = functions.https.onRequest(async (req, res) => {
     const docRef = admin.firestore().collection("customers").doc(uid);
     const doc = await docRef.get();
     let checkoutCartItems;
-    let address;
+    let shippingAddress;
+    let addresses;
     if (doc.exists) {
       const data = doc.data();
       checkoutCartItems = data.checkoutCartItems;
-      address = data.addresses[data.addresses.selected];
+      shippingAddress = data.addresses[data.addresses.selected];
+      addresses = data.addresses;
+      addresses["selected"] = addresses["default"];
     } else {
       console.error("Customer does not exist for uid: ", uid);
     }
@@ -77,12 +80,13 @@ exports.stripeWebhook = functions.https.onRequest(async (req, res) => {
       amountTotal: dataObject.amount_total/100,
       discount: dataObject.total_details.amount_discount/100,
       items: checkoutCartItems,
-      address: address,
+      address: shippingAddress,
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
     });
     const result = await docRef.update({
       checkoutSessionId: dataObject.id,
       checkoutCartItems: null,
+      addresses: addresses,
       cart: {
         cartItems: [],
         totalAmount: 0,

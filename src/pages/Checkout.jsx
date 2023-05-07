@@ -26,11 +26,9 @@ export const Checkout = (props) => {
 
 
       </div>
-      <div className='checkout-right'>
       
       <AddressSection currentUser={currentUser} />
 
-      </div>
 
 
 
