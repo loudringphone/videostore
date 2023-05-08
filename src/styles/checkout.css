@@ -21,8 +21,6 @@ section.checkout {
     grid-template-columns: 1fr 3fr 1fr;
     gap: 10px;
     margin-bottom: 15px;
-   
-
 }
 .checkout-left .checkout-item-total {
     justify-self: right;
@@ -36,8 +34,6 @@ section.checkout {
     background-color: white;
     align-items: center;
     display: flex;
-
-
 }
 .checkout-left img {
     max-width: 64px;
@@ -135,9 +131,12 @@ section.checkout {
     }
     .checkout-left {
         width: 100vw;
+        min-height: max-content;
+
     }
     .checkout-right {
         width: 100vw;
     }
+
 
 }
