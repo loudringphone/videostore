@@ -6,7 +6,7 @@ import {db} from '../firebase_setup/firebase';
 import { doc, updateDoc, getDoc } from "firebase/firestore";
 import { cartActions } from '../redux/slices/cartSlice';
 import processing from '../assets/images/loading.gif'
-
+import CartSection from '../components/UI/CartSection';
 import AddressSection from '../components/UI/AddressSection';
 import { firebaseQuery } from '../functions/firebaseQuery';
 
@@ -94,10 +94,10 @@ export const Checkout = (props) => {
     <Helmet title='Shipping'>
 
     <section className='checkout'>
-      <div className='checkout-left'>
-
-
-      </div>
+      <CartSection
+        items={items}
+        cart={cart}
+      />
       
       <AddressSection
         userData={userData}

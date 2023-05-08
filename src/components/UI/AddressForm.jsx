@@ -150,7 +150,7 @@ const AddressForm = (props) => {
     setAddress1("")
     setAddress2("")
     setCity("")
-    setCountry("")
+    setCountry("Australia")
     setState("")
     setZip("")
     setPhone("")
@@ -303,7 +303,7 @@ const AddressForm = (props) => {
             setCityHasValue(true)
         }
         if (editAddress[1].country === undefined || editAddress[1].country?.length === 0) {
-            setCountry("")
+            setCountry("Australia")
         } else {
             setCountry(editAddress[1].country)
         }
@@ -339,7 +339,7 @@ const AddressForm = (props) => {
     setAddress1("")
     setAddress2("")
     setCity("")
-    setCountry("")
+    setCountry("Australia")
     setState("")
     setZip("")
     setPhone("")
