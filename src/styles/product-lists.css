@@ -3,13 +3,14 @@
     justify-content: space-between;
     align-items: center;
     margin: auto;
-    width: 75%;
+    width: 100%;
 }
 .subheading a {
     color: #E5342E !important;
     text-decoration: #E5342E underline !important;
 }
 div.product_list {
+    width: max-content;
     margin-bottom: 30px;
     text-align: -webkit-center;
 }
