@@ -4,10 +4,9 @@ import { collection, query, getDocs, Timestamp } from "firebase/firestore";
 import {db} from '../../firebase_setup/firebase';
 import "../../styles/product-card.css"
 import ProductCard from './ProductCard';
+import { Link } from "react-router-dom";
 
-
-
-
+import "../../styles/product-lists.css";
 
 const ProductsLists = () => {
     const [items, setItems] = useState([]);
@@ -70,8 +69,10 @@ return (
                     <Container>
                         <Row>
                             <Col lg="12" className="product_list">
-                                
-                                <h3 className="section_title">New Arrivals</h3>
+                                <div className='subheading'>
+                                    <h3 className="section_title">New Arrivals</h3>
+                                    <Link to={{ pathname: `/shop/all` }}>Shop New Arrivals <i class="ri-arrow-right-circle-line"></i></Link>
+                                </div>
                                 <section className="products">
                             {
                                 items.slice(0, 8).map((item, i) => (
@@ -89,10 +90,13 @@ return (
                         <Container key={index}>
                             <Row>
                                 <Col lg="12" className="product_list">
-                                    <h3 className="section_title">{format}s</h3>
+                                    <div className='subheading'>
+                                        <h3 className="section_title">{format}s</h3>
+                                        <Link to={{ pathname: `/shop/${format.toLowerCase().replace(/\s/g, '').replace('ultra', 'u').replace('-', '')}` }}>Shop {format}s <i className="ri-arrow-right-circle-line"></i></Link>
+                                    </div>
                                     <section className="products">
                                 {
-                                    items?.filter(item => item.format === format).map((item, i) => (
+                                    items?.filter(item => item.format === format).slice(0, 8).map((item, i) => (
                                         <ProductCard key={i} item={item} />
                                     ))
                                 }
@@ -108,10 +112,13 @@ return (
                         <Container key={index}>
                             <Row>
                                 <Col lg="12" className="product_list">
-                                    <h3 className="section_title">{label} collections</h3>
+                                    <div className='subheading'>
+                                        <h3 className="section_title">{label} collections</h3>
+                                        <Link to={{ pathname: `/shop/${label.toLowerCase().replace(/\s/g, '').replace('-', '')}` }}>Shop {label} <i className="ri-arrow-right-circle-line"></i></Link>
+                                    </div>
                                     <section className="products">
                                 {
-                                    items?.filter(item => item.label === label).map((item, i) => (
+                                    items?.filter(item => item.label === label).slice(0, 8).map((item, i) => (
                                         <ProductCard key={i} item={item} />
                                     ))
                                 }

@@ -1,0 +1,15 @@
+.subheading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: auto;
+    width: 75%;
+}
+.subheading a {
+    color: #E5342E !important;
+    text-decoration: #E5342E underline !important;
+}
+div.product_list {
+    margin-bottom: 30px;
+    text-align: -webkit-center;
+}

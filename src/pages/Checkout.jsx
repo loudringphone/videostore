@@ -15,66 +15,79 @@ import '../styles/checkout.css';
 
 export const Checkout = (props) => {
   const currentUser = props.currentUser;
-  const [userData, setUserData] = useState({})
-  const cart = useSelector(state => state.cart)
-  const [cartItemIds, setCartItemIds] = useState([])
-  const [items, setItems] = useState([]);
-  const [cartItems, setCartItems] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const dispatch = useDispatch()
-  useEffect(() => {
-    if (currentUser != null) {       
-        console.log('fetching user')
-        const fetchUser = async () => {
-            const docRef = doc(db, "customers", currentUser.uid);
-            const docSnap = await getDoc(docRef);
-            if (docSnap.exists()) {
-                setUserData(docSnap.data());
-            } else {
-            // docSnap.data() will be undefined in this case
-            console.log("No such user!");
-            }
-            }
-            fetchUser()
-            
-    }
-  }, [currentUser])
+const [userData, setUserData] = useState({});
+const cart = useSelector(state => state.cart);
+const [cartItemIds, setCartItemIds] = useState([]);
+const [items, setItems] = useState([]);
+const [checkoutItems, setCheckoutItems] = useState(null);
+const [loading, setLoading] = useState(true);
+const dispatch = useDispatch();
 
+// Fetch user data
+useEffect(() => {
+  const fetchUser = async () => {
+    if (currentUser) {
+      console.log('fetching user');
+      const docRef = doc(db, "customers", currentUser.uid);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        setUserData(docSnap.data());
+      } else {
+        console.log("No such user!");
+      }
+    }
+  };
+  fetchUser();
+}, [currentUser]);
+
+// Fetch cart items
+useEffect(() => {
+  localStorage.setItem('cart', JSON.stringify(cart));
+  if (cart.cartItems.length > 0) {
+    let arr = [];
+    for (let item of cart.cartItems) {
+      if (item.id) {
+        arr.push(item.id);
+      } else {
+        dispatch(cartActions.removeAllItems());
+      }
+    }
+    setCartItemIds(arr);
+  }
+}, [cart, dispatch]);
+
+// Fetch product items
+useEffect(() => {
   const fetchItems = async () => {
     const newData = await firebaseQuery(cartItemIds, "products");
     setItems(newData);
-    console.log('fetch items')
+    console.log('fetch items');
+  };
+  if (cartItemIds.length > 0) {
+    fetchItems();
   }
-  useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(cart));
-    
-    setTimeout(() => {
-      setLoading(false);
-    }, 1500);
+}, [cartItemIds]);
 
-  }, [cart]);
-  useEffect(()=>{
-    if (cart.cartItems.length > 0) {
-      let arr = []
-      for (let item of cart.cartItems) {
-        if (item.id) {
-          arr.push(item.id)
-        } else {
-          dispatch(cartActions.removeAllItems())
+// Generate checkout items
+useEffect(() => {
+  if (items.length > 0 && cart.cartItems.length > 0) {
+    let checkoutItemsArr = [];
+    for (let item of items) {
+      for (let cartItem of cart.cartItems) {
+        if (item.id === cartItem.id) {
+          const checkoutItem = {...cartItem, image: item.image};
+          checkoutItemsArr.push(checkoutItem);
         }
       }
-      setCartItemIds(arr)
     }
-  }, [cart])
-  useEffect(()=>{
-    if (cartItemIds.length > 0) {
-      fetchItems();
-    }
-  }, [cartItemIds])
+    setCheckoutItems(checkoutItemsArr);
+    console.log(checkoutItemsArr);
+    setLoading(false);
+  }
+}, [items, cart.cartItems]);
 
 
-
-
+  console.log(checkoutItems)
 
 
   if (loading) {
@@ -95,8 +108,8 @@ export const Checkout = (props) => {
 
     <section className='checkout'>
       <CartSection
-        items={items}
         cart={cart}
+        checkoutItems={checkoutItems}
       />
       
       <AddressSection

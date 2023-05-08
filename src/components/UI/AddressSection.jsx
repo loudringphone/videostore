@@ -301,7 +301,7 @@ const AddressSection = (props) => {
     setAddress1("")
     setAddress2("")
     setCity("")
-    setCountry("Australia")
+    setCountry("")
     setState("")
     setZip("")
     setPhone("")
@@ -359,11 +359,11 @@ const AddressSection = (props) => {
                     i--;
                 }
             }
-        selectedAddressArr = [addresses?.selected, selectedAddressArr]
+        selectedAddressArr = [addresses.selected, selectedAddressArr]
         const selectedAddressStr = selectedAddressArr[1].join(', ').replace(', (',' (').replace('()',"")
         setSelectedAddress([selectedAddressArr[0],selectedAddressStr])
     }
-            const selectedIndex = addresses?.selected
+            const selectedIndex = addresses.selected
             let addressKeys = Object.keys(addresses)
             addressKeys = addressKeys.filter((key) => key != selectedIndex && key != 'default' && key != 'selected')
             if (addressKeys.length > 0) {
