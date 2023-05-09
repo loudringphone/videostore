@@ -86,11 +86,19 @@ exports.stripeWebhook = functions.https.onRequest(async (req, res) => {
     });
     // Update stock levels for purchased products
     const productsCollection = admin.firestore().collection("products");
-    const batch = admin.firestore().batch();
+    let batch = admin.firestore().batch();
+    let i = 0;
+    const batchSize = 10;
     checkoutCartItems.forEach((item) => {
       const productRef = productsCollection.doc(item.id);
       batch.update(productRef,
           {"stock": admin.firestore.FieldValue.increment(-item.quantity)});
+      i++;
+      if (i % batchSize === 0 && i !== checkoutCartItems.length) {
+        batch.commit().then(() => {
+          batch = admin.firestore().batch();
+        });
+      }
     });
     await batch.commit();
     // Update customer
