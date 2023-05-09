@@ -31,8 +31,8 @@ const CartItemCard = (props) => {
      <div className="cart-item-card" >
                         <div className="product_img">
                             <Link to={{ pathname: `/products/${itemURL}` }}>
-                                {item.image[0].downloadURL !== "" ? (
-                                    <img src={item.image[0].downloadURL} alt={item.name}></img>
+                                {item.image[0]?.downloadURL !== "" ? (
+                                    <img src={item.image[0]?.downloadURL} alt={item.name}></img>
                                 ):(
                                     <></>
                                 )}

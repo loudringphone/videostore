@@ -16,7 +16,7 @@ const AddressSection = (props) => {
             {checkoutItems.map((item) => (
                 <div className="checkout-item" key={item.id}>
                     <div className="img-placeholder">
-                        <img src={item.image[0].downloadURL} alt={item.name} />
+                        <img src={item.image[0]?.downloadURL} alt={item.name} />
                         <span>{item.quantity}</span>
                     </div>
                     <div className="checkout-item-name">{item.name}</div>

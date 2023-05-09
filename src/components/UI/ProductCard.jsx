@@ -25,7 +25,7 @@ const ProductCard = (props) => {
     toast(
         <div className='toast-message'>
           <div className="product_img">
-            <img src={item.image && item.image[0].downloadURL} alt={item.name}></img>
+            <img src={item.image && item.image[0]?.downloadURL} alt={item.name}></img>
           </div>
 
           <div className='toast-text'><span>Item added to your cart: </span><br />
@@ -96,9 +96,9 @@ const ProductCard = (props) => {
                             <AddFavourite itemId={item.id} />
                             <Link to={{ pathname: `${pathname}/${itemURL}` }}>
                               { pathname !== "/apps/wishlist" ? (
-                                <motion.img whileHover={{scale:0.9}} src={item.image[0].downloadURL} alt={item.name}></motion.img>
+                                <motion.img whileHover={{scale:0.9}} src={item.image[0]?.downloadURL} alt={item.name}></motion.img>
                               ) : (
-                                <motion.img whileHover={{scale:1.2}} style={{width: "70%" }} src={item.image[0].downloadURL} alt={item.name}></motion.img>
+                                <motion.img whileHover={{scale:1.2}} style={{width: "70%" }} src={item.image[0]?.downloadURL} alt={item.name}></motion.img>
                               )}
                             </Link>
                         </div>
