@@ -59,8 +59,8 @@ exports.stripeWebhook = functions.https.onRequest(async (req, res) => {
   if (dataObject.payment_status === "paid" &&
    currentTime <= dataObject.created + 5 * 60) {
     const uid = dataObject.client_reference_id;
-    const customersRef = admin.firestore().collection("customers").doc(uid);
-    const doc = await customersRef.get();
+    const customerRef = admin.firestore().collection("customers").doc(uid);
+    const doc = await customerRef.get();
     let checkoutCartItems;
     let shippingAddress;
     let addresses;
@@ -85,16 +85,16 @@ exports.stripeWebhook = functions.https.onRequest(async (req, res) => {
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
     });
     // Update stock levels for purchased products
-    // const productsCollection = admin.firestore().collection("products");
-    // const batch = admin.firestore().batch();
-    // checkoutCartItems.forEach((item) => {
-    //   const productRef = productsCollection.doc(item.id);
-    //   batch.update(productRef,
-    //       {stock: admin.firestore.FieldValue.increment(-item.quantity)});
-    // });
-    // await batch.commit();
+    const productsCollection = admin.firestore().collection("products");
+    const batch = admin.firestore().batch();
+    checkoutCartItems.forEach((item) => {
+      const productRef = productsCollection.doc(item.id);
+      batch.update(productRef,
+          {"stock": admin.firestore.FieldValue.increment(-item.quantity)});
+    });
+    await batch.commit();
     // Update customer
-    const result = await customersRef.update({
+    const result = await customerRef.update({
       checkoutSessionId: dataObject.id,
       checkoutCartItems: null,
       addresses: addresses,
