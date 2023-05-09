@@ -97,11 +97,8 @@ const Signup = (props) => {
         })
       setLoading(false)
       toast.success("Congratulations, your account has been successfully created.", {autoClose: 1500})
-      if (props.prevLocation === undefined || props.prevLocation === null) {
-        navigate('/')
-      } else {
-        navigate(props.prevLocation)
-      }
+      navigate('/account/addresses')
+      
     } catch (error) {
       console.log(error.code)
       setErrorMessageDisplay({display: "block"})
