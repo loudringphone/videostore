@@ -12,6 +12,7 @@ const QuantitySelector = (props) => {
     const [quantity, setQuantity] = useState( item.quantity || 1 );
     const [oldQuantity, setOldQuantity] = useState(0);
     const [input, setInput] = useState(false);
+    const [shouldHandleInput, setShouldHandleInput] = useState(true);
     const inputRef = useRef()
     const {pathname} = useLocation()
     const cart = useSelector(state => state.cart);
@@ -23,7 +24,8 @@ const QuantitySelector = (props) => {
                 if (cartItem.id === item.id) {
                     setOldQuantity(cartItem.quantity)
                     if (pathname === '/cart') {
-                        setQuantity(cartItem.quantity)
+                        setQuantity(cartItem.quantity);
+                        inputRef.current.value = cartItem.quantity;
                     }
                 }
             }
@@ -42,14 +44,21 @@ const QuantitySelector = (props) => {
             }
         }
     }
+    const handleKeyDown = (e) => {
+        if (e.key === "Delete" || e.key === "Backspace") {
+            setShouldHandleInput(false);
+        } else {
+            setShouldHandleInput(true);
+        }
+    }
     const handleQuantityChange = (e) => {
+        if (shouldHandleInput) {
         const value = e.target.value;
         if (pathname === '/cart') {
             if (value === "10+") {
                 setInput(true)
                 setTimeout(() => {
                     inputRef.current.focus();
-                    setQuantity(10);
                     if (item.stock < 10) {
                         toast.dismiss()
                         toast.error(`You can't add more ${item.name} to the cart.`, { className: "custom-toast-error", transition: Zoom })
@@ -70,25 +79,33 @@ const QuantitySelector = (props) => {
                     toast.error(`You can't add more ${item.name} to the cart.`, { className: "custom-toast-error", transition: Zoom })
                 setQuantity(oldQuantity);
                 } else {
-                    setQuantity(Number(value));
-                    setTimeout(() => {
+                    if (value !== 0) {
+                        console.log(value)
+                        setQuantity(Number(value));
+                        setTimeout(() => {
                         dispatch(cartActions.amendItem({
                             id: item.id,
                             quantity: Number(value),
                         }))
                         }, 500);
+                    }
                 }
             }
         } else {
-            if (value !== "10+") {
+            if (value !== "10+" && value !== 0) {
+                console.log(value)
                 setQuantity(Number(value));
             } else {
                 setInput(true)
+                
                 setTimeout(() => {
+                    setQuantity(10);
+                    inputRef.current.value = 10;
                     inputRef.current.focus();
                 }, 0);
             }
         }
+    }
     };
     
     
@@ -184,8 +201,9 @@ const QuantitySelector = (props) => {
                 <input 
                 type="number"
                 className="form-field"
-                value={quantity || ""}
-                onChange={handleQuantityChange}
+                // value={quantity || ""}
+                onInput={handleQuantityChange}
+                onKeyDown={handleKeyDown}
                 onBlur={handleInputBlur}
                 // onFocus={e => e.target.select()}
                 style={input ? { display: 'block' } : { display: 'none' }}

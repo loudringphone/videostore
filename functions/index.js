@@ -59,8 +59,8 @@ exports.stripeWebhook = functions.https.onRequest(async (req, res) => {
   if (dataObject.payment_status === "paid" &&
    currentTime <= dataObject.created + 5 * 60) {
     const uid = dataObject.client_reference_id;
-    const docRef = admin.firestore().collection("customers").doc(uid);
-    const doc = await docRef.get();
+    const customersRef = admin.firestore().collection("customers").doc(uid);
+    const doc = await customersRef.get();
     let checkoutCartItems;
     let shippingAddress;
     let addresses;
@@ -73,6 +73,7 @@ exports.stripeWebhook = functions.https.onRequest(async (req, res) => {
     } else {
       console.error("Customer does not exist for uid:", uid);
     }
+    // Create order
     await admin.firestore().collection("orders").doc().set({
       uid: uid,
       checkoutSessionId: dataObject.id,
@@ -83,7 +84,17 @@ exports.stripeWebhook = functions.https.onRequest(async (req, res) => {
       address: shippingAddress,
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
     });
-    const result = await docRef.update({
+    // Update stock levels for purchased products
+    // const productsCollection = admin.firestore().collection("products");
+    // const batch = admin.firestore().batch();
+    // checkoutCartItems.forEach((item) => {
+    //   const productRef = productsCollection.doc(item.id);
+    //   batch.update(productRef,
+    //       {stock: admin.firestore.FieldValue.increment(-item.quantity)});
+    // });
+    // await batch.commit();
+    // Update customer
+    const result = await customersRef.update({
       checkoutSessionId: dataObject.id,
       checkoutCartItems: null,
       addresses: addresses,

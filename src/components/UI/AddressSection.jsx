@@ -6,6 +6,7 @@ import { doc, updateDoc, getDoc } from "firebase/firestore";
 import useInputValidation from "../../handles/useInputValidation";
 import { getFunctions, httpsCallable } from "firebase/functions";
 import { firebaseQuery } from '../../functions/firebaseQuery';
+import accounting from 'accounting'
 
 import processing from '../../assets/images/loading.gif'
 import '../../styles/checkout.css';
@@ -408,6 +409,7 @@ const AddressSection = (props) => {
             }
             setShippingAddressIndex(addresses["selected"])
             copyAddressToForm(addresses[shippingAddressIndex])
+            console.log('set selectedAddress and other addresses')
   },[addresses])
 
   useEffect(()=>{
@@ -536,7 +538,7 @@ const AddressSection = (props) => {
   useEffect(()=>{
       reset()
       copyAddressToForm(addresses[addresses['selected']])
-  },[selectedAddress])
+  },[addresses])
 
 
   const stripePayment = async function(e) {
@@ -555,7 +557,7 @@ const AddressSection = (props) => {
               }
           }
       } else {
-          addresses = {0:{},default: 0,selected: 0};
+          updatedAddresses = {0:{},default: 0,selected: 0};
           index = 0;
       }
       updatedAddresses[index] = 
@@ -600,7 +602,7 @@ const AddressSection = (props) => {
             checkoutCartitem.totalPrice = ci.quantity * item.price;
             purchase.price_data = {};
             purchase.price_data.currency = "aud";
-            purchase.price_data.unit_amount = item.price * 100; //prices from firebase using cloud functions server-and-client integration
+            purchase.price_data.unit_amount = accounting.toFixed(item.price * 100,0); //prices from firebase using cloud functions server-and-client integration
             purchase.price_data.product_data = {};
             purchase.price_data.product_data.name = item.name; //server-and-client integration
             purchase.quantity = ci.quantity;
@@ -622,7 +624,7 @@ const AddressSection = (props) => {
 
       updateUserData()
      
-
+      console.log('Connecting to Stripe')
       const createStripeCheckout = httpsCallable(functions, 'createStripeCheckout');
       createStripeCheckout({
         lineItems: lineItems,
