@@ -597,7 +597,6 @@ const AddressSection = (props) => {
           if (ci.id === item.id) {
             const purchase = {};
             const checkoutCartitem = {};
-            // purchase.price = item.prices[0] //prices from stripe client-only integration
             checkoutCartitem.id = item.id;
             checkoutCartitem.name = item.name;
             checkoutCartitem.price = item.price;
@@ -605,9 +604,9 @@ const AddressSection = (props) => {
             checkoutCartitem.totalPrice = ci.quantity * item.price;
             purchase.price_data = {};
             purchase.price_data.currency = "aud";
-            purchase.price_data.unit_amount = accounting.toFixed(item.price * 100,0); //prices from firebase using cloud functions server-and-client integration
+            purchase.price_data.unit_amount = accounting.toFixed(item.price * 100,0); 
             purchase.price_data.product_data = {};
-            purchase.price_data.product_data.name = item.name; //server-and-client integration
+            purchase.price_data.product_data.name = item.name;
             purchase.quantity = ci.quantity;
             checkoutCartItems.push(checkoutCartitem);
             lineItems.push(purchase);

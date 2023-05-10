@@ -99,7 +99,7 @@ const SearchBox = ({onClick}) => {
           </ul>
           </div>
           <button className='clear-history' onClick={handleClearSearchHistory} onTouchStart={handleClearSearchHistory}>
-< i className="ri-close-line"></i><span>Clear all</span></button>
+< i onClick={handleClearSearchHistory} onTouchStart={handleClearSearchHistory} className="ri-close-line"></i><span onClick={handleClearSearchHistory} onTouchStart={handleClearSearchHistory}>Clear all</span></button>
         </div>
       )}
     </form>
