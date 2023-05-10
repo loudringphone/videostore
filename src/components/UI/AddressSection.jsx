@@ -302,7 +302,7 @@ const AddressSection = (props) => {
     setAddress1("")
     setAddress2("")
     setCity("")
-    setCountry("")
+    setCountry("Australia")
     setState("")
     setZip("")
     setPhone("")
@@ -330,7 +330,7 @@ const AddressSection = (props) => {
 
   useEffect(() => {
     
-    if (Object.keys(addresses)?.length > 0) {
+    if (Object.keys(addresses)?.length > 2) {
         const selectedAddressObj = userData.addresses[userData.addresses?.selected]
         let selectedAddressArr =
             [
@@ -363,7 +363,7 @@ const AddressSection = (props) => {
         selectedAddressArr = [addresses.selected, selectedAddressArr]
         const selectedAddressStr = selectedAddressArr[1].join(', ').replace(', (',' (').replace('()',"")
         setSelectedAddress([selectedAddressArr[0],selectedAddressStr])
-    }
+    
             const selectedIndex = addresses.selected
             let addressKeys = Object.keys(addresses)
             addressKeys = addressKeys.filter((key) => key != selectedIndex && key != 'default' && key != 'selected')
@@ -410,6 +410,9 @@ const AddressSection = (props) => {
             setShippingAddressIndex(addresses["selected"])
             copyAddressToForm(addresses[shippingAddressIndex])
             console.log('set selectedAddress and other addresses')
+          } else {
+            setShippingAddressIndex('new')
+          }
   },[addresses])
 
   useEffect(()=>{
@@ -562,16 +565,16 @@ const AddressSection = (props) => {
       }
       updatedAddresses[index] = 
             {
-                firstName: firstName,
-                lastName: lastName,
-                company: company,
-                address1: address1,
-                address2: address2,
-                city: city,
-                country: country,
-                state: state,
-                zip: zip,
-                phone: phone
+              firstName: firstName ? firstName : "",
+              lastName: lastName ? lastName : "",
+              company: company ? company : "",
+              address1: address1 ? address1 : "",
+              address2: address2 ? address2 : "",
+              city: city ? city : "",
+              country: country ? country : "Australia",
+              state: state ? state : "",
+              zip: zip ? zip : "",
+              phone: phone ? phone : ""
             }
       updatedAddresses["selected"] = index
     } else {
@@ -611,6 +614,7 @@ const AddressSection = (props) => {
           }
         })
       })
+      console.log(updatedAddresses)
       console.log(lineItems)
       async function updateUserData() {
         const userRef = doc(db, "customers", userData.uid);
@@ -623,7 +627,6 @@ const AddressSection = (props) => {
       const stripeId = userData.stripeId
 
       updateUserData()
-     
       console.log('Connecting to Stripe')
       const createStripeCheckout = httpsCallable(functions, 'createStripeCheckout');
       createStripeCheckout({
@@ -650,7 +653,6 @@ const AddressSection = (props) => {
       console.error(error)
     }
   }
-
   // if (loading) {
   //   return (
   //     <div className='checkout-right' style={{placeContent: 'center'}}>
@@ -673,7 +675,6 @@ const AddressSection = (props) => {
 
     )
   }
-
 
   return (
     <div className='checkout-right'>
@@ -705,7 +706,7 @@ const AddressSection = (props) => {
             // onInput={handleStateInput}
             // ref={stateInputRef}
             >
-                { selectedAddress &&
+                { selectedAddress?.length > 0  &&
                 <option value={selectedAddress[0]}>
                   {selectedAddress[1]}
                 </option>}
@@ -869,7 +870,7 @@ const AddressSection = (props) => {
                       id="customer_country"
                       className="form-field"
                       aria-label="Country"
-                      value={country || ""}
+                      value={country || "Australia"}
                       onFocus={handleCountryFocus}
                       onBlur={handleCountryBlur}
                       onChange={handleCountryChange}

@@ -45,7 +45,7 @@ export const MyAddresses = (props) => {
 
     useEffect(() => {
         if (Object.keys(userInfo)?.length > 0) {
-            if (userInfo.addresses?.default !== undefined) {
+            if (userInfo.addresses?.default !== undefined && Object.keys(userInfo.addresses)?.length > 2) {
                 const defaultAddressObj = userInfo.addresses[userInfo.addresses.default]
                 let defaultAddressArr =
                     [
