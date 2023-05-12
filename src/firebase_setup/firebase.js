@@ -11,13 +11,14 @@ import { getFunctions } from 'firebase/functions';
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAdindKyDOfoOpdE1mwRIk11N9-Nr-oYSM",
-  authDomain: "video-store-77873.firebaseapp.com",
-  projectId: "video-store-77873",
-  storageBucket: "video-store-77873.appspot.com",
-  messagingSenderId: "413804572532",
-  appId: "1:413804572532:web:6767d4647e8ccaf47e8621",
-  measurementId: "G-B901TFE25G"
+  apiKey: process.env.REACT_APP_FIREBASE_API,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTHDOMAIN,
+  databaseURL: process.env.REACT_APP_FIREBASE_DATABASEURL,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECTID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGEBUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGINGSENDERID,
+  appId: process.env.REACT_APP_FIREBASE_APPID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENTID,
 };
 
 // Initialize Firebase
