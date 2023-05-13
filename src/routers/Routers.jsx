@@ -11,6 +11,7 @@ import { MyAddresses } from '../pages/MyAddresses'
 import { Order } from '../pages/Order'
 import { Payment } from '../pages/Payment'
 
+import {Test} from '../pages/Test'
 
 import Login from '../pages/Login'
 import Logout from '../pages/Logout'
@@ -59,6 +60,8 @@ const Routers = () => {
             <Route path='account/orders/:orderId' element={<Order currentUser={currentUser} />} />
 
             <Route path='payment' element={<Payment />} />
+            <Route path='test' element={<Test />} />
+
 
                 
 
