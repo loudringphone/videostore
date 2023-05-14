@@ -75,7 +75,7 @@ export const ProductDetails = () => {
                   <i className="ri-checkbox-circle-line"></i>&nbsp;Available
                 </span>
               ) : (
-                item.stock === 0 ? (
+                item.stock <= 0 ? (
                   <span className="product-stock-level-sold-out">
                     <i className="ri-close-circle-line"></i>&nbsp;Sold out
                   </span>

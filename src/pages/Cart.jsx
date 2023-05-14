@@ -106,15 +106,16 @@ export const Cart = (props) => {
       toast.error("Please login/signup before checkout.", { className: "custom-toast-error", transition: Zoom })
       return navigate('/account/login')
     }
+    console.log(items)
+    for (let item of items) {
+      if(item.stock <= 0) {
+        toast.dismiss()
+        toast.error("Please remove the Sold-Out items before proceeding to checkout.", { className: "custom-toast-error", transition: Zoom })
+        return
+      }
+    }
     return navigate('/checkouts')
- 
   };
-
-
-  
-  
-
-
   if (loading) {
     return (
       <Helmet title='Your Basket'>
@@ -167,7 +168,7 @@ export const Cart = (props) => {
             <p>Subtotal</p>
             {accounting.formatMoney(cart.totalAmount)}
           </div>
-          <Link to='/'><button onClick={checkout} className='cart-title-button'><i className="ri-shopping-cart-line"></i>&nbsp;Check out</button></Link>
+          <Link to='/checkouts'><button onClick={checkout} className='cart-title-button'><i className="ri-shopping-cart-line"></i>&nbsp;Check out</button></Link>
           {/* <PaypalCheckoutButton products={items} /> */}
         </div>
       </header>
@@ -194,7 +195,7 @@ export const Cart = (props) => {
           <div className="cart-shipping">
             <p className='cart-message'>Tax included and shipping calculated at checkout</p>
           </div>
-          <Link to='/'><button onClick={checkout} className='primary-checkout'><i className="ri-shopping-cart-line"></i>&nbsp;Check out</button></Link>
+          <Link to='/checkouts'><button onClick={checkout} className='primary-checkout'><i className="ri-shopping-cart-line"></i>&nbsp;Check out</button></Link>
           <Link to='/' className='cart-continue' onMouseLeave={handleMouseLeave} onMouseOver={handleMouseOver}>
   Continue shopping&nbsp;
   {showArrow ? (

@@ -40,7 +40,7 @@ root.render(
         bodyClassName="toastBody" 
         position={toastContainerPosition}
         hideProgressBar={true}
-        autoClose={5000}
+        autoClose={3500}
         newestOnTop={false}
         closeOnClick
         pauseOnHover

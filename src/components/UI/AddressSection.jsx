@@ -7,7 +7,7 @@ import useInputValidation from "../../handles/useInputValidation";
 import { getFunctions, httpsCallable } from "firebase/functions";
 import { firebaseQuery } from '../../functions/firebaseQuery';
 import accounting from 'accounting'
-
+import { toast, Zoom } from "react-toastify";
 import processing from '../../assets/images/loading.gif'
 import '../../styles/checkout.css';
 
@@ -18,7 +18,7 @@ const AddressSection = (props) => {
   const functions = getFunctions();
   const cart = useSelector(state => state.cart)
   const [connectingStripe, setConnectingStripe] = useState(false);
-
+  const navigate = useNavigate();
   const {
     firstNameFocused,
     firstNameHasValue,
@@ -593,6 +593,11 @@ const AddressSection = (props) => {
       }
       const items = await fetchItems()
       items.forEach((item)=>{
+        if (item.stock <= 0) {
+          toast.dismiss()
+          toast.error("Please remove the Sold-Out items before proceeding to payment.", { className: "custom-toast-error", transition: Zoom })
+          return navigate('/cart')
+        }
         cart.cartItems.forEach((ci)=>{
           if (ci.id === item.id) {
             const purchase = {};

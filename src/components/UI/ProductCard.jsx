@@ -123,7 +123,7 @@ const ProductCard = (props) => {
                                     Available
                                   </span>
                                 ) : (
-                                  item.stock === 0 ? (
+                                  item.stock <= 0 ? (
                                     <span className="product-stock-level-sold-out">
                                       Sold out
                                     </span>

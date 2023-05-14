@@ -71,7 +71,7 @@ return (
                             <Col lg="12" className="product_list">
                                 <div className='subheading'>
                                     <h3 className="section_title">New Arrivals</h3>
-                                    <Link to={{ pathname: `/shop/all` }}>Shop New Arrivals <i class="ri-arrow-right-circle-line"></i></Link>
+                                    <Link to={{ pathname: `/shop/all` }}>Shop New Arrivals <i className="ri-arrow-right-circle-line"></i></Link>
                                 </div>
                                 <section className="products">
                             {

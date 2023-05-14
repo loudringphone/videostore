@@ -117,7 +117,7 @@ const QuantitySelector = (props) => {
             if (quantity > item.stock - oldQuantity) {
                 if (overordering === false) {
                     toast.dismiss()
-                    toast.error(`You can't add more ${item.name} to the cart.`, { autoClose: false, className: "custom-toast-error", transition: Zoom })
+                    toast.error(`You can't add more ${item.name} to the cart.`, { className: "custom-toast-error", transition: Zoom })
                     setOverordering(true)
                 }
                 
