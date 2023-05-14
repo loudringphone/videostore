@@ -53,7 +53,6 @@ const QuantitySelector = (props) => {
         } 
     }
     const handleQuantityChange = (e) => {
-
         const value = e.target.value;
         if (pathname === '/cart') {
             if (value === "10+") {
