@@ -43,15 +43,15 @@ const QuantitySelector = (props) => {
                 inputRef.current.value = oldQuantity
             }
         }
+        if (pathname !== '/cart' && value === "") {
+            setQuantity(1)
+            setInput(false)
+        }
+        if (value < 10) {
+            setInput(false)
+        }
     }
     
-    const handleKeyDown = (e) => {
-        if (e.key === "Delete" || e.key === "Backspace") {
-            if (String(e.target.value).length <= 1) {
-                setQuantity('')
-            } 
-        } 
-    }
     const handleQuantityChange = (e) => {
         const value = e.target.value;
         if (pathname === '/cart') {
@@ -79,7 +79,7 @@ const QuantitySelector = (props) => {
                     toast.error(`You can't add more ${item.name} to the cart.`, { className: "custom-toast-error", transition: Zoom })
                 setQuantity(oldQuantity);
                 } else {
-                    if (value !== 0) {
+                    if (value !== '') {
                         console.log(value)
                         setQuantity(Number(value));
                         setTimeout(() => {
@@ -88,11 +88,16 @@ const QuantitySelector = (props) => {
                             quantity: Number(value),
                         }))
                         }, 0);
+                    } else {
+                        setQuantity(null)
                     }
                 }
             }
         } else {
-            if (value !== "10+" && value !== 0) {
+            if (value == '') {
+                setQuantity(null)
+            }
+            else if (value !== "10+") {
                 console.log(value)
                 setQuantity(Number(value));
             } else {
@@ -202,7 +207,6 @@ const QuantitySelector = (props) => {
                 className="form-field"
                 value={quantity}
                 onInput={handleQuantityChange}
-                onKeyDown={handleKeyDown}
                 onBlur={handleInputBlur}
                 style={input ? { display: 'block' } : { display: 'none' }}
                 ref={inputRef}
