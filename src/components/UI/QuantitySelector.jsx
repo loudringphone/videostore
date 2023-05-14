@@ -12,7 +12,6 @@ const QuantitySelector = (props) => {
     const [quantity, setQuantity] = useState( item.quantity || 1 );
     const [oldQuantity, setOldQuantity] = useState(0);
     const [input, setInput] = useState(false);
-    const [shouldHandleInput, setShouldHandleInput] = useState(true);
     const inputRef = useRef()
     const {pathname} = useLocation()
     const cart = useSelector(state => state.cart);
@@ -41,18 +40,20 @@ const QuantitySelector = (props) => {
         if (pathname === '/cart' && value === "") {
             if (document.activeElement !== inputRef.current) {
                 setQuantity(oldQuantity)
+                inputRef.current.value = oldQuantity
             }
         }
     }
+    
     const handleKeyDown = (e) => {
         if (e.key === "Delete" || e.key === "Backspace") {
-            setShouldHandleInput(false);
-        } else {
-            setShouldHandleInput(true);
-        }
+            if (String(e.target.value).length <= 1) {
+                setQuantity('')
+            } 
+        } 
     }
     const handleQuantityChange = (e) => {
-        if (shouldHandleInput) {
+
         const value = e.target.value;
         if (pathname === '/cart') {
             if (value === "10+") {
@@ -87,7 +88,7 @@ const QuantitySelector = (props) => {
                             id: item.id,
                             quantity: Number(value),
                         }))
-                        }, 500);
+                        }, 0);
                     }
                 }
             }
@@ -105,7 +106,6 @@ const QuantitySelector = (props) => {
                 }, 0);
             }
         }
-    }
     };
     
     
@@ -201,11 +201,10 @@ const QuantitySelector = (props) => {
                 <input 
                 type="number"
                 className="form-field"
-                // value={quantity || ""}
+                value={quantity}
                 onInput={handleQuantityChange}
                 onKeyDown={handleKeyDown}
                 onBlur={handleInputBlur}
-                // onFocus={e => e.target.select()}
                 style={input ? { display: 'block' } : { display: 'none' }}
                 ref={inputRef}
                 />
