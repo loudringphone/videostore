@@ -4,7 +4,7 @@ const initialState = localStorage.getItem('searchHistory') ? JSON.parse(localSto
 
 
 const searchHistorySlice = createSlice({
-  name: 'searchHistory',
+  name: 'searchQuery',
   initialState,
   reducers: {
     addSearchQuery: (state, action) => {

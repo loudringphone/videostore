@@ -5,7 +5,6 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
 import cartSlice from "./slices/cartSlice";
-import searchQuerySlice from './slices/searchQuerySlice';
 import searchHistorySlice from './slices/searchHistorySlice';
 import wishlistSlice from "./slices/wishlistSlice";
 
@@ -18,7 +17,6 @@ const persistConfig = {
   
   const persistedReducer = persistReducer(persistConfig, combineReducers({
     cart: cartSlice,
-    searchQuery: searchQuerySlice,
     searchHistory: searchHistorySlice,
     wishlist: wishlistSlice,
   }));

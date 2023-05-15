@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSearchQuery } from '../../redux/slices/searchQuerySlice';
 import { addSearchQuery, clearSearchHistory } from '../../redux/slices/searchHistorySlice';
 import '../../styles/search-box.css'
 
@@ -21,7 +20,7 @@ const SearchBox = ({onClick}) => {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    dispatch(setSearchQuery(searchTerm));
+    // dispatch(setSearchQuery(searchTerm));
     dispatch(addSearchQuery(searchTerm));
     searchInputRef.current.blur()
     navigate(`/search?q=${searchTerm}`);
@@ -32,10 +31,12 @@ const SearchBox = ({onClick}) => {
   };
 
   const location = useLocation()
-
+  console.log(location.search)
   useEffect(()=>{
     if (!location.search) {
       setSearchTerm('');
+    } else {
+      setSearchTerm(decodeURIComponent(location.search.slice(3)))
     }
   }, [location])
 
