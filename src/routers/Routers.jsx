@@ -51,6 +51,7 @@ const Routers = () => {
                 <ProtectedRoute>
                     <Checkout currentUser={currentUser} />
                 </ProtectedRoute>} />
+            {/* <Route path='checkouts' element={<Checkout currentUser={currentUser} />} /> */}
             <Route path='account' element={<MyAccount currentUser={currentUser} />} />
             <Route path='account/addresses' element={<MyAddresses currentUser={currentUser} />} />
             <Route path='account/login' element={<Login prevLocation={prevLocation} />} />
