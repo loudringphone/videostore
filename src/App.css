@@ -8,7 +8,6 @@
 html {
   width: 100vw;
   background-color: rgb(235, 235, 235);
-
 }
 body.scroll-locked {
   overflow: hidden;
