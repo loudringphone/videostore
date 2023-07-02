@@ -207,7 +207,6 @@ const Header = () => {
 
                             <NavLink className="logo" to='/'>
                                 <div className="logo">
-                                    <img src={logo} alt="logo" />
                                     <h3>Video Store</h3>
                                 </div>
                             </NavLink>

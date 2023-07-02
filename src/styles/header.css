@@ -33,18 +33,28 @@ div.nav_wrapper {
 }
 div.logo {
     display: inline-flex;
-    gap: 8px;
+    justify-content: center;
 }
-header div.logo > img {
-    width: 30px;
-    height: 30px;
-    align-self: center;
-}
+
 div.logo > h3 {
     align-self: center;
     margin-top: 0px;
+    font-size: xx-large;
     margin-bottom: 0px;
+    font-weight: 800;
+    background: linear-gradient(90deg, #ff4500, #ff8c00, #ffd700, #006400, #008080, #0000ff, #8a2be2, #a52a2a);
+  -webkit-background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rainbow-animation 5s linear infinite;
+  text-shadow: 2px 2px 1px rgba(221, 221, 221, 0.5);
+
 }
+@keyframes rainbow-animation {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+  }
+  
 span.user_icon {
     margin-right: 25px;
     display: flex;
@@ -284,12 +294,9 @@ header a {
         width: 150px;
         white-space: nowrap;
     }
-    div.logo > img {
-        width: 25px !important;
-        height: 25px !important;
-    }
+   
     div.logo > h3 {
-        font-size: larger;
+        font-size: x-large;
     }
     div.mobile_menu {
         margin-right: 0;
