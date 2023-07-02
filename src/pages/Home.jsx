@@ -14,9 +14,8 @@ const Home = () => {
         <div>
             <Helmet title={"Low prices on Movies!"}>
                 <Promotion />
-            <ProductsLists />
-                     
-            <Services />
+                <ProductsLists />
+                <Services />
             
             </Helmet>
         </div>

@@ -1,9 +1,9 @@
 .promotion {
     padding: 20px 25% 20px 25%;
     background-color: red;
+    height: 492px;
     color: white;
-    margin-bottom: 20px;
-    display: grid;
+    display: grid !important;
     grid-template-columns: 1fr 2fr 1fr;
     justify-content: center;
     
@@ -46,8 +46,63 @@ h1 span {
     background-color: black;
 
 }
+#showcase {
+    width: 100%;
+}
+.box {
+    height: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+.box img {
+    flex-shrink: 0;
+    width: 100%;
+    object-fit: cover;
+    object-position: top;
+}
+
+.slick-prev {
+    left: 4.5% !important;
+    z-index: 1;
+  }
+  .slick-next {
+    right: 4.5% !important;
+    z-index: 1;
+  }
+  
+  .slick-prev:before, .slick-next:before {
+    line-height: 0.5;
+    font-size: 35px;
+  }
+
+button.slide_button {
+    font-size: large;
+    padding: 0.5rem 0rem;
+    position: absolute;
+    right: 7.5%;
+    top: 80%;
+    transform: translateY(-50%);
+    z-index: 10;
+}
+
+button.slide_button:hover {
+    background-color: rgb(255, 50, 50)
+}
+button.slide_button:active {
+    background-color: rgb(255, 75, 75)
+}
+
 
 @media (max-width: 700px) {
+    button.slide_button {
+        font-size: medium;
+        padding: 0.2rem 0rem;
+        width: 90px !important;
+    }
+
     .end, .code {
         font-size: large;
         width: 120px;

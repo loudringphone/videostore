@@ -72,17 +72,17 @@ export const Shop = () => {
     q = query(collection(db, "products"), where("format", "==", "CD"))
 
   }
-  else if (id === 'bfi') {
-    title = 'BFI collections'
-    q = query(collection(db, "products"), where("label", "==", "BFI"))
-
-  }
   else {
     title = id.charAt(0).toUpperCase() + id.slice(1)
-    q = query(collection(db, "products"), where("label", "==", title))
+    q = query(collection(db, "products"), where("labelId", "==", title.toLowerCase()))
+    if (title == 'Bfi') {
+      title = 'BFI'
+    }
+    else if  (title == 'Studiocanal') {
+      title = 'Studio Canal'
+    }
     title = title + ' collections'
   }
-
   const [loading, setLoading] = useState(true);
   const fetchItems = async () => {
     setLoading(true);
