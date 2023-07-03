@@ -6,9 +6,10 @@ div.product_list {
 }
 
 .section_title {
-    margin-top: 25px;
-    margin-bottom: 25px;
+    text-align: left;
+    margin: 0;
 }
+
 
 section.products {
     display: grid;

@@ -1,16 +1,29 @@
 .subheading {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: end;
     margin: auto;
     width: 100%;
+    margin-bottom: 20px;
 }
 .subheading a {
     color: #E5342E !important;
     text-decoration: #E5342E underline !important;
+    text-wrap: nowrap;
 }
+
+
+
 div.product_list {
     width: max-content;
     margin-bottom: 30px;
     text-align: -webkit-center;
+}
+
+
+
+@media (max-width: 400px) {
+    .subheading .section_title {
+        max-width: 200px;
+    }
 }

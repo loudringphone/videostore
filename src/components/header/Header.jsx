@@ -41,6 +41,11 @@ const nav_links = [
         display: 'Indicator'
     },
     {
+        path: 'studiocanal',
+        category: 'collections',
+        display: 'Studio Canal'
+    },
+    {
         path: '4kuhd',
         category: 'shop',
         display: '4K Ultra HD'
