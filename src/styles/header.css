@@ -155,7 +155,7 @@ div.mobile_menu {
     border-right: 0.1px solid white;
     box-shadow: inset -6px 0 6px -6px rgba(0, 0, 0, 0.3);
     height: 100vh;
-    padding-right: 40px;
+    margin-right: -16px;
 }
 
 
