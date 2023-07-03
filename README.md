@@ -1,5 +1,5 @@
 ### Video Store
-Thie is an eCommerce app was built using Firebase, ReactJS, Rowy, Stripe and Netlify.
+Thie eCommerce app was built using Firebase, ReactJS, Rowy, Stripe and Netlify.
 
 Site: https://videostore.netlify.app/
 
