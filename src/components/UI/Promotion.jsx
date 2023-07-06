@@ -4,9 +4,9 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { collection, query, getDocs } from "firebase/firestore";
-import {db} from '../firebase_setup/firebase';
+import {db} from '../../firebase_setup/firebase';
 
-import './promotion.css';
+import '../../styles/promotion.css';
 
 const Promotion = () => {
 

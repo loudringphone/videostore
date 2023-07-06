@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './home.css';
 
 import Services from "../services/Services"
-import Promotion from './Promotion';
+import Promotion from '../components/UI/Promotion';
 import ProductsLists from '../components/UI/ProductsLists';
 
 const Home = () => {

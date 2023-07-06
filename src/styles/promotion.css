@@ -1,57 +1,9 @@
-.promotion {
-    padding: 20px 25% 20px 25%;
-    background-color: red;
-    height: 492px;
-    color: white;
-    display: grid !important;
-    grid-template-columns: 1fr 2fr 1fr;
-    justify-content: center;
-    
-}
 
-.promotion > h1 {
-    align-self: center;
-}
-
-h1 span {
-    display: block;
-}
-
-.end, .code {
-    align-self: center;
-    padding: 0;
-    width: 175px;
-}
-
-
-.promotion > h2 {
-    grid-column: 2 / span 1;
-    padding: 0 10px 0 10px;
-}
-
-.discount {
-    margin: auto;
-    width: 350px;
-    margin-top: 5px;
-    padding-top: 5px;
-    font-size: 4rem;
-    background-color: black;
-}
-.everything {
-    margin: auto;
-    width: 350px;
-    margin-bottom: 5px;
-    padding-bottom: 5px;
-    font-size: 3rem;
-    background-color: black;
-
-}
 #showcase {
-    width: 100%;
+    width: 100vw;
 }
 .box {
-    height: 20%;
-    display: flex;
+    display: flex !important;
     justify-content: center;
     align-items: center;
     overflow: hidden;
@@ -65,11 +17,11 @@ h1 span {
 }
 
 .slick-prev {
-    left: 4.5% !important;
+    left: 1rem !important;
     z-index: 1;
   }
   .slick-next {
-    right: 4.5% !important;
+    right: 2rem !important;
     z-index: 1;
   }
   
@@ -101,6 +53,11 @@ button.slide_button:active {
 
 
 @media (max-width: 700px) {
+    .box img {
+        flex-shrink: 0;
+        width: 125%;
+    }
+
     button.slide_button {
         font-size: medium;
         padding: 0.2rem 0rem;
