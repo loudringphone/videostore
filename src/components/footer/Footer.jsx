@@ -1,7 +1,6 @@
 import React from 'react'
 import { Link } from "react-router-dom"
 
-import logo from "../../assets/images/vs-logo.png"
 import './footer.css';
 
 
@@ -13,7 +12,6 @@ export const Footer = () => {
     <footer className="footer">
       <div className="footer1">
             <div className="logo">
-            <img src={logo} alt="logo" />
             <h4>Video Store</h4>
             </div>
             <p className="footer_text mt-1">

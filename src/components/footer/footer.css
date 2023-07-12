@@ -13,10 +13,13 @@ footer {
 .footer4 {
     justify-self: right;
 }
-.logo {
+/* .logo {
     justify-content: left;
     display: flex;
     align-items: start;
+} */
+footer div.logo {
+    justify-content: flex-start;
 }
 footer .logo > img {
     height: 15px;
@@ -26,7 +29,6 @@ footer h4 {
     font-size: smaller;
     margin-top: 0px;
     margin-bottom: -2px;
-    margin-left: -3px;
     text-align: left;
 }
 footer p {
